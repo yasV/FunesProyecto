@@ -27,8 +27,10 @@ public class Administrador {
 	}
 	
 	
-	public Administrador() {
-		// TODO Auto-generated constructor stub
+	public Administrador(String nick,String contraseña,String nombre) {
+		setNick(nick);
+		setPassword(contraseña);
+		setNombre(nombre);
 	}
 
 }
