@@ -6,6 +6,8 @@ public class Administrador {
 	private String password;
 	private String nombre;
 	
+	//This is a test
+	
 	
 	public String getNick() {
 		return nick;
