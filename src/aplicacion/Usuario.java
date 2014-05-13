@@ -18,8 +18,8 @@ public class Usuario extends Administrador {
 	public ArrayList<Abuso> getListaReportes() {
 		return listaReportes;
 	}
-	public void setListaReportes(ArrayList<Abuso> listaReportes) {
-		this.listaReportes = listaReportes;
+	public void setListaReportes(Abuso abuso) {
+		listaReportes.add(abuso);
 	}
 	public boolean isPrivado() {
 		return privado;
