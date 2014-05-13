@@ -1,14 +1,16 @@
 package aplicacion;
 import java.util.ArrayList;
+
 import auxiliares.Abuso;
 
 public class Usuario extends Administrador {
 	//Atributos
 	private int reportes;
+
 	private ArrayList<Abuso> listaReportes= new ArrayList<Abuso>();
 	private boolean privado;
 	
-	
+
 	public int getReportes() {
 		return reportes;
 	}
@@ -21,6 +23,7 @@ public class Usuario extends Administrador {
 	public void setListaReportes(Abuso abuso) {
 		listaReportes.add(abuso);
 	}
+	
 	public boolean isPrivado() {
 		return privado;
 	}
@@ -29,8 +32,10 @@ public class Usuario extends Administrador {
 	}
 
 
-	public Usuario() {
-		// TODO Auto-generated constructor stub
+	public Usuario(String nick,String contraseña,String nombre,boolean estado) {
+		super (nick,contraseña,nombre);
+		setPrivado(estado);
+		
 	}
 
 }

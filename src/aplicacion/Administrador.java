@@ -27,10 +27,12 @@ public class Administrador {
 	}
 	
 	
+
 	public Administrador(String nick,String contraseña,String nombre) {
 		setNick(nick);
 		setPassword(contraseña);
 		setNombre(nombre);
 	}
+
 
 }
