@@ -11,7 +11,7 @@ public class Sistema {
 		return listaUsuarios;
 	}
 	public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
+		this.listaUsuarios =;
 	}
 
 
