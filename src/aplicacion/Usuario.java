@@ -5,7 +5,7 @@ import auxiliares.Abuso;
 public class Usuario extends Administrador {
 	//Atributos
 	private int reportes;
-	private ArrayList<Abuso> listaReportes;
+	private ArrayList<Abuso> listaReportes= new ArrayList<Abuso>();
 	private boolean privado;
 	
 	
