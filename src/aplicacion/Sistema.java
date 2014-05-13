@@ -10,8 +10,8 @@ public class Sistema {
 	public ArrayList<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
-	public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
+	public void setListaUsuarios(Usuario Usuarios) {
+		this.listaUsuarios.add(Usuarios);
 	}
 
 
