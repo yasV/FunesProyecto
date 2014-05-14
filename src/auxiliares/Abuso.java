@@ -28,10 +28,14 @@ public class Abuso {
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
 	}
+	public Abuso(Usuario usuario, Date fechaDenuncia, String motivo) {
+		
+		this.usuario = usuario;
+		this.fechaDenuncia = fechaDenuncia;
+		this.motivo = motivo;
+	}
 
 	
-	public Abuso() {
-		// TODO Auto-generated constructor stub
-	}
+	
 
 }

@@ -42,10 +42,21 @@ public class Calificacion {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
-	
-	
-	public Calificacion() {
-		// TODO Auto-generated constructor stub
+	public Calificacion(int calificacion, Usuario usuario, String demandado,
+			File evidencia, String comentario) {
+		
+		this.calificacion = calificacion;
+		this.usuario = usuario;
+		this.demandado = demandado;
+		this.evidencia = evidencia;
+		this.comentario = comentario;
 	}
+	
+	
+	public Calificacion(){
+		
+	}
+	
+	
 
 }
