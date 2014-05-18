@@ -6,6 +6,8 @@ public class Administrador {
 	private String password;
 	private String nombre;
 	
+	//This is a test
+	
 	
 	public String getNick() {
 		return nick;
@@ -27,8 +29,12 @@ public class Administrador {
 	}
 	
 	
-	public Administrador() {
-		// TODO Auto-generated constructor stub
-	}
+
+	public Administrador(String nick,String contraseña,String nombre) {
+		setNick(nick);
+		setPassword(contraseña);
+		setNombre(nombre);	
+		}
+
 
 }

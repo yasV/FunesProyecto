@@ -10,13 +10,14 @@ public class Sistema {
 	public ArrayList<Usuario> getListaUsuarios() {
 		return listaUsuarios;
 	}
-	public void setListaUsuarios(ArrayList<Usuario> listaUsuarios) {
-		this.listaUsuarios =;
+
+	public void setListaUsuarios(Usuario Usuarios) {
+		this.listaUsuarios.add(Usuarios);
 	}
 
 
 	public Sistema() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 }
