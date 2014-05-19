@@ -102,13 +102,12 @@ public class Filtros extends JFrame {
 		Calificar.add(panel);
 		
 		JLabel label = new JLabel("");
-		ImageIcon icon = createImageIcon("../Imagenes/nomarc1.jpg"); //buscar esta ruta
 		label.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 			}
 		});
-		label.setIcon(icon);
+		label.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
 		panel.add(label);
 		
 		JLabel label_1 = new JLabel("");
