@@ -6,23 +6,31 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ButtonGroup;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class Usuario extends JFrame {
 
 	private JPanel contentPane;
 	private final JComboBox comboBox = new JComboBox();
 	private JTextField textField;
+	private JTextField txtUsuarioComment;
+	private JTextField txtComment;
 
 	/**
 	 * Launch the application.
@@ -82,6 +90,12 @@ public class Usuario extends JFrame {
 		comboBox.setBounds(224, 54, 134, 23);
 		Busquedas.add(comboBox);
 		
+		//Group the radio buttons permite seleccionar solamente una opción
+	    ButtonGroup groupTipo = new ButtonGroup();
+	    groupTipo.add(rdbtnPersonaFsica);
+	    groupTipo.add(rdbtnPersonasJurdicas);
+	    groupTipo.add(rdbtnCategora);
+		
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		lblBuscarPor.setBounds(116, 56, 112, 19);
 		Busquedas.add(lblBuscarPor);
@@ -93,6 +107,35 @@ public class Usuario extends JFrame {
 		JComboBox comboBox_1 = new JComboBox();
 		comboBox_1.setBounds(231, 101, 127, 23);
 		Busquedas.add(comboBox_1);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 148, 180, 221);
+		Busquedas.add(panel_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(210, 148, 353, 193);
+		Busquedas.add(panel_2);
+		panel_2.setLayout(null);
+		
+		txtUsuarioComment = new JTextField();
+		txtUsuarioComment.setEditable(false);
+		txtUsuarioComment.setBounds(10, 172, 199, 20);
+		panel_2.add(txtUsuarioComment);
+		txtUsuarioComment.setColumns(10);
+		
+		txtComment = new JTextField();
+		txtComment.setEditable(false);
+		txtComment.setBounds(10, 0, 333, 161);
+		panel_2.add(txtComment);
+		txtComment.setColumns(10);
+		
+		JButton btnAnterior = new JButton("Anterior");
+		btnAnterior.setBounds(220, 346, 89, 23);
+		Busquedas.add(btnAnterior);
+		
+		JButton btnSiguiente = new JButton("Siguiente");
+		btnSiguiente.setBounds(462, 346, 89, 23);
+		Busquedas.add(btnSiguiente);
 		
 		JPanel Calificar = new JPanel();
 		tabbedPane.addTab("Calificar", null, Calificar, null);
@@ -154,6 +197,11 @@ public class Usuario extends JFrame {
 		JRadioButton rdbtnPersonaJurdica = new JRadioButton("Persona Jur\u00EDdica");
 		rdbtnPersonaJurdica.setBounds(293, 7, 124, 23);
 		Calificar.add(rdbtnPersonaJurdica);
+		
+		//Group the radio buttons permite seleccionar solamente una opción
+	    ButtonGroup groupTipoCalificar = new ButtonGroup();
+	    groupTipoCalificar.add(rdbtnPersonaFisica);
+	    groupTipoCalificar.add(rdbtnPersonaJurdica);
 		
 		JLabel lblCalifiqueSuExperiencia = new JLabel("Califique su experiencia:");
 		lblCalifiqueSuExperiencia.setBounds(13, 98, 148, 30);
