@@ -54,7 +54,7 @@ public class RegistroPersona extends Registro {
 		for (Calificacion promedio: Calificaciones){
 			valor= valor + promedio.getCalificacion();
 		}
-		//setPromedio( valor/cantidad);
+	 Persona.setPromedio( valor/cantidad);
 	}
 	
 

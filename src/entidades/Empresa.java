@@ -53,16 +53,15 @@ public class  Empresa extends Registro {
 		setPromedio( valor/cantidad);
 	}
 	
-	public Empresa(){
-	//Constructor vacio para poder realizar el Factory	
+	public  Empresa(){
+
 	}
 	
-	public void ImEmpresa(String categoria, String nombre, String cedulaJuridica,
-	//Método que sustituye al constructor original, despúes de crear la clase, debe de redireccionar aqu
-			Direccion direccion) {
+	public Empresa(String categoria, String nombre, Direccion direccion){
+		//Método que sustituye al constructor original, despúes de crear la clase, debe de redireccionar aquí
 		this.categoria = categoria;
 		this.nombre = nombre;
-		this.cedulaJuridica = cedulaJuridica;
+		
 		this.direccion = direccion;
 	}
 	

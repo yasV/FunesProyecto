@@ -141,7 +141,7 @@ public class Persona {
 		setEdad(FechaNacimiento.calcularFecha());
 		this.institucion = institucion;
 		this.cargo = cargo;
-		this.promedio = promedio;
+		
 	}
 
 
