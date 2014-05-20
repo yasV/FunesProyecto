@@ -495,3 +495,4 @@ public class Usuario extends JFrame {
 		Fisica.add(btnRegistrar_1);
 	}
 }
+
