@@ -467,7 +467,7 @@ public class Usuario extends JFrame {
 		textField_7.setBounds(580, 249, 55, 20);
 		Fisica.add(textField_7);
 		
-		JLabel lblInstitucinDondeLabora = new JLabel("Instituci\u00F3n donde labora:");
+		JLabel lblInstitucinDondeLabora = new JLabel("*Instituci\u00F3n donde labora:");
 		lblInstitucinDondeLabora.setBounds(244, 312, 135, 14);
 		Fisica.add(lblInstitucinDondeLabora);
 		
@@ -476,7 +476,7 @@ public class Usuario extends JFrame {
 		lblEmpleo.setBounds(390, 279, 138, 21);
 		Fisica.add(lblEmpleo);
 		
-		JLabel lblCargoQueOcupa = new JLabel("Cargo que ocupa");
+		JLabel lblCargoQueOcupa = new JLabel("*Cargo que ocupa");
 		lblCargoQueOcupa.setBounds(244, 337, 123, 14);
 		Fisica.add(lblCargoQueOcupa);
 		
