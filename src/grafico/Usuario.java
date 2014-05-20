@@ -5,10 +5,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.Icon;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
@@ -55,7 +57,8 @@ public class Usuario extends JFrame {
 	private JTextField txtUsuarioComment;
 	private JTextField txtComment;
 	private JTextField textField_8;
-
+	private ImageIcon noMarcado = createImageIcon("../Imagenes/nomarc1.jpg"); //buscar esta ruta
+	private ImageIcon marcado = createImageIcon("../Imagenes/marc1.jpg"); //buscar esta ruta
 	/**
 	 * Launch the application.
 	 */
@@ -175,56 +178,80 @@ public class Usuario extends JFrame {
 		JPanel Calificar = new JPanel();
 		Calificar.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Calificar", null, Calificar, null);
-		//tabbedPane.setBackgroundAt(2, new Color(135, 206, 250));
 		Calificar.setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(197, 98, 387, 40);
 		Calificar.add(panel);
 		
-		JLabel label = new JLabel("");
+		final JLabel label = new JLabel("");
+		label.setIcon(noMarcado);
 		label.addMouseListener(new MouseAdapter() {
-			@Override
+			boolean presionar=false;
 			public void mouseClicked(MouseEvent arg0) {
+				if(!presionar){
+					label.setIcon(marcado);
+					presionar=true;
+				}
+				else{
+					label.setIcon(noMarcado);
+					presionar=false;
+				}
+				
 			}
 		});
-		label.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		
 		panel.add(label);
 		
-		JLabel label_1 = new JLabel("");
-		label_1.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		final JLabel label_1 = new JLabel("");
+		label_1.addMouseListener(new MouseAdapter() {
+			boolean presionar=false;
+			public void mouseClicked(MouseEvent arg0) {
+				if(!presionar){
+					label.setIcon(marcado);
+					label_1.setIcon(marcado);
+					presionar=true;
+				}
+				else{
+					label.setIcon(noMarcado);
+					label_1.setIcon(noMarcado);
+					presionar=false;
+				}
+			}
+		});
+		label_1.setIcon(noMarcado);
 		panel.add(label_1);
 		
 		JLabel label_2 = new JLabel("");
-		label_2.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_2.setIcon(noMarcado);
 		panel.add(label_2);
 		
 		JLabel label_3 = new JLabel("");
-		label_3.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_3.setIcon(noMarcado);
 		panel.add(label_3);
 		
 		JLabel label_4 = new JLabel("");
-		label_4.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_4.setIcon(noMarcado);
 		panel.add(label_4);
 		
 		JLabel label_5 = new JLabel("");
-		label_5.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_5.setIcon(noMarcado);
 		panel.add(label_5);
 		
 		JLabel label_6 = new JLabel("");
-		label_6.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_6.setIcon(noMarcado);
 		panel.add(label_6);
 		
 		JLabel label_7 = new JLabel("");
-		label_7.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_7.setIcon(noMarcado);
 		panel.add(label_7);
 		
 		JLabel label_8 = new JLabel("");
-		label_8.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_8.setIcon(noMarcado);
 		panel.add(label_8);
 		
 		JLabel label_9 = new JLabel("");
-		label_9.setIcon(new ImageIcon("C:\\Users\\Admin\\Downloads\\nomarc1.jpg"));
+		label_9.setIcon(noMarcado);
 		panel.add(label_9);
 		
 		JRadioButton rdbtnPersonaFisica = new JRadioButton("Persona F\u00EDsica");
@@ -538,5 +565,16 @@ public class Usuario extends JFrame {
 		btnRegistrar_1.setBounds(46, 346, 89, 23);
 		Fisica.add(btnRegistrar_1);
 	}
+	
+	 /** Returns an ImageIcon, or null if the path was invalid. */
+    protected static ImageIcon createImageIcon(String path) {
+        java.net.URL imgURL = Usuario.class.getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
 }
 
