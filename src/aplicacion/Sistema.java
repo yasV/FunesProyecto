@@ -1,24 +1,34 @@
 package aplicacion;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+
 
 public class Sistema {
-	//Atributos
+	//Todas las variables
 	private ArrayList<Usuario> listaUsuarios;
+	private ArrayList vistas;
 	
-	
-	public ArrayList<Usuario> getListaUsuarios() {
-		return listaUsuarios;
+    public Sistema() {
+		this(null);
 	}
 
-	public void setListaUsuarios(Usuario Usuarios) {
-		this.listaUsuarios.add(Usuarios);
+  public Sistema(Funciones vista) {
+		 if (vistas != null) {
+	            vistas.add(vista);
+	        }
 	}
-
-
-	public Sistema() {
-		
-	}
+	public void addContactView(Funciones view) {
+        if (!vistas.contains(view)) {
+            vistas.add(view);
+        }
+    }
+    
+    //remueve un nuevo view
+    private void removeContactView(Funciones view) {
+        vistas.remove(view);
+    }
 	
 	
 
