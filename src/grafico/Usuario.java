@@ -10,7 +10,9 @@ import java.awt.Image;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.Icon;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
@@ -32,7 +34,6 @@ import javax.swing.ButtonGroup;
 public class Usuario extends JFrame {
 
 	private JPanel contentPane;
-	private final JComboBox comboBox = new JComboBox();
 	private JTextField textField;
 	private JTextField textField_3;
 	private JTextField textField_4;
@@ -56,7 +57,6 @@ public class Usuario extends JFrame {
 	private final ButtonGroup buttonGroup_3 = new ButtonGroup();
 	private JTextField txtUsuarioComment;
 	private JTextField txtComment;
-	private JTextField textField_8;
 	private ImageIcon noMarcado = createImageIcon("../Imagenes/nomarc1.jpg"); //buscar esta ruta
 	private ImageIcon marcado = createImageIcon("../Imagenes/marc1.jpg"); //buscar esta ruta
 	/**
@@ -105,6 +105,7 @@ public class Usuario extends JFrame {
 		lblBienvenidoUsuario.setBounds(10, 11, 206, 29);
 		PagUsuario.add(lblBienvenidoUsuario);
 		
+		/////+++++++++++++++++++++++++Acá comienza el panel con todo lo relacionado a las búsquedas
 		JPanel Busquedas = new JPanel();
 		Busquedas.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Consultar", null, Busquedas, null);
@@ -124,23 +125,31 @@ public class Usuario extends JFrame {
 		rdbtnCategora.setBackground(new Color(135, 206, 250));
 		rdbtnCategora.setBounds(421, 7, 102, 23);
 		Busquedas.add(rdbtnCategora);
-		comboBox.setBounds(301, 54, 134, 23);
-		Busquedas.add(comboBox);
 		
 		//Group the radio buttons permite seleccionar solamente una opción
 	    ButtonGroup groupTipo = new ButtonGroup();
 	    groupTipo.add(rdbtnPersonaFsica);
 	    groupTipo.add(rdbtnPersonasJurdicas);
 	    groupTipo.add(rdbtnCategora);
-		
+	    
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		lblBuscarPor.setBounds(175, 56, 112, 19);
 		Busquedas.add(lblBuscarPor);
 		
+		//Este comboBox va a contener la forma por la cuál vamos a filtrar a algo
+		final JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(301, 54, 134, 23);
+		Busquedas.add(comboBox);
+				
 		JLabel lblSeleccione = new JLabel("Ingrese el dato a buscar:");
 		lblSeleccione.setBounds(141, 103, 146, 19);
 		Busquedas.add(lblSeleccione);
 		
+		//Este combobox contendrá ya sea el nombre, apellidos o otro dato con el que se seleccionará el usuario
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setBounds(301, 101, 134, 23);
+		Busquedas.add(comboBox_1);
+				
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(10, 148, 180, 221);
 		Busquedas.add(panel_1);
@@ -171,12 +180,7 @@ public class Usuario extends JFrame {
 		btnSiguiente.setBounds(462, 346, 89, 23);
 		Busquedas.add(btnSiguiente);
 		
-		textField_8 = new JTextField();
-		textField_8.setBounds(300, 102, 135, 20);
-		Busquedas.add(textField_8);
-		textField_8.setColumns(10);
-		
-		
+		///++++++++++++++++Acá comienza el panel de calificar y ver comentarios
 		JPanel Calificar = new JPanel();
 		Calificar.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Calificar", null, Calificar, null);
@@ -272,11 +276,12 @@ public class Usuario extends JFrame {
 		lblCalifiqueSuExperiencia.setBounds(13, 98, 148, 30);
 		Calificar.add(lblCalifiqueSuExperiencia);
 		
+		//Este comboBox contendrá el usuario a calificar
 		JComboBox comboBox_2 = new JComboBox();
 		comboBox_2.setBounds(197, 53, 180, 23);
 		Calificar.add(comboBox_2);
 		
-		JLabel lblUsuarioACalificar = new JLabel("Nombre de persona a calificar:");
+		JLabel lblUsuarioACalificar = new JLabel("Nombre de usuario a calificar:");
 		lblUsuarioACalificar.setBounds(13, 53, 177, 23);
 		Calificar.add(lblUsuarioACalificar);
 		
@@ -301,6 +306,8 @@ public class Usuario extends JFrame {
 		btnusuarioNoRegistrado.setBounds(421, 53, 174, 23);
 		Calificar.add(btnusuarioNoRegistrado);
 		
+		
+		//Acá comienza el panel que contiene todo lo relacionado con el registro de una empresa para la hora de calificar
 		JPanel Juridica = new JPanel();
 		Juridica.setBackground(new Color(173, 216, 230));
 		tabbedPane.addTab("Registro de Persona Jur\u00EDdica", null, Juridica, null);
@@ -389,9 +396,21 @@ public class Usuario extends JFrame {
 		Juridica.add(textField_3);
 		textField_3.setColumns(10);
 		
+		//Este comboBox va a contener las provincias
 		JComboBox comboBox_3 = new JComboBox();
 		comboBox_3.setBounds(66, 234, 181, 20);
 		Juridica.add(comboBox_3);
+		
+		final DefaultComboBoxModel model= new DefaultComboBoxModel();
+		model.addElement("-");
+		model.addElement("San José");
+		model.addElement("Heredia");
+		model.addElement("Cartago");
+		model.addElement("Alajuela");
+		model.addElement("Limón");
+		model.addElement("Puntarenas");
+		model.addElement("Guanacaste");
+		comboBox_3.setModel(model);
 		
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
@@ -420,6 +439,7 @@ public class Usuario extends JFrame {
 		btnRegistrar.setBounds(494, 346, 89, 23);
 		Juridica.add(btnRegistrar);
 		
+		//Acá comienza el panel que contiene todo lo relacionado con el registro de una persona para la hora de calificar
 		JPanel Fisica = new JPanel();
 		Fisica.setBackground(new Color(173, 216, 230));
 		tabbedPane.addTab("Registro de Persona Física", null, Fisica, null);
@@ -496,7 +516,7 @@ public class Usuario extends JFrame {
 		JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
 		rdbtnMasculino.setBackground(new Color(135, 206, 250));
 		buttonGroup_1.add(rdbtnMasculino);
-		rdbtnMasculino.setBounds(291, 180, 109, 23);
+		rdbtnMasculino.setBounds(434, 152, 109, 23);
 		Fisica.add(rdbtnMasculino);
 		
 		JLabel lblEdad = new JLabel("Edad");
@@ -527,9 +547,26 @@ public class Usuario extends JFrame {
 		Fisica.add(txtdia);
 		txtdia.setColumns(10);
 		
+		//Este comboBox contiene los meses del año
 		JComboBox comboBox_4 = new JComboBox();
 		comboBox_4.setBounds(390, 249, 138, 20);
 		Fisica.add(comboBox_4);
+		
+		final DefaultComboBoxModel meses= new DefaultComboBoxModel();
+		meses.addElement("-");
+		meses.addElement("Enero");
+		meses.addElement("Febrero");
+		meses.addElement("Marzo");
+		meses.addElement("Abril");
+		meses.addElement("Mayo");
+		meses.addElement("Junio");
+		meses.addElement("Julio");
+		meses.addElement("Agosto");
+		meses.addElement("Septiembre");
+		meses.addElement("Octubre");
+		meses.addElement("Noviembre");
+		meses.addElement("Diciembre");
+		comboBox_4.setModel(model);
 		
 		JLabel lblAo = new JLabel("*A\u00F1o");
 		lblAo.setBounds(552, 252, 31, 14);
