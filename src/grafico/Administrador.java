@@ -94,27 +94,27 @@ public class Administrador extends JFrame {
 		PagAdministrador.setLayout(null);
 		
 		txtNick = new JTextField();
-		txtNick.setBounds(142, 70, 112, 20);
+		txtNick.setBounds(150, 94, 112, 20);
 		PagAdministrador.add(txtNick);
 		txtNick.setColumns(10);
 		
 		JLabel lblBienvenido = new JLabel("Bienvenidos");
 		lblBienvenido.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblBienvenido.setBounds(10, 11, 201, 31);
+		lblBienvenido.setBounds(234, 11, 201, 31);
 		PagAdministrador.add(lblBienvenido);
 		
 		JLabel lblNickName = new JLabel("Nick name");
 		lblNickName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNickName.setBounds(80, 73, 62, 14);
+		lblNickName.setBounds(88, 97, 62, 14);
 		PagAdministrador.add(lblNickName);
 		
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
 		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblContrasea.setBounds(309, 76, 82, 14);
+		lblContrasea.setBounds(317, 100, 82, 14);
 		PagAdministrador.add(lblContrasea);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(398, 70, 124, 20);
+		passwordField.setBounds(406, 94, 124, 20);
 		PagAdministrador.add(passwordField);
 		
 		JButton btnUsuario = new JButton("Usuario");
@@ -130,7 +130,7 @@ public class Administrador extends JFrame {
 				
 			}
 		});
-		btnUsuario.setBounds(199, 106, 89, 23);
+		btnUsuario.setBounds(207, 130, 89, 23);
 		PagAdministrador.add(btnUsuario);
 		
 		JButton btnAdministrador = new JButton("Administrador");
@@ -138,12 +138,12 @@ public class Administrador extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAdministrador.setBounds(314, 106, 112, 23);
+		btnAdministrador.setBounds(322, 130, 112, 23);
 		PagAdministrador.add(btnAdministrador);
 		
 		JLabel lblRegistrarse = new JLabel("Registrarse");
 		lblRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblRegistrarse.setBounds(23, 177, 94, 20);
+		lblRegistrarse.setBounds(20, 198, 94, 20);
 		PagAdministrador.add(lblRegistrarse);
 		
 		JButton btnRegistrarseComoUsuario = new JButton("Registrarse como Usuario F\u00EDsico");
@@ -151,16 +151,21 @@ public class Administrador extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnRegistrarseComoUsuario.setBounds(135, 212, 201, 23);
+		btnRegistrarseComoUsuario.setBounds(152, 236, 239, 23);
 		PagAdministrador.add(btnRegistrarseComoUsuario);
 		
 		JButton btnRegistrarseComoJurdico = new JButton("Registrarse como Usuario Jur\u00EDdico");
-		btnRegistrarseComoJurdico.setBounds(135, 257, 201, 23);
+		btnRegistrarseComoJurdico.setBounds(152, 281, 239, 23);
 		PagAdministrador.add(btnRegistrarseComoJurdico);
 		
 		JButton btnAyuda = new JButton("Ayuda");
-		btnAyuda.setBounds(135, 304, 89, 23);
+		btnAyuda.setBounds(216, 328, 102, 23);
 		PagAdministrador.add(btnAyuda);
+		
+		JLabel lblEntrar = new JLabel("Entrar");
+		lblEntrar.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblEntrar.setBounds(20, 57, 46, 14);
+		PagAdministrador.add(lblEntrar);
 		
 	
 		

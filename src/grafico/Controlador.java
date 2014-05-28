@@ -19,6 +19,10 @@ public class Controlador implements ActionListener {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Controlador(Sistema model, VerUsuario verUsuario) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		//Aquí van las llamadas
