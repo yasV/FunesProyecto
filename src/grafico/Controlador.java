@@ -15,6 +15,10 @@ public class Controlador implements ActionListener {
 		view_Usuario=u;
 	}
 
+	public Controlador(Sistema model, Administrador administrador) {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		//Aquí van las llamadas
