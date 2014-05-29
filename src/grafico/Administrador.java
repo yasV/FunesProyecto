@@ -1,174 +1,126 @@
 package grafico;
 
-import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Image;
+import java.awt.Color;
 
-import javax.swing.Icon;
-import javax.swing.JRadioButton;
-import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Font;
 
-import javax.swing.JTextField;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.JList;
-import javax.swing.ButtonGroup;
-import javax.swing.JScrollBar;
-import javax.swing.BoxLayout;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+
+import entidades.Empresa;
+import entidades.RegistroPersona;
+import aplicacion.Funciones;
+import aplicacion.Sistema;
+import aplicacion.Usuario;
 
 import java.awt.CardLayout;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JPasswordField;
+public class Administrador implements Funciones {
 
-import aplicacion.Funciones;
-import aplicacion.Sistema;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class Administrador extends JFrame {
+	public JFrame frame;
 	private Controlador controlador;
-	private JTextField txtNick;
-	private JPasswordField passwordField;
+	/**
+	 * Launch the application.
+	 */
 	
 
-		public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Administrador frame = new Administrador(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	/**
+	 * Create the application.
+	 */
+	public Administrador(Sistema model,Controlador usar) {
+		controlador = usar;
 	
-
-
-	public Administrador(Sistema model){
-		controlador = new Controlador (model,this);
 		initialize();
-				}
-		
-	public void initialize() {
-		setTitle("Sistema Funes-Usuario");
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 719, 469);
-		JPanel contentPane = new JPanel();
-		contentPane.setBackground(new Color(240, 230, 140));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(240, 230, 140));
+		frame.setBackground(new Color(240, 230, 140));
+		frame.setBounds(100, 100, 828, 591);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 683, 408);
-		contentPane.add(tabbedPane);
+		tabbedPane.setBackground(new Color(135, 206, 250));
+		tabbedPane.setBounds(10, 11, 792, 530);
+		frame.getContentPane().add(tabbedPane);
 		
-		JPanel PagAdministrador = new JPanel();
-		PagAdministrador.setBackground(new Color(135, 206, 250));
-		tabbedPane.addTab("Inicio", null, PagAdministrador, null);
-		PagAdministrador.setLayout(null);
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(135, 206, 250));
+		tabbedPane.addTab("Control de Usuarios", null, panel, null);
+		panel.setLayout(null);
 		
-		txtNick = new JTextField();
-		txtNick.setBounds(150, 94, 112, 20);
-		PagAdministrador.add(txtNick);
-		txtNick.setColumns(10);
+		JLabel lblUsuariosActivos = new JLabel("Usuarios Activos");
+		lblUsuariosActivos.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblUsuariosActivos.setBounds(68, 32, 151, 14);
+		panel.add(lblUsuariosActivos);
 		
-		JLabel lblBienvenido = new JLabel("Bienvenidos");
-		lblBienvenido.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblBienvenido.setBounds(234, 11, 201, 31);
-		PagAdministrador.add(lblBienvenido);
+		JLabel lblUsuariosBloqueados = new JLabel("Usuarios Bloqueados");
+		lblUsuariosBloqueados.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblUsuariosBloqueados.setBounds(555, 34, 178, 14);
+		panel.add(lblUsuariosBloqueados);
 		
-		JLabel lblNickName = new JLabel("Nick name");
-		lblNickName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNickName.setBounds(88, 97, 62, 14);
-		PagAdministrador.add(lblNickName);
+		JPanel panelactivos = new JPanel();
+		panelactivos.setBounds(59, 57, 160, 356);
+		panel.add(panelactivos);
 		
-		JLabel lblContrasea = new JLabel("Contrase\u00F1a");
-		lblContrasea.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblContrasea.setBounds(317, 100, 82, 14);
-		PagAdministrador.add(lblContrasea);
+		JPanel panelbloqueados = new JPanel();
+		panelbloqueados.setBounds(555, 59, 160, 356);
+		panel.add(panelbloqueados);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(406, 94, 124, 20);
-		PagAdministrador.add(passwordField);
+		JButton btnBloquear = new JButton("Bloquear");
+		btnBloquear.setBounds(96, 418, 89, 23);
+		panel.add(btnBloquear);
 		
-		JButton btnUsuario = new JButton("Usuario");
-		btnUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String user = txtNick.getText();
-				if (txtNick.getText().equals("")){
-					JOptionPane.showMessageDialog(null, "Ingrese un dato válido");
-					txtNick.setText("");
-				}
-				else{
-								}
-				
-			}
-		});
-		btnUsuario.setBounds(207, 130, 89, 23);
-		PagAdministrador.add(btnUsuario);
+		JButton btnDesbloquear = new JButton("Desbloquear");
+		btnDesbloquear.setBounds(582, 418, 114, 23);
+		panel.add(btnDesbloquear);
 		
-		JButton btnAdministrador = new JButton("Administrador");
-		btnAdministrador.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnAdministrador.setBounds(322, 130, 112, 23);
-		PagAdministrador.add(btnAdministrador);
+		JLabel lblMsInformacin = new JLabel("M\u00E1s informaci\u00F3n");
+		lblMsInformacin.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblMsInformacin.setBounds(337, 85, 100, 14);
+		panel.add(lblMsInformacin);
 		
-		JLabel lblRegistrarse = new JLabel("Registrarse");
-		lblRegistrarse.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblRegistrarse.setBounds(20, 198, 94, 20);
-		PagAdministrador.add(lblRegistrarse);
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(243, 117, 281, 270);
+		panel.add(panel_1);
+		panel_1.setLayout(new CardLayout(0, 0));
 		
-		JButton btnRegistrarseComoUsuario = new JButton("Registrarse como Usuario F\u00EDsico");
-		btnRegistrarseComoUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnRegistrarseComoUsuario.setBounds(152, 236, 239, 23);
-		PagAdministrador.add(btnRegistrarseComoUsuario);
+		JTextPane textPane = new JTextPane();
+		panel_1.add(textPane, "name_267961256601016");
 		
-		JButton btnRegistrarseComoJurdico = new JButton("Registrarse como Usuario Jur\u00EDdico");
-		btnRegistrarseComoJurdico.setBounds(152, 281, 239, 23);
-		PagAdministrador.add(btnRegistrarseComoJurdico);
-		
-		JButton btnAyuda = new JButton("Ayuda");
-		btnAyuda.setBounds(216, 328, 102, 23);
-		PagAdministrador.add(btnAyuda);
-		
-		JLabel lblEntrar = new JLabel("Entrar");
-		lblEntrar.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblEntrar.setBounds(20, 57, 46, 14);
-		PagAdministrador.add(lblEntrar);
-		
-	
-		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(new Color(135, 206, 250));
+		tabbedPane.addTab("New tab", null, panel_2, null);
+		panel_2.setLayout(null);
+	}
 
-}
+	@Override
+	public void llenarPersona(DefaultComboBoxModel tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void llenarJuridica(DefaultComboBoxModel tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 }
