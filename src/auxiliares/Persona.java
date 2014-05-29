@@ -130,7 +130,7 @@ public class Persona {
 
 	public Persona(String cedula, String nombre, String primerApellido,
 			String segundoApellido, String genero, Fecha fechaNacimiento,
-			int edad, String institucion, String cargo, float promedio) {
+			String institucion, String cargo) {
 	
 		this.cedula = cedula;
 		this.nombre = nombre;

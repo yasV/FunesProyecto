@@ -37,7 +37,7 @@ public class RegistroPersona extends Registro {
 
 
 
-	public void imRegistroPersona(String Categorias,Persona Persona){
+	public RegistroPersona(String Categorias,Persona Persona){
 		setPersona(Persona);
 		setCategorias(Categorias);
 	}

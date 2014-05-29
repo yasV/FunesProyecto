@@ -121,6 +121,36 @@ public class Administrador implements Funciones {
 		
 	}
 
+	@Override
+	public void showEmpresa(DefaultComboBoxModel tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void showPersona(DefaultListModel model, DefaultComboBoxModel tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void IniciarEmpresa(Empresa empresa) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void IniciarPersona(RegistroPersona persona) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void agregarlista(DefaultListModel nuevo) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

@@ -26,6 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.ButtonGroup;
@@ -40,6 +41,8 @@ import java.awt.CardLayout;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 
+import entidades.Empresa;
+import entidades.RegistroPersona;
 import aplicacion.Funciones;
 import aplicacion.Sistema;
 
@@ -48,52 +51,80 @@ import java.awt.event.ActionEvent;
 
 public class Usuario extends JFrame implements Funciones {
 
+
+	private Controlador controlador;
+	private Empresa empresa;
+	private RegistroPersona persona;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private final JComboBox cmbTipoBusqueda = new JComboBox();
+	public JTextField textField;
+	public  JTextField txtpais;
+	public JTextField txtcanton;
+	public JTextField txtdistrito;
+	public JTextField txtbarrio;
+	public JTextField txtnombrejuri;
+	public JTextField txtcedulajuri;
 	private Container buttonGroup;
-	private JTextField txtmás;
-	private JTextField txtnombre;
-	private JTextField txtprimero;
-	private JTextField txtSApellido;
-	private JTextField txtcedula;
+	public JTextField txtmás;
+	public JTextField txtnombre;
+	public JTextField txtprimero;
+	public JTextField txtSApellido;
+	public JTextField txtcedula;
 	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
-	private JTextField txtedad;
-	private JTextField txtdia;
-	private JTextField textField_7;
-	private JTextField txtinstitucion;
-	private JTextField txtcargo;
+	public JTextField txtdia;
+	public JTextField txtaño;
+	public JTextField txtinstitucion;
+	public JTextField txtcargo;
 	private final ButtonGroup buttonGroup_2 = new ButtonGroup();
 	private final ButtonGroup buttonGroup_3 = new ButtonGroup();
-	private JTextField txtUsuarioComment;
-	private JTextField txtComment;
-	private JTextField textField_8;
+	public JTextField txtUsuarioComment;
+	public JTextField txtComment;
+	public JTextField textField_8;
 	private ImageIcon noMarcado = createImageIcon("../Imagenes/nomarc1.jpg"); //buscar esta ruta
 	private ImageIcon marcado = createImageIcon("../Imagenes/marc1.jpg"); //buscar esta ruta
-	private JTextField txtusuario;
-	private JTextField txtNick;
+	public JTextField txtusuario;
+	public JTextField txtNick;
 	private final ButtonGroup buttonGroup_4 = new ButtonGroup();
-	private JTextField textField_9;
+	public JTextField txtabusos;
 	private JPasswordField actual;
 	private JPasswordField nueva;
-	private Controlador controlador;
-	/**
-	 * Launch the application.
-	 */
-	
+	public JRadioButton rdbtnDatosPblicos;
+	public JRadioButton rdbtnDatosPrivados;
+	public JComboBox cboxprovincia;
+	private JButton btnGuardarCambios;
+	public JButton btnRegistrarJuridica;
+	private JButton btnGuardar;
+	private JButton btnSubirEvidencia;
+	private  JButton btnusuarioNoRegistrado;
+	private JButton btnRegistrar_1;
+	private JButton btnA;
+	public JRadioButton rdbtnFemenino;
+	public JRadioButton rdbtnMasculino;
+	public JComboBox cboxmes;
+	public JRadioButton rdbtnSenasa;
+	public JRadioButton rdbtnEmpresas;
+	public JRadioButton rdbtnPani;
+	public JRadioButton rdbtnRestaurante;
+	public JRadioButton rdbtnCondominios;
+
+	private JTabbedPane tabbedPane;
+
+	public JRadioButton rdbtnFisicaCalificar;
+
+	public JRadioButton rdbtnJuridicaCalificar;
+
 	//Página de consultar
-	public JRadioButton rdbtnPersonaFsica;
-	public JRadioButton rdbtnPersonasJurdicas;
-	public JRadioButton rdbtnPersonaFsica_1;
-	public JRadioButton rdbtnPersonasJurdicas_1;
-	private final JComboBox cmbTipoBusqueda = new JComboBox();
-	
-	
+	public JRadioButton rdbtnFsicaConsultar;
+	public JRadioButton rdbtnJurdicasConsultar;
+	public JList list;
+	private JTextField textField_9;
+
+	/**
+	 * Create the frame.
+	 */
+
+	//Get and set
+	//
 	public Usuario(Sistema model,Controlador usar) {
 		controlador = usar;
 		controlador.C_Usuario(this);
@@ -101,6 +132,59 @@ public class Usuario extends JFrame implements Funciones {
 		addEvents();
 	}
 	
+	public JComboBox getCboxprovincia() {
+		return cboxprovincia;
+	}
+
+
+
+	public JButton getBtnGuardarCambios() {
+		return btnGuardarCambios;
+	}
+
+
+
+	public JButton getBtnRegistrar() {
+		return btnRegistrarJuridica;
+	}
+
+
+
+	public JButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+
+
+	public JButton getBtnSubirEvidencia() {
+		return btnSubirEvidencia;
+	}
+
+
+
+	public JButton getBtnusuarioNoRegistrado() {
+		return btnusuarioNoRegistrado;
+	}
+
+
+
+	public JButton getBtnRegistrar_1() {
+		return btnRegistrar_1;
+	}
+
+
+	public JButton getBtnA() {
+		return btnA;
+	}
+
+
+
+	public JComboBox getComboBox_4() {
+		return cboxmes;
+	}
+
+	
+
 	public JComboBox getComboBox() {
 		return cmbTipoBusqueda;
 	}
@@ -108,18 +192,31 @@ public class Usuario extends JFrame implements Funciones {
 	public JComboBox getCmbTipoBusqueda(){
 		return cmbTipoBusqueda;
 	}
-	
-	private void addEvents() {
-		this.rdbtnPersonaFsica_1.addActionListener(controlador);
-		this.rdbtnPersonasJurdicas_1.addActionListener(controlador);
-		this.cmbTipoBusqueda.addActionListener(controlador);
-    }
 
-	/**
-	 * Create the frame.
-	 */
+	private void addEvents() {
+		this.btnA.addActionListener(controlador);
+		this.btnGuardar.addActionListener(controlador);
+		this.btnGuardarCambios.addActionListener(controlador);
+		this.btnRegistrarJuridica.addActionListener(controlador);
+		this.btnRegistrar_1.addActionListener(controlador);
+		this.btnSubirEvidencia.addActionListener(controlador);
+		this.btnusuarioNoRegistrado.addActionListener(controlador);
+		this.cboxprovincia.addActionListener(controlador);
+		this.cmbTipoBusqueda.addActionListener(controlador);
+
+		this.cboxmes.addActionListener(controlador);
+		this.rdbtnFisicaCalificar.addActionListener(controlador);
+		this.rdbtnFsicaConsultar.addActionListener(controlador);
+		this.rdbtnJuridicaCalificar.addActionListener(controlador);
+		this.rdbtnJurdicasConsultar.addActionListener(controlador);
+
+
+		this.cmbTipoBusqueda.addActionListener(controlador);
+
+    }
 	public void initialize() {
 		setTitle("Sistema Funes-Usuario");
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 719, 469);
@@ -129,7 +226,7 @@ public class Usuario extends JFrame implements Funciones {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 683, 408);
 		contentPane.add(tabbedPane);
 		
@@ -167,14 +264,14 @@ public class Usuario extends JFrame implements Funciones {
 		lblPrivacidad.setBounds(20, 189, 88, 14);
 		PagUsuario.add(lblPrivacidad);
 		
-		final JRadioButton rdbtnDatosPblicos = new JRadioButton("Datos P\u00FAblicos");
+		rdbtnDatosPblicos = new JRadioButton("Datos P\u00FAblicos");
 		rdbtnDatosPblicos.setBackground(new Color(135, 206, 250));
 		rdbtnDatosPblicos.setEnabled(false);
 		buttonGroup_4.add(rdbtnDatosPblicos);
 		rdbtnDatosPblicos.setBounds(59, 215, 157, 23);
 		PagUsuario.add(rdbtnDatosPblicos);
 		
-		final JRadioButton rdbtnDatosPrivados = new JRadioButton("Datos Privados");
+		rdbtnDatosPrivados = new JRadioButton("Datos Privados");
 		rdbtnDatosPrivados.setBackground(new Color(135, 206, 250));
 		rdbtnDatosPrivados.setEnabled(false);
 		buttonGroup_4.add(rdbtnDatosPrivados);
@@ -185,10 +282,11 @@ public class Usuario extends JFrame implements Funciones {
 		lblCantidadDeAbusos.setBounds(405, 70, 215, 14);
 		PagUsuario.add(lblCantidadDeAbusos);
 		
-		textField_9 = new JTextField();
-		textField_9.setBounds(585, 67, 76, 20);
-		PagUsuario.add(textField_9);
-		textField_9.setColumns(10);
+		txtabusos = new JTextField();
+		txtabusos.setEditable(false);
+		txtabusos.setBounds(585, 67, 76, 20);
+		PagUsuario.add(txtabusos);
+		txtabusos.setColumns(10);
 		
 		JLabel lblUsuariosQueReportan = new JLabel("Usuarios que reportan abusos");
 		lblUsuariosQueReportan.setBounds(405, 127, 206, 14);
@@ -219,8 +317,9 @@ public class Usuario extends JFrame implements Funciones {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_3.add(scrollPane_1, "name_266248621586904");
 		
-		JFormattedTextField formattedTextField = new JFormattedTextField();
-		scrollPane_1.setViewportView(formattedTextField);
+		JFormattedTextField txtmas = new JFormattedTextField();
+		txtmas.setEditable(false);
+		scrollPane_1.setViewportView(txtmas);
 		
 		final JPanel panelcambiarco = new JPanel();
 		panelcambiarco.setVisible(false);
@@ -245,7 +344,7 @@ public class Usuario extends JFrame implements Funciones {
 		nueva.setBounds(135, 38, 176, 20);
 		panelcambiarco.add(nueva);
 		
-		JButton btnGuardarCambios = new JButton("Guardar Cambios");
+		btnGuardarCambios = new JButton("Guardar Cambios");
 		btnGuardarCambios.setBounds(82, 66, 143, 23);
 		panelcambiarco.add(btnGuardarCambios);
 		btnGuardarCambios.addActionListener(new ActionListener() {
@@ -267,33 +366,34 @@ public class Usuario extends JFrame implements Funciones {
 			}
 		});
 		
+		
 		JPanel Busquedas = new JPanel();
 		Busquedas.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Consultar", null, Busquedas, null);
 		Busquedas.setLayout(null);
+
 		
-		rdbtnPersonaFsica_1 = new JRadioButton("Persona F\u00EDsica");
-		rdbtnPersonaFsica_1.setBackground(new Color(135, 206, 250));
-		rdbtnPersonaFsica_1.setBounds(105, 5, 123, 23);
-		Busquedas.add(rdbtnPersonaFsica_1);
+
+	     rdbtnFsicaConsultar = new JRadioButton("Persona F\u00EDsica");
+		rdbtnFsicaConsultar.setBackground(new Color(135, 206, 250));
+		rdbtnFsicaConsultar.setBounds(106, 5, 123, 23);
+		Busquedas.add(rdbtnFsicaConsultar);
+
+	 rdbtnJurdicasConsultar = new JRadioButton("Persona Jur\u00EDdica");
+		rdbtnJurdicasConsultar.setBackground(new Color(135, 206, 250));
+		rdbtnJurdicasConsultar.setBounds(362, 5, 127, 23);
+		Busquedas.add(rdbtnJurdicasConsultar);
+
+
+
+
 		
-		rdbtnPersonasJurdicas_1 = new JRadioButton("Persona Jur\u00EDdica");
-		rdbtnPersonasJurdicas_1.setBackground(new Color(135, 206, 250));
-		rdbtnPersonasJurdicas_1.setBounds(251, 5, 127, 23);
-		Busquedas.add(rdbtnPersonasJurdicas_1);
-		
-		JRadioButton rdbtnCategora = new JRadioButton("Categor\u00EDa");
-		rdbtnCategora.setBackground(new Color(135, 206, 250));
-		rdbtnCategora.setBounds(421, 7, 102, 23);
-		Busquedas.add(rdbtnCategora);
-		cmbTipoBusqueda.setBounds(301, 54, 134, 23);
-		Busquedas.add(cmbTipoBusqueda);
-		
-		//Group the radio buttons permite seleccionar solamente una opción
+		//comboBox.setBounds(301, 54, 134, 23);
+		//Busquedas.add(comboBox);
+
+
 	    ButtonGroup groupTipo = new ButtonGroup();
-	    groupTipo.add(rdbtnPersonaFsica_1);
-	    groupTipo.add(rdbtnPersonasJurdicas_1);
-	    groupTipo.add(rdbtnCategora);
+		
 		
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
 		lblBuscarPor.setBounds(175, 56, 112, 19);
@@ -418,17 +518,17 @@ public class Usuario extends JFrame implements Funciones {
 		label_9.setIcon(noMarcado);
 		panel.add(label_9);
 		
-		JRadioButton rdbtnPersonaFisica = new JRadioButton("Persona F\u00EDsica");
-		buttonGroup_2.add(rdbtnPersonaFisica);
-		rdbtnPersonaFisica.setBackground(new Color(135, 206, 250));
-		rdbtnPersonaFisica.setBounds(152, 7, 124, 23);
-		Calificar.add(rdbtnPersonaFisica);
+		rdbtnFisicaCalificar = new JRadioButton("Persona F\u00EDsica");
+		buttonGroup_2.add(rdbtnFisicaCalificar);
+		rdbtnFisicaCalificar.setBackground(new Color(135, 206, 250));
+		rdbtnFisicaCalificar.setBounds(152, 7, 124, 23);
+		Calificar.add(rdbtnFisicaCalificar);
 		
-		JRadioButton rdbtnPersonaJurdica = new JRadioButton("Persona Jur\u00EDdica");
-		buttonGroup_2.add(rdbtnPersonaJurdica);
-		rdbtnPersonaJurdica.setBackground(new Color(135, 206, 250));
-		rdbtnPersonaJurdica.setBounds(293, 7, 124, 23);
-		Calificar.add(rdbtnPersonaJurdica);
+		rdbtnJuridicaCalificar = new JRadioButton("Persona Jur\u00EDdica");
+		buttonGroup_2.add(rdbtnJuridicaCalificar);
+		rdbtnJuridicaCalificar.setBackground(new Color(135, 206, 250));
+		rdbtnJuridicaCalificar.setBounds(293, 7, 124, 23);
+		Calificar.add(rdbtnJuridicaCalificar);
 		
 		JLabel lblCalifiqueSuExperiencia = new JLabel("Califique su experiencia:");
 		lblCalifiqueSuExperiencia.setBounds(13, 98, 148, 30);
@@ -451,16 +551,16 @@ public class Usuario extends JFrame implements Funciones {
 		lblRegistreUnReview.setBounds(13, 149, 124, 23);
 		Calificar.add(lblRegistreUnReview);
 		
-		JButton btnGuardar = new JButton("Guardar \r\nCalificaci\u00F3n");
+		btnGuardar = new JButton("Guardar \r\nCalificaci\u00F3n");
 		btnGuardar.setBounds(494, 346, 174, 23);
 		Calificar.add(btnGuardar);
 		
-		JButton btnSubirEvidencia = new JButton("Subir Evidencia");
+		btnSubirEvidencia = new JButton("Subir Evidencia");
 		btnSubirEvidencia.setBounds(34, 318, 127, 23);
 		Calificar.add(btnSubirEvidencia);
 		
-		JButton btnusuarioNoRegistrado = new JButton("\u00BFUsuario no registrado?");
-		btnusuarioNoRegistrado.setBounds(421, 53, 174, 23);
+		btnusuarioNoRegistrado = new JButton("\u00BFNo encuentra a la persona?");
+		btnusuarioNoRegistrado.setBounds(421, 53, 214, 23);
 		Calificar.add(btnusuarioNoRegistrado);
 		
 		JPanel Juridica = new JPanel();
@@ -470,117 +570,114 @@ public class Usuario extends JFrame implements Funciones {
 		//tabbedPane.setEnabledAt(8, false);
 		Juridica.setLayout(null);
 		
-		JRadioButton rdbtnSenasa = new JRadioButton("Senasa");
-	
+		rdbtnSenasa = new JRadioButton("Senasa");
 		rdbtnSenasa.setBackground(new Color(135, 206, 250));
 		rdbtnSenasa.setBounds(25, 43, 91, 23);
 		Juridica.add(rdbtnSenasa);
-		
-		JRadioButton rdbtnEmpresas = new JRadioButton("Empresas");
-	
+			
+		rdbtnEmpresas = new JRadioButton("Empresas");
 		rdbtnEmpresas.setBackground(new Color(135, 206, 250));
 		rdbtnEmpresas.setBounds(145, 43, 91, 23);
 		Juridica.add(rdbtnEmpresas);
-		
-		JRadioButton rdbtnPani = new JRadioButton("PANI");
+				
+		rdbtnPani = new JRadioButton("PANI");
 		buttonGroup_3.add(rdbtnPani);
-	
 		rdbtnPani.setBackground(new Color(135, 206, 250));
 		rdbtnPani.setBounds(261, 43, 91, 23);
 		Juridica.add(rdbtnPani);
-		
-		JRadioButton rdbtnRestaurante = new JRadioButton("Restaurantes");
-		buttonGroup_3.add(rdbtnRestaurante);
-	
-		rdbtnRestaurante.setBackground(new Color(135, 206, 250));
-		rdbtnRestaurante.setBounds(373, 43, 91, 23);
-		Juridica.add(rdbtnRestaurante);
-		
-		JRadioButton rdbtnCondominios = new JRadioButton("Condominios");
-		buttonGroup_3.add(rdbtnCondominios);
-	
-		rdbtnCondominios.setBackground(new Color(135, 206, 250));
-		rdbtnCondominios.setBounds(492, 43, 91, 23);
-		Juridica.add(rdbtnCondominios);
-		
-		JLabel lblSeleccionesUnaCatego = new JLabel("*Seleccione una categor\u00EDa");
-		lblSeleccionesUnaCatego.setBounds(10, 11, 149, 14);
-		Juridica.add(lblSeleccionesUnaCatego);
-		
-		JLabel lblNombreDeLa = new JLabel("*Nombre de la Persona Jur\u00EDdica: ");
-		lblNombreDeLa.setBounds(66, 93, 181, 14);
-		Juridica.add(lblNombreDeLa);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(245, 90, 219, 20);
-		Juridica.add(textField_1);
-		textField_1.setColumns(10);
-		
-		JLabel lblCdulaJurdica = new JLabel("C\u00E9dula Jur\u00EDdica:");
-		lblCdulaJurdica.setBounds(152, 124, 84, 14);
-		Juridica.add(lblCdulaJurdica);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(245, 121, 219, 20);
-		Juridica.add(textField_2);
-		textField_2.setColumns(10);
-		
-		JLabel lblDireccin = new JLabel("Direcci\u00F3n");
-		lblDireccin.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		lblDireccin.setBounds(222, 152, 91, 23);
-		Juridica.add(lblDireccin);
-		
-		JLabel lblPas = new JLabel("*Pa\u00EDs");
-		lblPas.setBounds(10, 199, 46, 14);
-		Juridica.add(lblPas);
-		
-		JLabel lblProvincia = new JLabel("*Provincia");
-		lblProvincia.setBounds(10, 237, 60, 14);
-		Juridica.add(lblProvincia);
-		
-		JLabel lblCantn = new JLabel("*Cant\u00F3n");
-		lblCantn.setBounds(284, 199, 46, 14);
-		Juridica.add(lblCantn);
-		
-		JLabel lblDistrito = new JLabel("*Distrito");
-		lblDistrito.setBounds(284, 237, 46, 14);
-		Juridica.add(lblDistrito);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(66, 196, 188, 20);
-		Juridica.add(textField_3);
-		textField_3.setColumns(10);
-		
-		JComboBox comboBox_3 = new JComboBox();
-		comboBox_3.setBounds(66, 234, 181, 20);
-		Juridica.add(comboBox_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(355, 196, 188, 20);
-		Juridica.add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(355, 234, 188, 20);
-		Juridica.add(textField_5);
-		
-		JLabel lblBarrio = new JLabel("*Barrio");
-		lblBarrio.setBounds(284, 272, 46, 14);
-		Juridica.add(lblBarrio);
-		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(355, 269, 188, 20);
-		Juridica.add(textField_6);
-		
-		JLabel lblLosCamposMarcados = new JLabel("Los campos marcados con * son necesarios");
-		lblLosCamposMarcados.setBounds(21, 350, 226, 14);
-		Juridica.add(lblLosCamposMarcados);
-		
-		JButton btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setBounds(494, 346, 89, 23);
-		Juridica.add(btnRegistrar);
+					
+					rdbtnRestaurante = new JRadioButton("Restaurantes");
+					buttonGroup_3.add(rdbtnRestaurante);
+					
+						rdbtnRestaurante.setBackground(new Color(135, 206, 250));
+						rdbtnRestaurante.setBounds(373, 43, 91, 23);
+						Juridica.add(rdbtnRestaurante);
+						
+					rdbtnCondominios = new JRadioButton("Condominios");
+						buttonGroup_3.add(rdbtnCondominios);
+						
+							rdbtnCondominios.setBackground(new Color(135, 206, 250));
+							rdbtnCondominios.setBounds(492, 43, 91, 23);
+							Juridica.add(rdbtnCondominios);
+							
+							JLabel lblSeleccionesUnaCatego = new JLabel("*Seleccione una categor\u00EDa");
+							lblSeleccionesUnaCatego.setBounds(10, 11, 149, 14);
+							Juridica.add(lblSeleccionesUnaCatego);
+							
+							JLabel lblNombreDeLa = new JLabel("*Nombre de la Persona Jur\u00EDdica: ");
+							lblNombreDeLa.setBounds(66, 93, 181, 14);
+							Juridica.add(lblNombreDeLa);
+							
+							txtnombrejuri = new JTextField();
+							txtnombrejuri.setBounds(245, 90, 219, 20);
+							Juridica.add(txtnombrejuri);
+							txtnombrejuri.setColumns(10);
+							
+							JLabel lblCdulaJurdica = new JLabel("C\u00E9dula Jur\u00EDdica:");
+							lblCdulaJurdica.setBounds(152, 124, 84, 14);
+							Juridica.add(lblCdulaJurdica);
+							
+							txtcedulajuri = new JTextField();
+							txtcedulajuri.setBounds(245, 121, 219, 20);
+							Juridica.add(txtcedulajuri);
+							txtcedulajuri.setColumns(10);
+							
+							JLabel lblDireccin = new JLabel("Direcci\u00F3n");
+							lblDireccin.setFont(new Font("Tahoma", Font.PLAIN, 17));
+							lblDireccin.setBounds(222, 152, 91, 23);
+							Juridica.add(lblDireccin);
+							
+							JLabel lblPas = new JLabel("*Pa\u00EDs");
+							lblPas.setBounds(10, 199, 46, 14);
+							Juridica.add(lblPas);
+							
+							JLabel lblProvincia = new JLabel("*Provincia");
+							lblProvincia.setBounds(10, 237, 60, 14);
+							Juridica.add(lblProvincia);
+							
+							JLabel lblCantn = new JLabel("*Cant\u00F3n");
+							lblCantn.setBounds(284, 199, 46, 14);
+							Juridica.add(lblCantn);
+							
+							JLabel lblDistrito = new JLabel("*Distrito");
+							lblDistrito.setBounds(284, 237, 46, 14);
+							Juridica.add(lblDistrito);
+							
+							txtpais = new JTextField();
+							txtpais.setBounds(66, 196, 188, 20);
+							Juridica.add(txtpais);
+							txtpais.setColumns(10);
+							
+							cboxprovincia = new JComboBox();
+							cboxprovincia.setBounds(66, 234, 181, 20);
+							Juridica.add(cboxprovincia);
+							
+							txtcanton = new JTextField();
+							txtcanton.setColumns(10);
+							txtcanton.setBounds(355, 196, 188, 20);
+							Juridica.add(txtcanton);
+							
+							txtdistrito = new JTextField();
+							txtdistrito.setColumns(10);
+							txtdistrito.setBounds(355, 234, 188, 20);
+							Juridica.add(txtdistrito);
+							
+							JLabel lblBarrio = new JLabel("*Barrio");
+							lblBarrio.setBounds(284, 272, 46, 14);
+							Juridica.add(lblBarrio);
+							
+							txtbarrio = new JTextField();
+							txtbarrio.setColumns(10);
+							txtbarrio.setBounds(355, 269, 188, 20);
+							Juridica.add(txtbarrio);
+							
+							JLabel lblLosCamposMarcados = new JLabel("Los campos marcados con * son necesarios");
+							lblLosCamposMarcados.setBounds(21, 350, 226, 14);
+							Juridica.add(lblLosCamposMarcados);
+							
+							btnRegistrarJuridica = new JButton("Registrar");
+							btnRegistrarJuridica.setBounds(494, 346, 89, 23);
+							Juridica.add(btnRegistrarJuridica);
 		
 		JPanel Fisica = new JPanel();
 		Fisica.setBackground(new Color(173, 216, 230));
@@ -597,7 +694,7 @@ public class Usuario extends JFrame implements Funciones {
 		lista.setBounds(20, 36, 160, 204);
 		Fisica.add(lista);
 		
-		JList list = new JList();
+	    list = new JList();
 		lista.add(list);
 		
 		txtmás = new JTextField();
@@ -605,12 +702,12 @@ public class Usuario extends JFrame implements Funciones {
 		Fisica.add(txtmás);
 		txtmás.setColumns(10);
 		
-		JButton btnA = new JButton("Agregar");
+		 btnA = new JButton("Agregar");
 		btnA.setBounds(46, 280, 89, 23);
 		Fisica.add(btnA);
 		
 		JLabel lblNombre = new JLabel("*Nombre");
-		lblNombre.setBounds(271, 74, 46, 14);
+		lblNombre.setBounds(244, 74, 83, 14);
 		Fisica.add(lblNombre);
 		
 		JLabel lblCdula = new JLabel("*C\u00E9dula");
@@ -649,27 +746,17 @@ public class Usuario extends JFrame implements Funciones {
 		lblGenero.setBounds(229, 156, 46, 14);
 		Fisica.add(lblGenero);
 		
-		JRadioButton rdbtnFemenino = new JRadioButton("Femenino");
+		 rdbtnFemenino = new JRadioButton("Femenino");
 		rdbtnFemenino.setBackground(new Color(135, 206, 250));
 		buttonGroup_1.add(rdbtnFemenino);
-		rdbtnFemenino.setBounds(289, 152, 79, 23);
+		rdbtnFemenino.setBounds(289, 152, 111, 23);
 		Fisica.add(rdbtnFemenino);
 		
-		JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
+		rdbtnMasculino = new JRadioButton("Masculino");
 		rdbtnMasculino.setBackground(new Color(135, 206, 250));
 		buttonGroup_1.add(rdbtnMasculino);
 		rdbtnMasculino.setBounds(291, 180, 109, 23);
 		Fisica.add(rdbtnMasculino);
-		
-		JLabel lblEdad = new JLabel("Edad");
-		lblEdad.setBounds(434, 106, 46, 14);
-		Fisica.add(lblEdad);
-		
-		txtedad = new JTextField();
-		txtedad.setEditable(false);
-		txtedad.setColumns(10);
-		txtedad.setBounds(476, 103, 138, 20);
-		Fisica.add(txtedad);
 		
 		JLabel lblFechaDeNacimiento = new JLabel("Fecha de Nacimiento");
 		lblFechaDeNacimiento.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -689,21 +776,21 @@ public class Usuario extends JFrame implements Funciones {
 		Fisica.add(txtdia);
 		txtdia.setColumns(10);
 		
-		JComboBox comboBox_4 = new JComboBox();
-		comboBox_4.setBounds(390, 249, 138, 20);
-		Fisica.add(comboBox_4);
+		cboxmes = new JComboBox();
+		cboxmes.setBounds(390, 249, 138, 20);
+		Fisica.add(cboxmes);
 		
 		JLabel lblAo = new JLabel("*A\u00F1o");
 		lblAo.setBounds(552, 252, 31, 14);
 		Fisica.add(lblAo);
 		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(580, 249, 55, 20);
-		Fisica.add(textField_7);
+		txtaño = new JTextField();
+		txtaño.setColumns(10);
+		txtaño.setBounds(580, 249, 55, 20);
+		Fisica.add(txtaño);
 		
 		JLabel lblInstitucinDondeLabora = new JLabel("*Instituci\u00F3n donde labora:");
-		lblInstitucinDondeLabora.setBounds(244, 312, 135, 14);
+		lblInstitucinDondeLabora.setBounds(244, 312, 192, 14);
 		Fisica.add(lblInstitucinDondeLabora);
 		
 		JLabel lblEmpleo = new JLabel("Empleo");
@@ -712,7 +799,7 @@ public class Usuario extends JFrame implements Funciones {
 		Fisica.add(lblEmpleo);
 		
 		JLabel lblCargoQueOcupa = new JLabel("*Cargo que ocupa");
-		lblCargoQueOcupa.setBounds(244, 337, 123, 14);
+		lblCargoQueOcupa.setBounds(244, 337, 189, 14);
 		Fisica.add(lblCargoQueOcupa);
 		
 		txtinstitucion = new JTextField();
@@ -725,7 +812,7 @@ public class Usuario extends JFrame implements Funciones {
 		txtcargo.setBounds(445, 334, 190, 20);
 		Fisica.add(txtcargo);
 		
-		JButton btnRegistrar_1 = new JButton("Registrar");
+		btnRegistrar_1 = new JButton("Registrar");
 		btnRegistrar_1.setBounds(46, 346, 89, 23);
 		Fisica.add(btnRegistrar_1);
 	}
@@ -741,6 +828,47 @@ public class Usuario extends JFrame implements Funciones {
         }
     }
 
+	@Override
+	
+	public void showEmpresa(DefaultComboBoxModel tipo) {
+		tabbedPane.setEnabledAt(3,true);
+		cboxprovincia.setModel(tipo);
+		tabbedPane.setSelectedIndex(3);
+	}
+	public void showPersona(DefaultListModel model,DefaultComboBoxModel tipo) {
+		tabbedPane.setEnabledAt(4,true);
+		tabbedPane.setSelectedIndex(4);
+		list.setModel(model);
+		this.cboxmes.setModel(tipo);
+		
+		
+		
+	}
+
+	@Override
+	public void IniciarEmpresa(Empresa empresa) {
+		tabbedPane.setEnabledAt(3,false);
+		tabbedPane.setSelectedIndex(2);
+		this.empresa=empresa;
+
+		
+	}
+
+	@Override
+	public void IniciarPersona(RegistroPersona persona) {
+		tabbedPane.setEnabledAt(4,false);
+		tabbedPane.setSelectedIndex(2);
+		this.persona=persona;
+		
+	}
+
+	@Override
+	public void agregarlista(DefaultListModel nuevo) {
+		list.removeAll();
+		list.setModel(nuevo);
+		txtmás.setText(" ");
+		
+	}
   //Llena con los datos con los que se puede buscar
   	public void llenarPersona(DefaultComboBoxModel tipo){
   		cmbTipoBusqueda.setModel(tipo);
@@ -749,6 +877,8 @@ public class Usuario extends JFrame implements Funciones {
   	public void llenarJuridica(DefaultComboBoxModel tipo){
   		cmbTipoBusqueda.setModel(tipo);
   	}
+  	
+  	
 
 }
 
