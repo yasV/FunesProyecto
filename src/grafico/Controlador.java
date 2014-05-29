@@ -18,6 +18,14 @@ public class Controlador implements ActionListener {
 		view_Usuario = u;
 	}
 
+	public Controlador(Sistema model, Administrador administrador) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Controlador(Sistema model, VerUsuario verUsuario) {
+		// TODO Auto-generated constructor stub
+	}
+
 	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
