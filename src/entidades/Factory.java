@@ -2,6 +2,7 @@ package entidades;
 
 public class Factory {
 	protected String tipoCategoria;
+	
 	public Factory(String tipo) {
 		tipoCategoria=tipo;
 	}

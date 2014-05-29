@@ -10,15 +10,31 @@ public class Controlador implements ActionListener {
 	private Usuario view_Usuario;
 
 	
-	public Controlador(Sistema pmodel, Usuario u){
-		modelo = pmodel;
-		view_Usuario=u;
+	
+	public Controlador(Sistema p){
+		modelo = p;
+	}
+	public void C_Usuario(Usuario u){
+		view_Usuario = u;
 	}
 
+	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		//Aquí van las llamadas
+	public void actionPerformed(ActionEvent evt) {
+		 Object source = evt.getSource();
 		
-		
+//----------------------Acciones de  Usuario------------------------------------------------ 
+		//++++++++++++++++++++++ Consultar +++++++++++++++++++++++++++++++++++++++++
+		 if (source==view_Usuario.rdbtnPersonaFsica_1){
+			    modelo.busquedaPersona();
+		}
+		 
+		 if (source==view_Usuario.rdbtnPersonasJurdicas_1){
+			    modelo.busquedaJuridica();
+		}
+		 
+		 if(source == view_Usuario.getCmbTipoBusqueda()){
+			 modelo.mostrarInfo();
+		 }
 	}
 }

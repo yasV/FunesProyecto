@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingConstants;
 import javax.swing.JList;
 import javax.swing.ButtonGroup;
@@ -48,7 +49,6 @@ import java.awt.event.ActionEvent;
 public class Usuario extends JFrame implements Funciones {
 
 	private JPanel contentPane;
-	private final JComboBox comboBox = new JComboBox();
 	private JTextField textField;
 	private JTextField textField_3;
 	private JTextField textField_4;
@@ -86,24 +86,34 @@ public class Usuario extends JFrame implements Funciones {
 	 * Launch the application.
 	 */
 	
-	//Hola
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Usuario frame = new Usuario(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	//Página de consultar
+	public JRadioButton rdbtnPersonaFsica;
+	public JRadioButton rdbtnPersonasJurdicas;
+	public JRadioButton rdbtnPersonaFsica_1;
+	public JRadioButton rdbtnPersonasJurdicas_1;
+	private final JComboBox cmbTipoBusqueda = new JComboBox();
+	
+	
+	public Usuario(Sistema model,Controlador usar) {
+		controlador = usar;
+		controlador.C_Usuario(this);
+		initialize();
+		addEvents();
 	}
 	
-	public Usuario(Sistema model){
-		controlador = new Controlador (model,this);
-		initialize();
+	public JComboBox getComboBox() {
+		return cmbTipoBusqueda;
 	}
+	
+	public JComboBox getCmbTipoBusqueda(){
+		return cmbTipoBusqueda;
+	}
+	
+	private void addEvents() {
+		this.rdbtnPersonaFsica_1.addActionListener(controlador);
+		this.rdbtnPersonasJurdicas_1.addActionListener(controlador);
+		this.cmbTipoBusqueda.addActionListener(controlador);
+    }
 
 	/**
 	 * Create the frame.
@@ -262,27 +272,27 @@ public class Usuario extends JFrame implements Funciones {
 		tabbedPane.addTab("Consultar", null, Busquedas, null);
 		Busquedas.setLayout(null);
 		
-		JRadioButton rdbtnPersonaFsica = new JRadioButton("Persona F\u00EDsica");
-		rdbtnPersonaFsica.setBackground(new Color(135, 206, 250));
-		rdbtnPersonaFsica.setBounds(105, 5, 123, 23);
-		Busquedas.add(rdbtnPersonaFsica);
+		rdbtnPersonaFsica_1 = new JRadioButton("Persona F\u00EDsica");
+		rdbtnPersonaFsica_1.setBackground(new Color(135, 206, 250));
+		rdbtnPersonaFsica_1.setBounds(105, 5, 123, 23);
+		Busquedas.add(rdbtnPersonaFsica_1);
 		
-		JRadioButton rdbtnPersonasJurdicas = new JRadioButton("Persona Jur\u00EDdica");
-		rdbtnPersonasJurdicas.setBackground(new Color(135, 206, 250));
-		rdbtnPersonasJurdicas.setBounds(251, 5, 127, 23);
-		Busquedas.add(rdbtnPersonasJurdicas);
+		rdbtnPersonasJurdicas_1 = new JRadioButton("Persona Jur\u00EDdica");
+		rdbtnPersonasJurdicas_1.setBackground(new Color(135, 206, 250));
+		rdbtnPersonasJurdicas_1.setBounds(251, 5, 127, 23);
+		Busquedas.add(rdbtnPersonasJurdicas_1);
 		
 		JRadioButton rdbtnCategora = new JRadioButton("Categor\u00EDa");
 		rdbtnCategora.setBackground(new Color(135, 206, 250));
 		rdbtnCategora.setBounds(421, 7, 102, 23);
 		Busquedas.add(rdbtnCategora);
-		comboBox.setBounds(301, 54, 134, 23);
-		Busquedas.add(comboBox);
+		cmbTipoBusqueda.setBounds(301, 54, 134, 23);
+		Busquedas.add(cmbTipoBusqueda);
 		
 		//Group the radio buttons permite seleccionar solamente una opción
 	    ButtonGroup groupTipo = new ButtonGroup();
-	    groupTipo.add(rdbtnPersonaFsica);
-	    groupTipo.add(rdbtnPersonasJurdicas);
+	    groupTipo.add(rdbtnPersonaFsica_1);
+	    groupTipo.add(rdbtnPersonasJurdicas_1);
 	    groupTipo.add(rdbtnCategora);
 		
 		JLabel lblBuscarPor = new JLabel("Buscar por:");
@@ -730,5 +740,15 @@ public class Usuario extends JFrame implements Funciones {
             return null;
         }
     }
+
+  //Llena con los datos con los que se puede buscar
+  	public void llenarPersona(DefaultComboBoxModel tipo){
+  		cmbTipoBusqueda.setModel(tipo);
+  	}
+  	
+  	public void llenarJuridica(DefaultComboBoxModel tipo){
+  		cmbTipoBusqueda.setModel(tipo);
+  	}
+
 }
 
