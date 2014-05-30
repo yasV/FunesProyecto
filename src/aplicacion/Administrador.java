@@ -1,5 +1,8 @@
 package aplicacion;
 
+import java.util.ArrayList;
+import auxiliares.Abuso;
+
 public class Administrador {
 	//Atributos
 	private String nick;

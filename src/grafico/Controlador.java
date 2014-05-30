@@ -14,9 +14,9 @@ import entidades.RegistroPersona;
 public class Controlador implements ActionListener {
 	private Sistema modelo;
 	private Usuario view_Usuario;
+	private Administrador view_Administrador;
 
-	
-	
+		
 	public Controlador(Sistema p){
 		modelo = p;
 	}
@@ -24,12 +24,8 @@ public class Controlador implements ActionListener {
 		view_Usuario = u;
 	}
 
-	public Controlador(Sistema model, Administrador administrador) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Controlador(Sistema model, VerUsuario verUsuario) {
-		// TODO Auto-generated constructor stub
+	public void C_Administrador( Administrador Ad ){
+		view_Administrador = Ad;
 	}
 
 	
@@ -135,4 +131,15 @@ public class Controlador implements ActionListener {
 			 }
 
 	}
+	
+	public void actionPerformed1(ActionEvent evt) {
+		 Object source = evt.getSource();
+		
+//----------------------Acciones de  Administrador------------------------------------------------ 
+		//++++++++++++++++++++++ ver usuario +++++++++++++++++++++++++++++++++++++++++
+		 
+	}
+	
+	
+	
 }
