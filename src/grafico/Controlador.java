@@ -8,6 +8,9 @@ import auxiliares.Persona;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+
 import entidades.Empresa;
 import entidades.RegistroPersona;
 
@@ -15,7 +18,6 @@ public class Controlador implements ActionListener {
 	private Sistema modelo;
 	private Usuario view_Usuario;
 	private Administrador view_Administrador;
-
 		
 	public Controlador(Sistema p){
 		modelo = p;
@@ -136,10 +138,18 @@ public class Controlador implements ActionListener {
 		 Object source = evt.getSource();
 		
 //----------------------Acciones de  Administrador------------------------------------------------ 
-		//++++++++++++++++++++++ ver usuario +++++++++++++++++++++++++++++++++++++++++
+		//++++++++++++++++++++++ ver usuario, bloquer,desbloquear +++++++++++++++++++++++++++++++++++++++++
 		 
-	}
-	
-	
-	
+		 		 
+		 if (source == view_Administrador.getBtnVerUsuarios()){
+			 modelo.showPersona();
+			 }
+		 if (source == view_Administrador.getBtnBloquear()){
+			 
+			 }
+		 if (source == view_Administrador.getBtnDesbloquear()){
+			
+			 }
+		 
+		 	}
 }
