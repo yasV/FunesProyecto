@@ -927,41 +927,44 @@ public class Sistema {
     public void mostrarinformacion(int tipo,int actual){
     	//Se recibe un registro y un tipo y se asigna a la funcion para actualizar según sea el caso. 
     	//La idea es mostrar una nueva ventana con los datos de los registros
-    	
-    	Iterator notifyViews = vistas.iterator(); 
-    	if (tipo==1){
-    		 while (notifyViews.hasNext()) {
+    	try{
+    		Iterator notifyViews = vistas.iterator(); 
+    		if (tipo==1){
+    			while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).actualizarInformacionEmpresa((Empresa) empresasbuscadas.get(actual));
-	        }
-    		
-    		
-    	}
-    	else{
-    		 while (notifyViews.hasNext()) {
+    			}
+    		}
+    		else{
+    			while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).actualizarInformacionPersona((RegistroPersona) personasbuscadas.get(actual));
-	        }
-    		
+    			}
+    		}
     	}
-    	
+    	catch(Exception e){
+    		JOptionPane.showMessageDialog(null, "Selecione un usuario","Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }
 
 	public void iniciarcomentarios(int dato,int tipo) {
 		Iterator notifyViews = vistas.iterator(); 
 		contador =0;
-		
-		if (tipo ==0){
-			calificacion = empresasbuscadas.get(dato).getCalificacion();
-			while (notifyViews.hasNext()) {
+		try{
+			if (tipo ==0){
+				calificacion = empresasbuscadas.get(dato).getCalificacion();
+				while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(0),usuario);
-	        }
-		}
-		else{
-			calificacion = personasbuscadas.get(dato).getCalificacion();
-			while (notifyViews.hasNext()) {
+				}
+			}
+			else{
+				calificacion = personasbuscadas.get(dato).getCalificacion();
+				while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(0),usuario);
-	        }
+				}
+			}	
 		}
-		
+		catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Selecione un usuario","Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}	
 		
 	public void mostrarcomentarios(int operacion){
@@ -981,11 +984,7 @@ public class Sistema {
 			while (notifyViews.hasNext()) {
 			}   ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(contador), usuario);
         }
-}
-	
-		
-	
-    	
+	}	
 }
     		
     	

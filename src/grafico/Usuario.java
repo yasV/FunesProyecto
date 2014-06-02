@@ -234,6 +234,10 @@ public class Usuario extends JFrame implements Funciones {
 		this.btnVerInformacin.addActionListener(controlador);
 		this.cmbTipoBusqueda.addActionListener(controlador);
 		this.btnBuscarConsultar.addActionListener(controlador);
+		this.btnVerComentarios.addActionListener(controlador);
+		this.btnVerInformacinDel.addActionListener(controlador);
+		this.btnAnterior.addActionListener(controlador);
+		this.btnSiguiente.addActionListener(controlador);
 		
 		for (JButton u : estrellas){
 			u.addActionListener(controlador);
@@ -274,7 +278,7 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(lblNombre_1);
 		
 		txtusuario = new JTextField();
-		txtusuario.setEnabled(false);
+		txtusuario.setEditable(false);
 		txtusuario.setBounds(101, 67, 241, 20);
 		PagUsuario.add(txtusuario);
 		txtusuario.setColumns(10);
@@ -284,7 +288,7 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(lblNick);
 		
 		txtNick = new JTextField();
-		txtNick.setEnabled(false);
+		txtNick.setEditable(false);
 		txtNick.setColumns(10);
 		txtNick.setBounds(101, 124, 241, 20);
 		PagUsuario.add(txtNick);
@@ -430,7 +434,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		JPanel panelComentsConsultar = new JPanel();
 					    		panelComentsConsultar.setBackground(new Color(135, 206, 250));
-					    		panelComentsConsultar.setBounds(175, 148, 512, 232);
+					    		panelComentsConsultar.setBounds(190, 148, 497, 232);
 					    		Busquedas.add(panelComentsConsultar);
 					    		panelComentsConsultar.setLayout(null);
 					    		
@@ -442,13 +446,13 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		txtComment = new JTextField();
 					    		txtComment.setEditable(false);
-					    		txtComment.setBounds(10, 0, 492, 161);
+					    		txtComment.setBounds(10, 0, 477, 161);
 					    		panelComentsConsultar.add(txtComment);
 					    		txtComment.setColumns(10);
 					    		
 					    		 btnVerInformacinDel = new JButton("Ver informaci\u00F3n del Usuario");
 					    		btnVerInformacinDel.setEnabled(false);
-					    		btnVerInformacinDel.setBounds(248, 171, 182, 23);
+					    		btnVerInformacinDel.setBounds(248, 171, 213, 23);
 					    		panelComentsConsultar.add(btnVerInformacinDel);
 					    	
 					    		btnEliminar = new JButton("Eliminar");
@@ -461,7 +465,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		Busquedas.add(btnAnterior);
 					    		
 					    		 btnSiguiente = new JButton("Siguiente");
-					    		btnSiguiente.setBounds(392, 391, 89, 23);
+					    		btnSiguiente.setBounds(438, 391, 89, 23);
 					    		Busquedas.add(btnSiguiente);
 					    		
 					    		datobuscarConsultar = new JTextField();
@@ -474,18 +478,18 @@ public class Usuario extends JFrame implements Funciones {
 					    		Busquedas.add(btnBuscarConsultar);
 					    		
 					    		JPanel listaConsultar = new JPanel();
-					    		listaConsultar.setBounds(20, 148, 160, 204);
+					    		listaConsultar.setBounds(10, 148, 170, 204);
 					    		Busquedas.add(listaConsultar);
 					    		
 					    		listaconsultar = new JList();
 					    		listaConsultar.add(listaconsultar);
 					    		
 					    	    btnVerComentarios = new JButton("Ver Comentarios");
-					    		btnVerComentarios.setBounds(20, 357, 117, 23);
+					    		btnVerComentarios.setBounds(20, 357, 146, 23);
 					    		Busquedas.add(btnVerComentarios);
 					    		
 					    		btnVerInformacin = new JButton("Ver informaci\u00F3n");
-					    		btnVerInformacin.setBounds(30, 391, 107, 23);
+					    		btnVerInformacin.setBounds(30, 391, 134, 23);
 					    		Busquedas.add(btnVerInformacin);
 		
 				
@@ -1025,7 +1029,6 @@ public class Usuario extends JFrame implements Funciones {
 	@Override
 	public void actualizarestrella(int estrella, boolean estado) {
 		if (estado){
-			
 			//Este while lo que va a hacer es pintar las estrellas hasta la que se selecciono
 			for (int i=0;i<=estrella;i++)
 				estrellas.get(i).setIcon(marcado);
@@ -1034,7 +1037,6 @@ public class Usuario extends JFrame implements Funciones {
 		
 		else{
 			for (int i=9;i>estrella;i--){
-			
 				estrellas.get(i).setIcon(noMarcado);
 			}
 			}
