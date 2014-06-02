@@ -23,11 +23,15 @@ import entidades.RegistroPersona;
 import aplicacion.Funciones;
 import aplicacion.Sistema;
 import aplicacion.Usuario;
+import auxiliares.Calificacion;
 
 import java.awt.CardLayout;
+
 import javax.swing.UIManager;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.BoxLayout;
 import javax.swing.JList;
 
@@ -213,6 +217,95 @@ public class Administrador implements Funciones {
 
 	@Override
 	public void agregarlista(DefaultListModel nuevo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void IniciarUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void showRegistro() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void llenarDatosRegistro(DefaultListModel datos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void llenarcmbCalificar(DefaultComboBoxModel model) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void mostrarVentanaEvidencia(String nombre, String pathArchivo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void datosencontrados(String genero, String nombre, String primero,
+			String segundo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void actualizarestrella(int estrella, boolean estado) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void mostrarresultados(DefaultListModel x) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void actualizarInformacionEmpresa(Empresa mostrar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void actualizarInformacionPersona(RegistroPersona mostrar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void Icomentarios(Calificacion n, Usuario usuario) {
 		// TODO Auto-generated method stub
 		
 	}

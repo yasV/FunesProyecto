@@ -7,12 +7,11 @@ public class RegistroPersona extends Registro {
 	String Categorias;
 	Persona Persona;
 	
-	public RegistroPersona() {
-		// TODO Auto-generated constructor stub
+	public RegistroPersona(Persona p,String categoria) {
+		this.Categorias=categoria;
+		Persona = p;
 	}
 	
-	
-
 	public String getCategorias() {
 		return Categorias;
 	}
@@ -37,13 +36,17 @@ public class RegistroPersona extends Registro {
 
 
 
-	public RegistroPersona(String Categorias,Persona Persona){
+	public  RegistroPersona(String Categorias,Persona Persona){
 		setPersona(Persona);
 		setCategorias(Categorias);
 	}
 	
 	
 	
+	public RegistroPersona() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void setCalificacion(Calificacion calificacion){
 		Calificaciones.add(calificacion);
 	}
