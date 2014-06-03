@@ -543,7 +543,7 @@ public class Sistema {
          * */
     
     	
-    	if (lista==0){
+    	if (lista==1){
     		personasbuscadas.clear();
     		for (RegistroPersona u : personas){
         		if (u.getCategorias().equalsIgnoreCase(categoria)){
@@ -557,8 +557,8 @@ public class Sistema {
             }
     		
     	}
-    	if (lista==1){
-    		personasbuscadas.clear();
+    	if (lista==0){
+    		empresasbuscadas.clear();
     		for (Empresa e : empresas){
     			if (e.getCategoria().equals(categoria)){
     				if (multitud){
