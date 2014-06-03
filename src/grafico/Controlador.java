@@ -2,6 +2,7 @@ package grafico;
 
 import aplicacion.Funciones;
 import aplicacion.Sistema;
+import auxiliares.Calificacion;
 import auxiliares.Direccion;
 import auxiliares.Fecha;
 import auxiliares.Persona;
@@ -25,6 +26,8 @@ public class Controlador implements ActionListener {
 	private Administrador view_Administrador;
 	private Login view_Login;
 	private Informacion view_Informacion;
+	private Calificacion view_Calificacion;
+	
 	
 	
 	public Controlador(Sistema p){
@@ -43,6 +46,10 @@ public class Controlador implements ActionListener {
 	public void C_Informacion(Informacion u){
 		view_Informacion = u;
 	}
+	public void C_Calificacion(Calificacion u){
+		view_Calificacion = u;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		 Object source = evt.getSource();
@@ -317,6 +324,11 @@ public class Controlador implements ActionListener {
 				 String nombre = view_Usuario.lblnombre.getText();
 				 modelo.guardarCalificacion(mandar,tipo,demandado,review,evidencia,demandante,nombre);
 			 }
+	}
+
+	public void C_Calificacion(calificar calificar) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
