@@ -6,7 +6,7 @@ import aplicacion.Usuario;
 public class Abuso {
 	//Atributos
 	private Usuario usuario;
-	private Date fechaDenuncia;
+	private java.util.Date fechaDenuncia;
 	private String motivo;
 	
 	
@@ -16,7 +16,7 @@ public class Abuso {
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
-	public Date getFechaDenuncia() {
+	public java.util.Date getFechaDenuncia() {
 		return fechaDenuncia;
 	}
 	public void setFechaDenuncia(Date fechaDenuncia) {
@@ -28,10 +28,10 @@ public class Abuso {
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
 	}
-	public Abuso(Usuario usuario, Date fechaDenuncia, String motivo) {
+	public Abuso(Usuario usuario, java.util.Date fecha, String motivo) {
 		
 		this.usuario = usuario;
-		this.fechaDenuncia = fechaDenuncia;
+		this.fechaDenuncia = fecha;
 		this.motivo = motivo;
 	}
 

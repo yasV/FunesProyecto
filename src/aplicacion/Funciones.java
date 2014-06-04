@@ -1,6 +1,7 @@
 package aplicacion;
 
 import java.io.File;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -30,7 +31,9 @@ public interface Funciones {
 	public void actualizarInformacionEmpresa(Empresa mostrar);
 	public void actualizarInformacionPersona(RegistroPersona mostrar);
 	public void Icomentarios (Calificacion n,Usuario usuario);
-
+	public void llenardatos(Usuario u) ;
+	public void mostrarabusos(Date fechaDenuncia, String motivo);
+	public void CuentaEliminada ();
 
 	
 }

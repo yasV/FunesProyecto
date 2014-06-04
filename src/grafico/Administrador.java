@@ -31,6 +31,7 @@ import javax.swing.UIManager;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JList;
@@ -306,6 +307,30 @@ public class Administrador implements Funciones {
 
 	@Override
 	public void Icomentarios(Calificacion n, Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void llenardatos(Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void mostrarabusos(Date fechaDenuncia, String motivo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void CuentaEliminada() {
 		// TODO Auto-generated method stub
 		
 	}

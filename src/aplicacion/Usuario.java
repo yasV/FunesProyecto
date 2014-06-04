@@ -6,11 +6,30 @@ import auxiliares.Abuso;
 public class Usuario extends Administrador {
 	//Atributos
 	private int reportes;
-
 	private ArrayList<Abuso> listaReportes= new ArrayList<Abuso>();
 	private boolean privado;
+	private int tiempobloqueo = 3;
+	private int vecesbloqueado=0;
+	
+	
+	
+	public int getTiempobloqueo() {
+		return tiempobloqueo;
+	}
+	public void setTiempobloqueo(int tiempobloqueo) {
+		this.tiempobloqueo = tiempobloqueo;
+	}
+	public int getVecesbloqueado() {
+		return vecesbloqueado;
+	}
+	public void setVecesbloqueado(int vecesbloqueado) {
+		this.vecesbloqueado = vecesbloqueado;
+	}
+
+
 	
 
+	
 	public int getReportes() {
 		return reportes;
 	}

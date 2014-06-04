@@ -57,6 +57,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseWheelListener;
@@ -151,7 +152,11 @@ public class Usuario extends JFrame implements Funciones {
 	public JButton btnEliminar;
 	public JButton btnAnterior;
 	public JButton btnSiguiente;
+	public JButton btnEliminarCuenta;
 	
+	public JList listaabusos;
+	public JButton btnMsInformacin;
+	private JFormattedTextField txtmas;
 
 	
 	public Usuario(Sistema model,Controlador usar) {
@@ -234,10 +239,16 @@ public class Usuario extends JFrame implements Funciones {
 		this.btnVerInformacin.addActionListener(controlador);
 		this.cmbTipoBusqueda.addActionListener(controlador);
 		this.btnBuscarConsultar.addActionListener(controlador);
-		
+		this.btnVerComentarios.addActionListener(controlador);
+		this.btnVerInformacinDel.addActionListener(controlador);
+		this.btnAnterior.addActionListener(controlador);
+		this.btnSiguiente.addActionListener(controlador);
+		this.btnEliminarCuenta.addActionListener(controlador);
+		this.btnMsInformacin.addActionListener(controlador);
 		for (JButton u : estrellas){
 			u.addActionListener(controlador);
 		}
+		
     }
 	
 	public void initialize(){
@@ -274,7 +285,7 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(lblNombre_1);
 		
 		txtusuario = new JTextField();
-		txtusuario.setEnabled(false);
+		txtusuario.setEditable(false);
 		txtusuario.setBounds(101, 67, 241, 20);
 		PagUsuario.add(txtusuario);
 		txtusuario.setColumns(10);
@@ -284,7 +295,7 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(lblNick);
 		
 		txtNick = new JTextField();
-		txtNick.setEnabled(false);
+		txtNick.setEditable(false);
 		txtNick.setColumns(10);
 		txtNick.setBounds(101, 124, 241, 20);
 		PagUsuario.add(txtNick);
@@ -327,12 +338,8 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(panellista);
 		panellista.setLayout(new BoxLayout(panellista, BoxLayout.X_AXIS));
 		
-		JList list_1 = new JList();
-		panellista.add(list_1);
-		
-		JLabel lblMsInformacin = new JLabel("M\u00E1s informaci\u00F3n");
-		lblMsInformacin.setBounds(424, 260, 138, 14);
-		PagUsuario.add(lblMsInformacin);
+		listaabusos = new JList();
+		panellista.add(listaabusos);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(429, 357, 221, -70);
@@ -346,7 +353,7 @@ public class Usuario extends JFrame implements Funciones {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_3.add(scrollPane_1, "name_266248621586904");
 		
-		JFormattedTextField txtmas = new JFormattedTextField();
+		 txtmas = new JFormattedTextField();
 		txtmas.setEditable(false);
 		scrollPane_1.setViewportView(txtmas);
 		
@@ -387,6 +394,14 @@ public class Usuario extends JFrame implements Funciones {
 		JButton btnCambiarDatos = new JButton("Cambiar Datos");
 		btnCambiarDatos.setBounds(122, 339, 143, 23);
 		PagUsuario.add(btnCambiarDatos);
+		
+		btnEliminarCuenta = new JButton("Eliminar Cuenta");
+		btnEliminarCuenta.setBounds(437, 16, 183, 23);
+		PagUsuario.add(btnEliminarCuenta);
+		
+		btnMsInformacin = new JButton("M\u00E1s Informaci\u00F3n");
+		btnMsInformacin.setBounds(483, 260, 157, 23);
+		PagUsuario.add(btnMsInformacin);
 		btnCambiarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelcambiarco.setVisible(true);
@@ -430,7 +445,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		JPanel panelComentsConsultar = new JPanel();
 					    		panelComentsConsultar.setBackground(new Color(135, 206, 250));
-					    		panelComentsConsultar.setBounds(175, 148, 512, 232);
+					    		panelComentsConsultar.setBounds(190, 148, 497, 232);
 					    		Busquedas.add(panelComentsConsultar);
 					    		panelComentsConsultar.setLayout(null);
 					    		
@@ -442,13 +457,13 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		txtComment = new JTextField();
 					    		txtComment.setEditable(false);
-					    		txtComment.setBounds(10, 0, 492, 161);
+					    		txtComment.setBounds(10, 0, 477, 161);
 					    		panelComentsConsultar.add(txtComment);
 					    		txtComment.setColumns(10);
 					    		
 					    		 btnVerInformacinDel = new JButton("Ver informaci\u00F3n del Usuario");
 					    		btnVerInformacinDel.setEnabled(false);
-					    		btnVerInformacinDel.setBounds(248, 171, 182, 23);
+					    		btnVerInformacinDel.setBounds(248, 171, 213, 23);
 					    		panelComentsConsultar.add(btnVerInformacinDel);
 					    	
 					    		btnEliminar = new JButton("Eliminar");
@@ -461,7 +476,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		Busquedas.add(btnAnterior);
 					    		
 					    		 btnSiguiente = new JButton("Siguiente");
-					    		btnSiguiente.setBounds(392, 391, 89, 23);
+					    		btnSiguiente.setBounds(438, 391, 89, 23);
 					    		Busquedas.add(btnSiguiente);
 					    		
 					    		datobuscarConsultar = new JTextField();
@@ -474,18 +489,25 @@ public class Usuario extends JFrame implements Funciones {
 					    		Busquedas.add(btnBuscarConsultar);
 					    		
 					    		JPanel listaConsultar = new JPanel();
-					    		listaConsultar.setBounds(20, 148, 160, 204);
+					    		listaConsultar.setBounds(10, 148, 170, 204);
 					    		Busquedas.add(listaConsultar);
 					    		
 					    		listaconsultar = new JList();
+					    	
 					    		listaConsultar.add(listaconsultar);
 					    		
+					    		
+					    		
+					    		
+					    		
+					    		
+					    		
 					    	    btnVerComentarios = new JButton("Ver Comentarios");
-					    		btnVerComentarios.setBounds(20, 357, 117, 23);
+					    		btnVerComentarios.setBounds(20, 357, 146, 23);
 					    		Busquedas.add(btnVerComentarios);
 					    		
 					    		btnVerInformacin = new JButton("Ver informaci\u00F3n");
-					    		btnVerInformacin.setBounds(30, 391, 107, 23);
+					    		btnVerInformacin.setBounds(30, 391, 134, 23);
 					    		Busquedas.add(btnVerInformacin);
 		
 				
@@ -920,7 +942,7 @@ public class Usuario extends JFrame implements Funciones {
  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   		////Métodos que implementan la vista
 
-	public void IniciarUsuario(aplicacion.Usuario usuario) {
+	public void IniciarUsuario(aplicacion.Usuario usuario,DefaultListModel abusos) {
 		//Carga los datos del usuario en la pantalla de usuario 
 		
 		this.setVisible(true);
@@ -933,7 +955,16 @@ public class Usuario extends JFrame implements Funciones {
 		else{
 			rdbtnDatosPrivados.setSelected(true);
 		}
-		txtabusos.setText(Integer.toString(usuario.getReportes()));
+		if (abusos.isEmpty()){
+			abusos.addElement("Felicidades. No hay abusos en su contra");
+			listaabusos.setModel(abusos);
+			
+		}
+		else{
+			listaabusos.setModel(abusos);
+		}
+		txtabusos.setText(Integer.toString(usuario.getListaReportes().size()));
+		
 	}
 
 	public void showPersona(DefaultListModel model,DefaultComboBoxModel tipo) {
@@ -977,7 +1008,7 @@ public class Usuario extends JFrame implements Funciones {
 		cmbPersonaCalificar.removeAll();
 		DefaultComboBoxModel n = new DefaultComboBoxModel();
 		n.addElement("-----------------------");
-		n.addElement(empresa.getNombre());
+		n.addElement(persona.getPersona().getNombre() + " "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido());
 		cmbPersonaCalificar.setModel(n);
 		this.nuevo=true;
 	}
@@ -1025,7 +1056,6 @@ public class Usuario extends JFrame implements Funciones {
 	@Override
 	public void actualizarestrella(int estrella, boolean estado) {
 		if (estado){
-			
 			//Este while lo que va a hacer es pintar las estrellas hasta la que se selecciono
 			for (int i=0;i<=estrella;i++)
 				estrellas.get(i).setIcon(marcado);
@@ -1034,7 +1064,6 @@ public class Usuario extends JFrame implements Funciones {
 		
 		else{
 			for (int i=9;i>estrella;i--){
-			
 				estrellas.get(i).setIcon(noMarcado);
 			}
 			}
@@ -1063,7 +1092,7 @@ public class Usuario extends JFrame implements Funciones {
 	
 	public void Icomentarios(Calificacion n, aplicacion.Usuario usuario) {
 		this.txtComment.setText(n.getComentario());
-		this.txtUsuarioComment.setText(n.getUsuario().getNombre());
+		this.txtUsuarioComment.setText(n.getUsuario().getNick());
 		this.btnVerInformacinDel.setEnabled(true);
 		if (n.getUsuario()==usuario){
 			this.btnEliminar.setEnabled(true);
@@ -1074,6 +1103,32 @@ public class Usuario extends JFrame implements Funciones {
 		
 	}
 
+	@Override
+	public void CuentaEliminada() {
+		this.dispose();
+		
 	}
+
+	@Override
+	public void llenardatos(aplicacion.Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mostrarabusos(Date fecha, String motivo) {
+		this.txtmas.setText("Fecha de reporte: " +fecha+"\n"+"Motivo: "+ motivo);
+		
+	}
+
+	@Override
+	public void IniciarUsuario(aplicacion.Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	}
+	
 
 

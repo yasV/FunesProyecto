@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.csvreader.CsvReader;
 
+import auxiliares.Abuso;
 import auxiliares.Calificacion;
 import auxiliares.Direccion;
 import auxiliares.Fecha;
@@ -927,41 +929,44 @@ public class Sistema {
     public void mostrarinformacion(int tipo,int actual){
     	//Se recibe un registro y un tipo y se asigna a la funcion para actualizar según sea el caso. 
     	//La idea es mostrar una nueva ventana con los datos de los registros
-    	
-    	Iterator notifyViews = vistas.iterator(); 
-    	if (tipo==1){
-    		 while (notifyViews.hasNext()) {
+    	try{
+    		Iterator notifyViews = vistas.iterator(); 
+    		if (tipo==1){
+    			while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).actualizarInformacionEmpresa((Empresa) empresasbuscadas.get(actual));
-	        }
-    		
-    		
-    	}
-    	else{
-    		 while (notifyViews.hasNext()) {
+    			}
+    		}
+    		else{
+    			while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).actualizarInformacionPersona((RegistroPersona) personasbuscadas.get(actual));
-	        }
-    		
+    			}
+    		}
     	}
-    	
+    	catch(Exception e){
+    		JOptionPane.showMessageDialog(null, "Selecione un usuario","Error", JOptionPane.ERROR_MESSAGE);
+    	}
     }
 
 	public void iniciarcomentarios(int dato,int tipo) {
 		Iterator notifyViews = vistas.iterator(); 
 		contador =0;
-		
-		if (tipo ==0){
-			calificacion = empresasbuscadas.get(dato).getCalificacion();
-			while (notifyViews.hasNext()) {
+		try{
+			if (tipo ==0){
+				calificacion = empresasbuscadas.get(dato).getCalificacion();
+				while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(0),usuario);
-	        }
-		}
-		else{
-			calificacion = personasbuscadas.get(dato).getCalificacion();
-			while (notifyViews.hasNext()) {
+				}
+			}
+			else{
+				calificacion = personasbuscadas.get(dato).getCalificacion();
+				while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(0),usuario);
-	        }
+				}
+			}	
 		}
-		
+		catch(Exception e){
+			JOptionPane.showMessageDialog(null, "Selecione un usuario","Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}	
 		
 	public void mostrarcomentarios(int operacion){
@@ -981,11 +986,144 @@ public class Sistema {
 			while (notifyViews.hasNext()) {
 			}   ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(contador), usuario);
         }
+	}
+	private Usuario buscarBloqueados (String nick){
+		//Función que busca un usuario bloqueado
+		for (Usuario bloqueado:bloqueados){
+			if (bloqueado.getNick().equals(nick)){
+				return bloqueado;
+			}
+		}
+		return null;
+	}
+	private int abuso(Usuario denunciar){
+		//Revisa en la lista de abusos si el usuario ya realizo antes una denuncia en contra de este usuario.
+		//Regresa un entero con la posicón del arraydonde esta la demanda
+		int indice = 0;
+		for (Abuso buscar : denunciar.getListaReportes()){
+			if (buscar.getUsuario()==usuario){
+				return indice;
+			}
+			else{
+				indice ++;
+			}
+		}
+		
+		return -1;
+	}
+	public void llenarreporte(String reporte, String nick) {
+		
+		if (reporte.isEmpty()){
+			JOptionPane.showMessageDialog(null, "Debe reportar algo","Campo vacío", JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+		if (buscarBloqueados(nick)==null){
+			
+			Usuario bloquear=null ;
+			//Obtiene la fecha actual del sistema. Para saber que día se realizo el abuso.
+			Date fecha = new Date();
+			//Recorre la lista de usuarios buscando a quien hacerle el abuso
+			for (Usuario u :listaUsuarios){
+				//Busca el nick en la lista, 
+				if (u.getNick().equals(nick)){
+					if (abuso(u)!=-1){
+						JOptionPane.showMessageDialog(null, "Usted ya reportó este usuario","Error", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+					//Si lo encuentra crea un nuevo abuso en la lista y aumenta los reportes. 
+					//Luego va a otro función para comprobar la cantidad de abusos. Si la cantidad es 10, lo bloquea
+					u.setListaReportes(new Abuso(usuario,fecha,reporte));
+					u.setReportes(u.getReportes()+1);
+					bloquear = u;
+				
+					
+			JOptionPane.showMessageDialog(null, "La operación fue realizada con éxito","Éxito", JOptionPane.ERROR_MESSAGE);
+			comprobarEstado(bloquear);
+		}}
+			}
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "El usuario ya esta bloqueado","Usuario bloqueado", JOptionPane.ERROR_MESSAGE);
+		}
+		}
+	}
+	private void comprobarEstado(Usuario u) {
+		//Con los datos proporcionados mueve al usuario a la lista de bloqueados si son 10 los abusos
+		//Tiene una variable siguiente que a a hacer igual a 10 + la cantidad de veces que ha sido bloqueado
+		
+		int next = 10 * u.getVecesbloqueado();
+		//Si reportes es igual a 10 cambia a la lista de bloqueados y aumenta la veces que ha sido bloqueado
+		if (u.getReportes()==10){
+			listaUsuarios.remove(u);
+			bloqueados.add(u);
+			u.setVecesbloqueado(u.getVecesbloqueado()+1);
+		
+		}
+		if (u.getReportes()>10){
+			//Si los reportes es igual a la variable next
+			if (u.getReportes()== next){
+				//se cambia el tiempo de bloqueo. obteniendo el valor original que es 3 y se multiplica * 2
+				u.setTiempobloqueo(u.getTiempobloqueo()*2);
+				//Luego aumenta la veces que ha sido bloqueado
+				u.setVecesbloqueado(u.getVecesbloqueado()+1);
+			}
+		}
+		
+	}
+	
+	private static void eliminarBloqueo (Usuario u,int indice){
+		//Función para eliminar bloque. En base a la ultima fecha de reporte
+		Date comparar = u.getListaReportes().get(u.getListaReportes().size()-1).getFechaDenuncia();
+		//toma la fecha del sistema
+		Date actual = new Date();
+		//El bloqueo va a funcionar por minutos. Así que si es mayor de 60 minutos el tiempo
+		//que el usuario debe esperar el sistema va a empezar tomar las horas.
+		if (u.getTiempobloqueo()<60){
+			//Si el tiempo de bloqueo es menor a 60, compara nada más los minutos
+			//Si la resta realizada es mayor al tiempo de bloque. El usuario cambia de lista
+			if ((actual.getMinutes()-comparar.getMinutes())>=u.getTiempobloqueo()){
+				listaUsuarios.add(u);
+		
+			}
+		}
+		if (u.getTiempobloqueo()>=60){
+			//Si el tiempo de bloqueo es menor a 60, compara nada más los minutos
+			//Si la resta realizada es mayor al tiempo de bloque. El usuario cambia de lista
+			int hora = u.getTiempobloqueo()/60;
+			int minuto=u.getTiempobloqueo()%60;
+			if ((actual.getMinutes()-comparar.getMinutes())>=minuto && actual.getHours()-comparar.getHours()>=hora){
+			listaUsuarios.add(u);
+			}
+		}
+	
 }
 	
-		
+	private void eliminarabusos() {
+		//Recorre la lista de usuarios y manda a buscar si a realizado un abuso de ser así lo elimina
 	
-    	
+		
+		for (Usuario u : listaUsuarios){
+			int indice = abuso(u);
+			if (indice!=-1){
+				u.getListaReportes().remove(indice);
+			}
+		}
+
+
+	}
+	public void mostrarabusos(String reportero) {
+		for (Abuso actuales : usuario.getListaReportes()){
+			if (actuales.getUsuario().getNick().equals(reportero)){
+				Iterator notifyViews = vistas.iterator(); 
+	    		while (notifyViews.hasNext()) {
+		               ((Funciones) notifyViews.next()).mostrarabusos(actuales.getFechaDenuncia(), actuales.getMotivo());
+	    			}
+			
+		}
+		
+	}
+	
+}
 }
     		
     	

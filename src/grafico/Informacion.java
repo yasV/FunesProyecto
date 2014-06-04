@@ -19,6 +19,7 @@ import java.awt.Font;
 import javax.swing.JTabbedPane;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 
 import javax.swing.JTextArea;
 
@@ -448,6 +449,24 @@ public class Informacion implements Funciones {
 
 	@Override
 	public void Icomentarios(Calificacion n, Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void llenardatos(Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mostrarabusos(Date fechaDenuncia, String motivo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void CuentaEliminada() {
 		// TODO Auto-generated method stub
 		
 	}
