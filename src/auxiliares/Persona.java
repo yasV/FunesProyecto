@@ -1,133 +1,81 @@
 package auxiliares;
 
 public class Persona {
-	String cedula;
-	String nombre;
-	String PrimerApellido;
-	String SegundoApellido;
-	String genero;
-	Fecha FechaNacimiento;
-	int edad;
-	String institucion;
-	String cargo;
-	float promedio;
+	private String cedula;
+	private String nombre;
+	private String PrimerApellido;
+	private String SegundoApellido;
+	private String genero;
+	private Fecha FechaNacimiento;
+	private int edad;
+	private String institucion;
+	private String cargo;
+	private float promedio;
 	
 	
 
 	public String getCedula() {
 		return cedula;
 	}
-
     public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
-
     public String getNombre() {
 		return nombre;
 	}
-
-
-
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-
-
 	public String getPrimerApellido() {
 		return PrimerApellido;
 	}
-
-
-
 	public void setPrimerApellido(String primerApellido) {
 		PrimerApellido = primerApellido;
 	}
-
-
-
 	public String getSegundoApellido() {
 		return SegundoApellido;
 	}
-
-
-
 	public void setSegundoApellido(String segundoApellido) {
 		SegundoApellido = segundoApellido;
 	}
-
-
-
 	public String getGenero() {
 		return genero;
 	}
-
-
-
 	public void setGenero(String genero) {
 		this.genero = genero;
 	}
-
-
-
 	public Fecha getFechaNacimiento() {
 		return FechaNacimiento;
 	}
-
-
-
 	public void setFechaNacimiento(Fecha fechaNacimiento) {
 		FechaNacimiento = fechaNacimiento;
 	}
-
-
-
 	public int getEdad() {
 		return edad;
 	}
-
-
-
 	public void setEdad(int edad) {
 		this.edad = edad;
 	}
-
-
-
 	public String getInstitucion() {
 		return institucion;
 	}
-
-
-
 	public void setInstitucion(String institucion) {
 		this.institucion = institucion;
 	}
-
-
-
 	public String getCargo() {
 		return cargo;
 	}
-
-
-
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
-
-
-
 	public float getPromedio() {
 		return promedio;
 	}
-
-
-
 	public void setPromedio(float promedio) {
 		this.promedio = promedio;
 	}
-
+	
+	
 	public Persona(String cedula, String nombre, String primerApellido,
 			String segundoApellido, String genero, Fecha fechaNacimiento,
 			String institucion, String cargo) {

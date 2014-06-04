@@ -2,6 +2,7 @@ package grafico;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -234,6 +235,11 @@ public class VUsuario  implements Funciones{
 	}
 	@Override
 	public void CuentaEliminada() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void EliminarNotas() {
 		// TODO Auto-generated method stub
 		
 	}}

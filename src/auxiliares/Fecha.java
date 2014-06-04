@@ -26,8 +26,6 @@ public class Fecha {
 		this.mes = mes;
 	}
 	
-	
-	
 	public int calcularFecha(){
 		//Método que obtiene la hora del sistema y realiza una resta con la fecha de cumpleaños
 		Calendar actual = new GregorianCalendar(); //Crea un objeto calendar para poder obtener la hora
@@ -58,7 +56,6 @@ public class Fecha {
 		this.dia = dia;
 		this.mes = mes;
 	}
-	
 	
 
 	

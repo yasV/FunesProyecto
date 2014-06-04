@@ -153,10 +153,14 @@ public class Usuario extends JFrame implements Funciones {
 	public JButton btnAnterior;
 	public JButton btnSiguiente;
 	public JButton btnEliminarCuenta;
+
 	
 	public JList listaabusos;
 	public JButton btnMsInformacin;
 	private JFormattedTextField txtmas;
+
+	grafico.Calificacion cal = new grafico.Calificacion();
+
 
 	
 	public Usuario(Sistema model,Controlador usar) {
@@ -244,7 +248,11 @@ public class Usuario extends JFrame implements Funciones {
 		this.btnAnterior.addActionListener(controlador);
 		this.btnSiguiente.addActionListener(controlador);
 		this.btnEliminarCuenta.addActionListener(controlador);
+
 		this.btnMsInformacin.addActionListener(controlador);
+
+		this.btnEliminar.addActionListener(controlador);
+
 		for (JButton u : estrellas){
 			u.addActionListener(controlador);
 		}
@@ -398,10 +406,12 @@ public class Usuario extends JFrame implements Funciones {
 		btnEliminarCuenta = new JButton("Eliminar Cuenta");
 		btnEliminarCuenta.setBounds(437, 16, 183, 23);
 		PagUsuario.add(btnEliminarCuenta);
+
 		
 		btnMsInformacin = new JButton("M\u00E1s Informaci\u00F3n");
 		btnMsInformacin.setBounds(483, 260, 157, 23);
 		PagUsuario.add(btnMsInformacin);
+
 		btnCambiarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelcambiarco.setVisible(true);
@@ -467,6 +477,10 @@ public class Usuario extends JFrame implements Funciones {
 					    		panelComentsConsultar.add(btnVerInformacinDel);
 					    	
 					    		btnEliminar = new JButton("Eliminar");
+					    		btnEliminar.addActionListener(new ActionListener() {
+					    			public void actionPerformed(ActionEvent arg0) {
+					    			}
+					    		});
 					    		btnEliminar.setEnabled(false);
 					    		btnEliminar.setBounds(181, 205, 89, 23);
 					    		panelComentsConsultar.add(btnEliminar);
@@ -1107,7 +1121,15 @@ public class Usuario extends JFrame implements Funciones {
 	public void CuentaEliminada() {
 		this.dispose();
 		
+
 	}
+
+	@Override
+	public void EliminarNotas() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 	@Override
 	public void llenardatos(aplicacion.Usuario u) {

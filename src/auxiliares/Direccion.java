@@ -39,6 +39,7 @@ public class Direccion {
 	public void setBarrio(String barrio) {
 		this.barrio = barrio;
 	}
+	
 	public Direccion(String pais, String provincia, String canton,
 			String distrito) {
 		

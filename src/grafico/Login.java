@@ -150,84 +150,84 @@ public class Login implements Funciones  {
 		btnRegistroUsuario = new JButton("Registrarse");
 		btnRegistroUsuario.setBounds(87, 324, 130, 23);
 		PanelLogin.add(btnRegistroUsuario);
-
 		
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++		
-		///++++Acá esta el panel donde esta toda la información para registrarse 
-		
-		JPanel PanelRegistrarse = new JPanel();
-		PanelRegistrarse.setBackground(new Color(135, 206, 250));
-		tabbedPane.addTab("Registrarse", null, PanelRegistrarse, null);
-		tabbedPane.setEnabledAt(1, false);
-		PanelRegistrarse.setLayout(null);;
-		
-		JLabel lblPorFavorNo = new JLabel("Por favor, no deje campos vac\u00EDos");
-		lblPorFavorNo.setBounds(10, 11, 238, 14);
-		PanelRegistrarse.add(lblPorFavorNo);
-		
-		JLabel lblNick = new JLabel("Nick:");
-		lblNick.setBounds(118, 179, 46, 14);
-		PanelRegistrarse.add(lblNick);
-		
-		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setBounds(118, 221, 78, 14);
-		PanelRegistrarse.add(lblContrasea);
-		
-		JLabel lblNewLabel = new JLabel("Nombre:");
-		lblNewLabel.setBounds(118, 57, 88, 14);
-		PanelRegistrarse.add(lblNewLabel);
-		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(223, 218, 175, 20);
-		PanelRegistrarse.add(passwordField_1);
-		
-		txtNick = new JTextField();
-		txtNick.setBounds(223, 176, 175, 20);
-		PanelRegistrarse.add(txtNick);
-		txtNick.setColumns(10);
-		
-		txtnombre = new JTextField();
-		txtnombre.setBounds(223, 54, 175, 20);
-		PanelRegistrarse.add(txtnombre);
-		txtnombre.setColumns(10);
-		
-		JLabel lblPrivacidad = new JLabel("Privacidad:");
-		lblPrivacidad.setBounds(139, 282, 78, 14);
-		PanelRegistrarse.add(lblPrivacidad);
-		
-		rdbtnDatosPblicos = new JRadioButton("Datos P\u00FAblicos");
-		buttonGroup.add(rdbtnDatosPblicos);
-		rdbtnDatosPblicos.setBackground(new Color(135, 206, 250));
-		rdbtnDatosPblicos.setBounds(223, 303, 133, 23);
-		PanelRegistrarse.add(rdbtnDatosPblicos);
-		
+				
+		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++		
+				///++++Acá esta el panel donde esta toda la información para registrarse 
+				
+				JPanel PanelRegistrarse = new JPanel();
+				PanelRegistrarse.setBackground(new Color(135, 206, 250));
+				tabbedPane.addTab("Registrarse", null, PanelRegistrarse, null);
+				tabbedPane.setEnabledAt(1, false);
+				PanelRegistrarse.setLayout(null);
+				
+				JLabel lblPorFavorNo = new JLabel("Por favor, no deje campos vac\u00EDos");
+				lblPorFavorNo.setBounds(10, 11, 238, 14);
+				PanelRegistrarse.add(lblPorFavorNo);
+				
+				JLabel lblNick = new JLabel("Nick:");
+				lblNick.setBounds(118, 179, 46, 14);
+				PanelRegistrarse.add(lblNick);
+				
+				JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
+				lblContrasea.setBounds(118, 221, 78, 14);
+				PanelRegistrarse.add(lblContrasea);
+				
+				JLabel lblNewLabel = new JLabel("Nombre:");
+				lblNewLabel.setBounds(118, 57, 88, 14);
+				PanelRegistrarse.add(lblNewLabel);
+				
+				passwordField_1 = new JPasswordField();
+				passwordField_1.setBounds(223, 218, 175, 20);
+				PanelRegistrarse.add(passwordField_1);
+				
+				txtNick = new JTextField();
+				txtNick.setBounds(223, 176, 175, 20);
+				PanelRegistrarse.add(txtNick);
+				txtNick.setColumns(10);
+				
+				txtnombre = new JTextField();
+				txtnombre.setBounds(223, 54, 175, 20);
+				PanelRegistrarse.add(txtnombre);
+				txtnombre.setColumns(10);
+				
+				JLabel lblPrivacidad = new JLabel("Privacidad:");
+				lblPrivacidad.setBounds(139, 282, 78, 14);
+				PanelRegistrarse.add(lblPrivacidad);
+				
+				rdbtnDatosPblicos = new JRadioButton("Datos P\u00FAblicos");
+				buttonGroup.add(rdbtnDatosPblicos);
+				rdbtnDatosPblicos.setBackground(new Color(135, 206, 250));
+				rdbtnDatosPblicos.setBounds(223, 303, 133, 23);
+				PanelRegistrarse.add(rdbtnDatosPblicos);
+				
 	    rdbtnDatosPrivados = new JRadioButton("Datos Privados");
-		buttonGroup.add(rdbtnDatosPrivados);
-		rdbtnDatosPrivados.setBackground(new Color(135, 206, 250));
-		rdbtnDatosPrivados.setBounds(223, 341, 133, 23);
-		PanelRegistrarse.add(rdbtnDatosPrivados);
-		
-		btnRegistrarse = new JButton("Registrarse");
-		btnRegistrarse.setBounds(548, 354, 112, 23);
-		PanelRegistrarse.add(btnRegistrarse);
-		
-		JLabel lblPrimerApellido = new JLabel("Primer Apellido:");
-		lblPrimerApellido.setBounds(118, 96, 99, 14);
-		PanelRegistrarse.add(lblPrimerApellido);
-		
-		JLabel lblSegundoApellido = new JLabel("Segundo Apellido:");
-		lblSegundoApellido.setBounds(105, 140, 112, 14);
-		PanelRegistrarse.add(lblSegundoApellido);
-		
-		txtPrimerApellido = new JTextField();
-		txtPrimerApellido.setBounds(223, 93, 175, 20);
-		PanelRegistrarse.add(txtPrimerApellido);
-		txtPrimerApellido.setColumns(10);
-		
-		txtSegundoApellido = new JTextField();
-		txtSegundoApellido.setBounds(223, 137, 175, 20);
-		PanelRegistrarse.add(txtSegundoApellido);
-		txtSegundoApellido.setColumns(10);
+	    buttonGroup.add(rdbtnDatosPrivados);
+	    rdbtnDatosPrivados.setBackground(new Color(135, 206, 250));
+	    rdbtnDatosPrivados.setBounds(223, 341, 133, 23);
+	    PanelRegistrarse.add(rdbtnDatosPrivados);
+	    
+	    btnRegistrarse = new JButton("Registrarse");
+	    btnRegistrarse.setBounds(548, 354, 112, 23);
+	    PanelRegistrarse.add(btnRegistrarse);
+	    
+	    JLabel lblPrimerApellido = new JLabel("Primer Apellido:");
+	    lblPrimerApellido.setBounds(118, 96, 99, 14);
+	    PanelRegistrarse.add(lblPrimerApellido);
+	    
+	    JLabel lblSegundoApellido = new JLabel("Segundo Apellido:");
+	    lblSegundoApellido.setBounds(105, 140, 112, 14);
+	    PanelRegistrarse.add(lblSegundoApellido);
+	    
+	    txtPrimerApellido = new JTextField();
+	    txtPrimerApellido.setBounds(223, 93, 175, 20);
+	    PanelRegistrarse.add(txtPrimerApellido);
+	    txtPrimerApellido.setColumns(10);
+	    
+	    txtSegundoApellido = new JTextField();
+	    txtSegundoApellido.setBounds(223, 137, 175, 20);
+	    PanelRegistrarse.add(txtSegundoApellido);
+	    txtSegundoApellido.setColumns(10);;
 	}
 	
 
@@ -336,6 +336,7 @@ public class Login implements Funciones  {
 	}
 
 	@Override
+
 	public void llenardatos(aplicacion.Usuario u) {
 		// TODO Auto-generated method stub
 		
@@ -347,9 +348,15 @@ public class Login implements Funciones  {
 		
 	}
 
-	@Override
+
 	public void CuentaEliminada() {
-		// TODO Auto-generated method stub
+		this.frmBienvenidoAFunes.setVisible(true);
+		
+	}
+
+	@Override
+	public void EliminarNotas() {
+
 		
 	}
 

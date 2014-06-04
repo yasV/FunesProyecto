@@ -34,6 +34,8 @@ public interface Funciones {
 	public void llenardatos(Usuario u) ;
 	public void mostrarabusos(Date fechaDenuncia, String motivo);
 	public void CuentaEliminada ();
+	public void EliminarNotas();
+
 
 	
 }

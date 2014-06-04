@@ -82,7 +82,9 @@ public class Controlador implements ActionListener {
 		
 //----------------------Acciones de  Usuario------------------------------------------------
 		 //+++++++++++++Principal+++++++++++++++++++++++++++++++++++++++++++++++++++
-		 
+		 if (source == view_Usuario.btnEliminarCuenta){
+			 modelo.EliminarCuenta ();
+		 }
 		 
 		 //+++++++++++++Calificar++++++++++++++++++++++++++++++++++++++++++++++++++
 		 if (source == view_Usuario.getBtnA()){
@@ -95,7 +97,7 @@ public class Controlador implements ActionListener {
 				 modelo.showPersona();
 				 
 			 }
-		 if (view_Usuario.rdbtnJuridicaCalificar.isSelected()){
+			 if (view_Usuario.rdbtnJuridicaCalificar.isSelected()){
 				 modelo.registro("Empresa");
 				 modelo.showEmpresa();
 			 }
@@ -177,6 +179,19 @@ public class Controlador implements ActionListener {
 				 modelo.busquedaJuridica();
 			  }
 			 
+			 //Se agregó la función al boton de eliminar para que elimine las notas
+			 if(source==view_Usuario.btnEliminar){
+				 int tipo=1;
+				 if(view_Usuario.rdbtnJurdicasConsultar.isSelected()){
+					 tipo=0;
+				 }
+				 String persona=(String)view_Usuario.listaconsultar.getSelectedValue();
+				 String coment= view_Usuario.txtComment.getText();
+				 String usuario=view_Usuario.txtUsuarioComment.getText();
+				 modelo.BuscarNotas(persona,tipo,coment);
+				// modelo.EliminarNotaElegida(coment,usuario,tipo);
+			 }
+			 
 			 ///Busca el usuario a consultar
 			 if (source == view_Usuario.btnVerInformacin){
 				 int dato =  view_Usuario.listaconsultar.getSelectedIndex();
@@ -201,10 +216,12 @@ public class Controlador implements ActionListener {
 			 if (source == view_Usuario.btnAnterior){
 				 modelo.mostrarcomentarios(0);
 			 }
-			 if (source == view_Usuario.btnAnterior){
+			 if (source == view_Usuario.btnSiguiente){
 				 modelo.mostrarcomentarios(1);
 			 }
-				
+			 if (source == view_Usuario.btnVerInformacinDel){
+				 modelo.verInfo(view_Usuario.txtUsuarioComment.getText());
+			 }
 			 if(source == view_Usuario.getBtnBuscarConsultar()){
 				 String tipo=(String)view_Usuario.getCmbTipoBusqueda().getSelectedItem();
 				 String tipAbuscar= view_Usuario.datobuscarConsultar.getText();
