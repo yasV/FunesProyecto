@@ -30,7 +30,8 @@ public interface Funciones {
 	public void actualizarInformacionEmpresa(Empresa mostrar);
 	public void actualizarInformacionPersona(RegistroPersona mostrar);
 	public void Icomentarios (Calificacion n,Usuario usuario);
-
+	public void CuentaEliminada ();
+	public void EliminarNotas();
 
 	
 }

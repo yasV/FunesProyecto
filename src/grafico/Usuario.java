@@ -151,7 +151,8 @@ public class Usuario extends JFrame implements Funciones {
 	public JButton btnEliminar;
 	public JButton btnAnterior;
 	public JButton btnSiguiente;
-	
+	public JButton btnEliminarCuenta;
+	grafico.Calificacion cal = new grafico.Calificacion();
 
 	
 	public Usuario(Sistema model,Controlador usar) {
@@ -238,7 +239,8 @@ public class Usuario extends JFrame implements Funciones {
 		this.btnVerInformacinDel.addActionListener(controlador);
 		this.btnAnterior.addActionListener(controlador);
 		this.btnSiguiente.addActionListener(controlador);
-		
+		this.btnEliminarCuenta.addActionListener(controlador);
+		this.btnEliminar.addActionListener(controlador);
 		for (JButton u : estrellas){
 			u.addActionListener(controlador);
 		}
@@ -391,6 +393,10 @@ public class Usuario extends JFrame implements Funciones {
 		JButton btnCambiarDatos = new JButton("Cambiar Datos");
 		btnCambiarDatos.setBounds(122, 339, 143, 23);
 		PagUsuario.add(btnCambiarDatos);
+		
+		btnEliminarCuenta = new JButton("Eliminar Cuenta");
+		btnEliminarCuenta.setBounds(437, 16, 183, 23);
+		PagUsuario.add(btnEliminarCuenta);
 		btnCambiarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelcambiarco.setVisible(true);
@@ -456,6 +462,10 @@ public class Usuario extends JFrame implements Funciones {
 					    		panelComentsConsultar.add(btnVerInformacinDel);
 					    	
 					    		btnEliminar = new JButton("Eliminar");
+					    		btnEliminar.addActionListener(new ActionListener() {
+					    			public void actionPerformed(ActionEvent arg0) {
+					    			}
+					    		});
 					    		btnEliminar.setEnabled(false);
 					    		btnEliminar.setBounds(181, 205, 89, 23);
 					    		panelComentsConsultar.add(btnEliminar);
@@ -482,7 +492,14 @@ public class Usuario extends JFrame implements Funciones {
 					    		Busquedas.add(listaConsultar);
 					    		
 					    		listaconsultar = new JList();
+					    	
 					    		listaConsultar.add(listaconsultar);
+					    		
+					    		
+					    		
+					    		
+					    		
+					    		
 					    		
 					    	    btnVerComentarios = new JButton("Ver Comentarios");
 					    		btnVerComentarios.setBounds(20, 357, 146, 23);
@@ -981,7 +998,7 @@ public class Usuario extends JFrame implements Funciones {
 		cmbPersonaCalificar.removeAll();
 		DefaultComboBoxModel n = new DefaultComboBoxModel();
 		n.addElement("-----------------------");
-		n.addElement(empresa.getNombre());
+		n.addElement(persona.getPersona().getNombre() + " "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido());
 		cmbPersonaCalificar.setModel(n);
 		this.nuevo=true;
 	}
@@ -1076,6 +1093,17 @@ public class Usuario extends JFrame implements Funciones {
 		
 	}
 
+	@Override
+	public void CuentaEliminada() {
+		this.dispose();
+		
+	}
+
+	@Override
+	public void EliminarNotas() {
+		// TODO Auto-generated method stub
+		
+	}
 	}
 
 

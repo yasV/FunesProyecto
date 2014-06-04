@@ -2,7 +2,6 @@ package grafico;
 
 import aplicacion.Funciones;
 import aplicacion.Sistema;
-import auxiliares.Calificacion;
 import auxiliares.Direccion;
 import auxiliares.Fecha;
 import auxiliares.Persona;
@@ -26,8 +25,6 @@ public class Controlador implements ActionListener {
 	private Administrador view_Administrador;
 	private Login view_Login;
 	private Informacion view_Informacion;
-	private Calificacion view_Calificacion;
-	
 	
 	
 	public Controlador(Sistema p){
@@ -46,10 +43,6 @@ public class Controlador implements ActionListener {
 	public void C_Informacion(Informacion u){
 		view_Informacion = u;
 	}
-	public void C_Calificacion(Calificacion u){
-		view_Calificacion = u;
-	}
-	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		 Object source = evt.getSource();
@@ -80,7 +73,9 @@ public class Controlador implements ActionListener {
 		
 //----------------------Acciones de  Usuario------------------------------------------------
 		 //+++++++++++++Principal+++++++++++++++++++++++++++++++++++++++++++++++++++
-		 
+		 if (source == view_Usuario.btnEliminarCuenta){
+			 modelo.EliminarCuenta ();
+		 }
 		 
 		 //+++++++++++++Calificar++++++++++++++++++++++++++++++++++++++++++++++++++
 		 if (source == view_Usuario.getBtnA()){
@@ -93,7 +88,7 @@ public class Controlador implements ActionListener {
 				 modelo.showPersona();
 				 
 			 }
-		 if (view_Usuario.rdbtnJuridicaCalificar.isSelected()){
+			 if (view_Usuario.rdbtnJuridicaCalificar.isSelected()){
 				 modelo.registro("Empresa");
 				 modelo.showEmpresa();
 			 }
@@ -175,6 +170,19 @@ public class Controlador implements ActionListener {
 				 modelo.busquedaJuridica();
 			  }
 			 
+			 //Se agregó la función al boton de eliminar para que elimine las notas
+			 if(source==view_Usuario.btnEliminar){
+				 int tipo=1;
+				 if(view_Usuario.rdbtnJurdicasConsultar.isSelected()){
+					 tipo=0;
+				 }
+				 String persona=(String)view_Usuario.listaconsultar.getSelectedValue();
+				 String coment= view_Usuario.txtComment.getText();
+				 String usuario=view_Usuario.txtUsuarioComment.getText();
+				 modelo.BuscarNotas(persona,tipo,coment);
+				// modelo.EliminarNotaElegida(coment,usuario,tipo);
+			 }
+			 
 			 ///Busca el usuario a consultar
 			 if (source == view_Usuario.btnVerInformacin){
 				 int dato =  view_Usuario.listaconsultar.getSelectedIndex();
@@ -199,10 +207,12 @@ public class Controlador implements ActionListener {
 			 if (source == view_Usuario.btnAnterior){
 				 modelo.mostrarcomentarios(0);
 			 }
-			 if (source == view_Usuario.btnAnterior){
+			 if (source == view_Usuario.btnSiguiente){
 				 modelo.mostrarcomentarios(1);
 			 }
-				
+			 if (source == view_Usuario.btnVerInformacinDel){
+				 modelo.verInfo(view_Usuario.txtUsuarioComment.getText());
+			 }
 			 if(source == view_Usuario.getBtnBuscarConsultar()){
 				 String tipo=(String)view_Usuario.getCmbTipoBusqueda().getSelectedItem();
 				 String tipAbuscar= view_Usuario.datobuscarConsultar.getText();
@@ -324,11 +334,6 @@ public class Controlador implements ActionListener {
 				 String nombre = view_Usuario.lblnombre.getText();
 				 modelo.guardarCalificacion(mandar,tipo,demandado,review,evidencia,demandante,nombre);
 			 }
-	}
-
-	public void C_Calificacion(calificar calificar) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
