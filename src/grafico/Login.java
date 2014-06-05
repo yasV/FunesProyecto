@@ -40,6 +40,7 @@ import auxiliares.Calificacion;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.Date;
 
 public class Login implements Funciones  {
 	
@@ -335,6 +336,19 @@ public class Login implements Funciones  {
 	}
 
 	@Override
+
+	public void llenardatos(aplicacion.Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mostrarabusos(Date fechaDenuncia, String motivo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	public void CuentaEliminada() {
 		this.frmBienvenidoAFunes.setVisible(true);
 		
@@ -342,7 +356,7 @@ public class Login implements Funciones  {
 
 	@Override
 	public void EliminarNotas() {
-		// TODO Auto-generated method stub
+
 		
 	}
 

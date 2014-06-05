@@ -25,7 +25,19 @@ import aplicacion.Usuario;
 import auxiliares.Calificacion;
 
 import java.awt.CardLayout;
+
+
+import javax.swing.UIManager;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Date;
+
+import javax.swing.BoxLayout;
+import javax.swing.JList;
+
 import java.io.File;
+
 
 public class Administrador implements Funciones {
 
@@ -212,6 +224,24 @@ public class Administrador implements Funciones {
 
 
 	@Override
+
+	public void llenardatos(Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void mostrarabusos(Date fechaDenuncia, String motivo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+
+
 	public void CuentaEliminada() {
 		// TODO Auto-generated method stub
 		
@@ -221,7 +251,7 @@ public class Administrador implements Funciones {
 
 	@Override
 	public void EliminarNotas() {
-		// TODO Auto-generated method stub
+
 		
 	}
 }

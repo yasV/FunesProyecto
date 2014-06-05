@@ -2,6 +2,7 @@ package grafico;
 
 import aplicacion.Funciones;
 import aplicacion.Sistema;
+import auxiliares.Calificacion;
 import auxiliares.Direccion;
 import auxiliares.Fecha;
 import auxiliares.Persona;
@@ -25,6 +26,8 @@ public class Controlador implements ActionListener {
 	private Administrador view_Administrador;
 	private Login view_Login;
 	private Informacion view_Informacion;
+	private Calificacion view_Calificacion;
+	private VUsuario view_VUsuario;
 	
 	
 	public Controlador(Sistema p){
@@ -42,6 +45,12 @@ public class Controlador implements ActionListener {
 	}
 	public void C_Informacion(Informacion u){
 		view_Informacion = u;
+	}
+	public void C_Calificacion(Calificacion u){
+		view_Calificacion = u;
+	}
+	public void C_VUsuario (VUsuario u){
+		view_VUsuario=u;
 	}
 	@Override
 	public void actionPerformed(ActionEvent evt) {
@@ -336,6 +345,17 @@ public class Controlador implements ActionListener {
 				 String nombre = view_Usuario.lblnombre.getText();
 				 modelo.guardarCalificacion(mandar,tipo,demandado,review,evidencia,demandante,nombre);
 			 }
+			 //*//----------------------------Acciones sobre ver usuario--------------------------------
+			 //Si el boton escogigo es reportar el sistema llamara a la función en modelo llamado reportar.
+			 //Donde crea un abuso y se lo asigna al usuario correspondiente
+			 if (source == view_VUsuario.btnreportar){
+				modelo.llenarreporte(view_VUsuario.editorPane.getText(),view_VUsuario.lblnick.getText()); 
+			 }
+	}
+
+	public void C_Calificacion(calificar calificar) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

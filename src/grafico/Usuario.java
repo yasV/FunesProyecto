@@ -57,6 +57,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseWheelListener;
@@ -152,7 +153,14 @@ public class Usuario extends JFrame implements Funciones {
 	public JButton btnAnterior;
 	public JButton btnSiguiente;
 	public JButton btnEliminarCuenta;
+
+	
+	public JList listaabusos;
+	public JButton btnMsInformacin;
+	private JFormattedTextField txtmas;
+
 	grafico.Calificacion cal = new grafico.Calificacion();
+
 
 	
 	public Usuario(Sistema model,Controlador usar) {
@@ -240,10 +248,15 @@ public class Usuario extends JFrame implements Funciones {
 		this.btnAnterior.addActionListener(controlador);
 		this.btnSiguiente.addActionListener(controlador);
 		this.btnEliminarCuenta.addActionListener(controlador);
+
+		this.btnMsInformacin.addActionListener(controlador);
+
 		this.btnEliminar.addActionListener(controlador);
+
 		for (JButton u : estrellas){
 			u.addActionListener(controlador);
 		}
+		
     }
 	
 	public void initialize(){
@@ -333,12 +346,8 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(panellista);
 		panellista.setLayout(new BoxLayout(panellista, BoxLayout.X_AXIS));
 		
-		JList list_1 = new JList();
-		panellista.add(list_1);
-		
-		JLabel lblMsInformacin = new JLabel("M\u00E1s informaci\u00F3n");
-		lblMsInformacin.setBounds(424, 260, 138, 14);
-		PagUsuario.add(lblMsInformacin);
+		listaabusos = new JList();
+		panellista.add(listaabusos);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(429, 357, 221, -70);
@@ -352,7 +361,7 @@ public class Usuario extends JFrame implements Funciones {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel_3.add(scrollPane_1, "name_266248621586904");
 		
-		JFormattedTextField txtmas = new JFormattedTextField();
+		 txtmas = new JFormattedTextField();
 		txtmas.setEditable(false);
 		scrollPane_1.setViewportView(txtmas);
 		
@@ -397,6 +406,12 @@ public class Usuario extends JFrame implements Funciones {
 		btnEliminarCuenta = new JButton("Eliminar Cuenta");
 		btnEliminarCuenta.setBounds(437, 16, 183, 23);
 		PagUsuario.add(btnEliminarCuenta);
+
+		
+		btnMsInformacin = new JButton("M\u00E1s Informaci\u00F3n");
+		btnMsInformacin.setBounds(483, 260, 157, 23);
+		PagUsuario.add(btnMsInformacin);
+
 		btnCambiarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelcambiarco.setVisible(true);
@@ -941,7 +956,7 @@ public class Usuario extends JFrame implements Funciones {
  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   		////Métodos que implementan la vista
 
-	public void IniciarUsuario(aplicacion.Usuario usuario) {
+	public void IniciarUsuario(aplicacion.Usuario usuario,DefaultListModel abusos) {
 		//Carga los datos del usuario en la pantalla de usuario 
 		
 		this.setVisible(true);
@@ -954,7 +969,16 @@ public class Usuario extends JFrame implements Funciones {
 		else{
 			rdbtnDatosPrivados.setSelected(true);
 		}
-		txtabusos.setText(Integer.toString(usuario.getReportes()));
+		if (abusos.isEmpty()){
+			abusos.addElement("Felicidades. No hay abusos en su contra");
+			listaabusos.setModel(abusos);
+			
+		}
+		else{
+			listaabusos.setModel(abusos);
+		}
+		txtabusos.setText(Integer.toString(usuario.getListaReportes().size()));
+		
 	}
 
 	public void showPersona(DefaultListModel model,DefaultComboBoxModel tipo) {
@@ -1082,7 +1106,7 @@ public class Usuario extends JFrame implements Funciones {
 	
 	public void Icomentarios(Calificacion n, aplicacion.Usuario usuario) {
 		this.txtComment.setText(n.getComentario());
-		this.txtUsuarioComment.setText(n.getUsuario().getNombre());
+		this.txtUsuarioComment.setText(n.getUsuario().getNick());
 		this.btnVerInformacinDel.setEnabled(true);
 		if (n.getUsuario()==usuario){
 			this.btnEliminar.setEnabled(true);
@@ -1097,6 +1121,7 @@ public class Usuario extends JFrame implements Funciones {
 	public void CuentaEliminada() {
 		this.dispose();
 		
+
 	}
 
 	@Override
@@ -1104,6 +1129,28 @@ public class Usuario extends JFrame implements Funciones {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public void llenardatos(aplicacion.Usuario u) {
+		// TODO Auto-generated method stub
+		
 	}
+
+	@Override
+	public void mostrarabusos(Date fecha, String motivo) {
+		this.txtmas.setText("Fecha de reporte: " +fecha+"\n"+"Motivo: "+ motivo);
+		
+	}
+
+	@Override
+	public void IniciarUsuario(aplicacion.Usuario usuario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	}
+	
 
 
