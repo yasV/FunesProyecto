@@ -1150,7 +1150,7 @@ public class Sistema {
 			}
 		}
 				
-		}//if
+		}
 		else{
 			for(Empresa u: empresas){
 				if((u.getNombre().equals(persona))){
