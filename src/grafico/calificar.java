@@ -304,4 +304,11 @@ public void CuentaEliminada() {
 	// TODO Auto-generated method stub
 	
 }
+
+
+@Override
+public void EliminarNotas() {
+	// TODO Auto-generated method stub
+	
+}
 }
