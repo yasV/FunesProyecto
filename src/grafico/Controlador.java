@@ -179,6 +179,7 @@ public class Controlador implements ActionListener {
 				 String persona=(String)view_Usuario.listaconsultar.getSelectedValue();
 				 String coment= view_Usuario.txtComment.getText();
 				 String usuario=view_Usuario.txtUsuarioComment.getText();
+				 
 				 modelo.BuscarNotas(persona,tipo,coment);
 				// modelo.EliminarNotaElegida(coment,usuario,tipo);
 			 }
@@ -213,6 +214,7 @@ public class Controlador implements ActionListener {
 			 if (source == view_Usuario.btnVerInformacinDel){
 				 modelo.verInfo(view_Usuario.txtUsuarioComment.getText());
 			 }
+			 
 			 if(source == view_Usuario.getBtnBuscarConsultar()){
 				 String tipo=(String)view_Usuario.getCmbTipoBusqueda().getSelectedItem();
 				 String tipAbuscar= view_Usuario.datobuscarConsultar.getText();

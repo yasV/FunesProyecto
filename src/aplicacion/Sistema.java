@@ -1005,6 +1005,7 @@ public class Sistema {
     	try{
     		Iterator notifyViews = vistas.iterator(); 
     		if (tipo==1){
+    			Empresa pers= empresasbuscadas.get(actual);
     			while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).actualizarInformacionEmpresa((Empresa) empresasbuscadas.get(actual));
     			}
@@ -1132,35 +1133,50 @@ public class Sistema {
 		}
 	}
 	
+	/*Esta función lo que hace es buscar un comentario que se quiera eliminar pero antes de eso busca el tipo de persona
+	 * con el que se va a trabajar para asi mandar todos los comentarios que posea*/
 	public void BuscarNotas(String persona,int tipo,String coment){
-		
 		if(tipo==1){
 		for(RegistroPersona u: personas){
 			if((u.getPersona().getNombre()+" "+u.getPersona().getPrimerApellido()+" "+u.getPersona().getSegundoApellido()).equals(persona)){
-					for(RegistroPersona y: personasbuscadas){
-						if((y.getPersona().getNombre()+" "+y.getPersona().getPrimerApellido()+" "+y.getPersona().getSegundoApellido()).equals(persona)){
-							System.out.print(persona+"\n");
-							for(Calificacion cal: y.getCalificacion()){
-								if(cal.getComentario().equals(coment)&&cal.getUsuario().equals(usuario)){
-									u.getCalificacion().indexOf(cal);
-									System.out.print(u.getCalificacion().indexOf(cal)+"\n");
-							}
-							EliminarNotaElegida(u.getCalificacion(),coment);
+					System.out.print(persona+"\n");
+					int loc= EliminarNotaElegida(u.getCalificacion(),coment);
+					if(loc==-1){
+						JOptionPane.showMessageDialog(null, "No hay más comentarios","Error", JOptionPane.ERROR_MESSAGE);
+					}
+					else{
+						u.getCalificacion().remove(loc);
+					}
+			}
+		}
+				
+		}//if
+		else{
+			for(Empresa u: empresas){
+				if((u.getNombre().equals(persona))){
+						System.out.print(persona+"\n");
+						int loc= EliminarNotaElegida(u.getCalificacion(),coment);
+						if(loc==-1){
+							JOptionPane.showMessageDialog(null, "No hay más comentarios","Error", JOptionPane.ERROR_MESSAGE);
+						}
+						else{
+							u.getCalificacion().remove(loc);
 						}
 				}
-				
-			}//for
-		}}}
+			}
+			
+		}
 	}
 	
-	public void EliminarNotaElegida(ArrayList<Calificacion> calif,String coment){
+	public int EliminarNotaElegida(ArrayList<Calificacion> calif,String coment){
 		for(Calificacion cal: calif){	//obtenemos calificación
 			if(cal.getComentario().equals(coment)&&cal.getUsuario().equals(usuario)){
-				calif.indexOf(cal);
 				System.out.print(calif.indexOf(cal)+"\n");
 				System.out.print(cal.getDemandado()+"\n");
+				return calif.indexOf(cal);
 				}	
 		}
+		return -1;
 	}
 }
     		
