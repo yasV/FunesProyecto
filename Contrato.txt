@@ -1,0 +1,23 @@
+Este programa fue diseñado con el propósito de brindarle a la población una referencia con respecto a una empresa o a una persona, 
+convirtiéndolo en un sistema de denuncia colaborativa. Al ser un sistema dedicado a las denuncias, usted como futuro usuario debe de estar de acuerdo 
+con los siguientes términos y condiciones.
+	1.	Los comentarios ingresados son verídicos y no corresponde a ningún tipo de injuria en caso de que el comentario sea negativo.
+	2.	Los comentarios deben de evitar contener alguno de los siguientes aspectos en su redacción:
+		a.	Evitar vocabulario soez o vulgar.
+		b.	Evitar frases que pueden ser consideradas machistas o feministas.
+		c.	Evitar el uso de frases con contenido racista.
+	3.	Las evidencias que se ingresen al sistema deben de evitar herir la sensibilidad de los demás usuarios.
+	4.	Con respecto a los reportes de abusos:
+		a.	Usted como usuario puede reportar al administrador que algún otro usuario está cometiendo alguna falta.
+		b.	A usted como usuario  pueden reportarlo por cometer alguna falta.
+		c.	Después de 10 reportes, su cuenta será bloqueada temporalmente. 
+		d.	El administrador puede eliminar su cuenta si lo considera conveniente
+	5.	Al declarar sus datos como públicos acepta que toda la comunidad pueda tener acceso a estos.
+	6.	Al declarar sus datos como privados la comunidad solo verá su Nick, a excepción del administrador que podrá ver toda su información.
+	7.	Si desea eliminar su cuenta. Todos los reportes y calificaciones que usted haya brindado serán eliminadas.
+El uso de esta aplicación tanto en su versión para PC como para dispositivos Android necesita de una 
+conexión de  internet estable para poder realizar todas sus funciones de manera idónea.
+Usted como usuario acepta, que la comunidad puede repórtalo en caso de que usted no cumpla con algunas de las condiciones anteriores.
+Usted como usuario, acepta la responsabilidad directa sobre los comentarios que realice y por lo tanto nos exime de cualquier responsabilidad 
+legal a nosotros en caso de presentarse alguna demanda a nivel judicial por el uso de esta aplicación.
+Al dar en el botón de acepta usted se compromete a cumplir con todos los puntos aquí declarados.
