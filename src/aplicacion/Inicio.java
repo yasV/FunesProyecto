@@ -19,11 +19,15 @@ public class Inicio {
 		Model.addContactView(pusuario);
 		
 		
-		grafico.Administrador admi = new grafico.Administrador(Model,control);
-		Model.addContactView(admi);
+		
 		
 		grafico.Informacion infor = new grafico.Informacion(control);
 		Model.addContactView(infor);
+		
+		//*
+		grafico.VUsuario verusuario = new grafico.VUsuario(control);
+		Model.addContactView(verusuario);
+		
 		
 	
 		

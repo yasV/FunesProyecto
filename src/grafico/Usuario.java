@@ -64,9 +64,15 @@ import java.awt.event.MouseWheelListener;
 import java.awt.event.MouseWheelEvent;
 
 import javax.swing.UIManager;
+import javax.swing.JEditorPane;
 
 public class Usuario extends JFrame implements Funciones {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<JButton> estrellas = new ArrayList <JButton>();
+	private ArrayList<JLabel> estrellasmiscalificaciones = new ArrayList<JLabel>();
 	private Controlador controlador;
 	public Empresa empresa;
 	public RegistroPersona persona;
@@ -110,7 +116,6 @@ public class Usuario extends JFrame implements Funciones {
 	public JButton btnRegistrarJuridica;
 	private JButton btnGuardarCalificacion;
 	private JButton btnSubirEvidencia;
-	private  JButton btnusuarioNoRegistrado;
 	private JButton btnRegistrar_1;
 	private JButton btnA;
 	public JRadioButton rdbtnFemenino;
@@ -127,7 +132,6 @@ public class Usuario extends JFrame implements Funciones {
 	private JButton btnBuscarConsultar;
 	public JRadioButton rdbtnFisicaCalificar;
 	public JRadioButton rdbtnJuridicaCalificar;
-	private JComboBox cmbPersonaCalificar;
 	public JLabel lblNdevidencia;
 	public JRadioButton rdbtnFsicaConsultar;
 	public JRadioButton rdbtnJurdicasConsultar;
@@ -146,21 +150,51 @@ public class Usuario extends JFrame implements Funciones {
 	public JLabel lblnombre;
 	private boolean nuevo = false; //Variable para saber si la empresa ya se encuentra o no se encuentra. 
 	public JList listaconsultar;
-	public JButton btnVerInformacin;
 	public JButton btnVerComentarios;
 	public JButton btnVerInformacinDel;
-	public JButton btnEliminar;
 	public JButton btnAnterior;
 	public JButton btnSiguiente;
 	public JButton btnEliminarCuenta;
-
-	
+	grafico.Calificacion cal = new grafico.Calificacion();
 	public JList listaabusos;
 	public JButton btnMsInformacin;
 	private JFormattedTextField txtmas;
-
-	grafico.Calificacion cal = new grafico.Calificacion();
-
+	public JButton btnMiComentario;
+	public JList listamis;
+	public JRadioButton rdbtnFiscasmis;
+	public JRadioButton rdbtnJurdicamis;
+	private JEditorPane txtmis;
+	private JLabel lestrella1;
+	private JLabel lestrella2;
+	private JLabel lestrella3;
+	private JLabel lestrella4;
+	private JLabel lestrella5;
+	private JLabel lestrella6;
+	private JLabel lestrella7;
+	private JLabel lestrella8;
+	private JLabel lestrella9;
+	private JLabel lestrella10;
+	public JButton btnusuarioNoRegistrado;
+	public JTextPane txtpersonacalificar;
+	public JButton btnEliminarCalificacion;
+	public JButton btnCambiarCalificacin;
+	public JButton btnIrACalificar;
+	private JPanel Fisica;
+	private JPanel Juridica;
+	public JButton btnVerInformacin;
+	private JPanel paneladministrador;
+	private JPanel PagUsuario;
+	private JPanel Calificar;
+	private JPanel Denuncias;
+	public JList listactivos;
+	public JList listabloqueados;
+	public JButton btnBloquear;
+	public JButton btnDesbloquear;
+	public JButton btnVerBloqueado;
+	public JButton btnVerActivo;
+	public JButton btnEditar;
+	public JButton btnVerUsuarios;
+	public JButton btnDescargarEvidencia_1;
 
 	
 	public Usuario(Sistema model,Controlador usar) {
@@ -190,9 +224,6 @@ public class Usuario extends JFrame implements Funciones {
 		return btnSubirEvidencia;
 	}
 
-	public JButton getBtnusuarioNoRegistrado() {
-		return btnusuarioNoRegistrado;
-	}
 
 	public JButton getBtnRegistrar_1() {
 		return btnRegistrar_1;
@@ -218,18 +249,22 @@ public class Usuario extends JFrame implements Funciones {
 		return btnBuscarConsultar;
 	}
 	
-	public JComboBox getCmbPersonaCalificar(){
-		return cmbPersonaCalificar;
-	}
+	
 
 	private void addEvents() {
+		this.btnDescargarEvidencia_1.addActionListener(controlador);
+		this.btnVerUsuarios.addActionListener(controlador);
+		this.btnEditar.addActionListener(controlador);
+		this.btnVerBloqueado.addActionListener(controlador);
+		this.btnVerActivo.addActionListener(controlador);
+		this.btnBloquear.addActionListener(controlador);
+		this.btnDesbloquear.addActionListener(controlador);
 		this.btnA.addActionListener(controlador);
 		this.btnGuardarCalificacion.addActionListener(controlador);
 		this.btnGuardarCambios.addActionListener(controlador);
 		this.btnRegistrarJuridica.addActionListener(controlador);
 		this.btnRegistrar_1.addActionListener(controlador);
 		this.btnSubirEvidencia.addActionListener(controlador);
-		this.btnusuarioNoRegistrado.addActionListener(controlador);
 		this.cboxprovincia.addActionListener(controlador);
 		this.cmbTipoBusqueda.addActionListener(controlador);
 		this.rdbtnFsicaConsultar.addActionListener(controlador);
@@ -240,7 +275,6 @@ public class Usuario extends JFrame implements Funciones {
 		this.rdbtnFsicaConsultar.addActionListener(controlador);
 		this.rdbtnJuridicaCalificar.addActionListener(controlador);
 		this.rdbtnJurdicasConsultar.addActionListener(controlador);
-		this.btnVerInformacin.addActionListener(controlador);
 		this.cmbTipoBusqueda.addActionListener(controlador);
 		this.btnBuscarConsultar.addActionListener(controlador);
 		this.btnVerComentarios.addActionListener(controlador);
@@ -248,11 +282,15 @@ public class Usuario extends JFrame implements Funciones {
 		this.btnAnterior.addActionListener(controlador);
 		this.btnSiguiente.addActionListener(controlador);
 		this.btnEliminarCuenta.addActionListener(controlador);
-
 		this.btnMsInformacin.addActionListener(controlador);
-
-		this.btnEliminar.addActionListener(controlador);
-
+		this.rdbtnFiscasmis.addActionListener(controlador);
+		this.rdbtnJurdicamis.addActionListener(controlador);
+		this.btnMiComentario.addActionListener(controlador);
+		this.btnusuarioNoRegistrado.addActionListener(controlador);
+		this.btnEliminarCalificacion.addActionListener(controlador);
+		this.btnCambiarCalificacin.addActionListener(controlador);
+		this.btnIrACalificar.addActionListener(controlador);
+		this.btnVerInformacin.addActionListener(controlador);
 		for (JButton u : estrellas){
 			u.addActionListener(controlador);
 		}
@@ -264,7 +302,7 @@ public class Usuario extends JFrame implements Funciones {
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 730, 493);
+		setBounds(100, 100, 768, 533);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(240, 230, 140));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -272,13 +310,13 @@ public class Usuario extends JFrame implements Funciones {
 		contentPane.setLayout(null);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 702, 442);
+		tabbedPane.setBounds(10, 11, 742, 482);
 		contentPane.add(tabbedPane);
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		////Acá comienza el panel de la página principal del usuario, donde ve sus datos 
 		
-		JPanel PagUsuario = new JPanel();
+		PagUsuario = new JPanel();
 		PagUsuario.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Página Principal", null, PagUsuario, null);
 		PagUsuario.setLayout(null);
@@ -406,12 +444,10 @@ public class Usuario extends JFrame implements Funciones {
 		btnEliminarCuenta = new JButton("Eliminar Cuenta");
 		btnEliminarCuenta.setBounds(437, 16, 183, 23);
 		PagUsuario.add(btnEliminarCuenta);
-
 		
 		btnMsInformacin = new JButton("M\u00E1s Informaci\u00F3n");
 		btnMsInformacin.setBounds(483, 260, 157, 23);
 		PagUsuario.add(btnMsInformacin);
-
 		btnCambiarDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				panelcambiarco.setVisible(true);
@@ -432,25 +468,25 @@ public class Usuario extends JFrame implements Funciones {
 				
 					    rdbtnFsicaConsultar = new JRadioButton("Persona F\u00EDsica");
 					    rdbtnFsicaConsultar.setBackground(new Color(135, 206, 250));
-					    rdbtnFsicaConsultar.setBounds(175, 7, 123, 23);
+					    rdbtnFsicaConsultar.setBounds(191, 5, 112, 23);
 					    Busquedas.add(rdbtnFsicaConsultar);
 					    
 					    		rdbtnJurdicasConsultar = new JRadioButton("Persona Jur\u00EDdica");
 					    		rdbtnJurdicasConsultar.setBackground(new Color(135, 206, 250));
-					    		rdbtnJurdicasConsultar.setBounds(308, 5, 127, 23);
+					    		rdbtnJurdicasConsultar.setBounds(305, 5, 127, 23);
 					    		Busquedas.add(rdbtnJurdicasConsultar);
-					    		cmbTipoBusqueda.setBounds(301, 54, 134, 23);
+					    		cmbTipoBusqueda.setBounds(137, 52, 134, 23);
 					    		Busquedas.add(cmbTipoBusqueda);
 					    		groupTipo.add(rdbtnFsicaConsultar);
 					    		groupTipo.add(rdbtnJurdicasConsultar);
 					    		
 					    		
 					    		JLabel lblBuscarPor = new JLabel("Buscar por:");
-					    		lblBuscarPor.setBounds(175, 56, 112, 19);
+					    		lblBuscarPor.setBounds(43, 54, 112, 19);
 					    		Busquedas.add(lblBuscarPor);
 					    		
 					    		JLabel lblSeleccione = new JLabel("Ingrese el dato a buscar:");
-					    		lblSeleccione.setBounds(141, 103, 146, 19);
+					    		lblSeleccione.setBounds(281, 54, 146, 19);
 					    		Busquedas.add(lblSeleccione);
 					    		
 					    		JPanel panelComentsConsultar = new JPanel();
@@ -461,7 +497,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		txtUsuarioComment = new JTextField();
 					    		txtUsuarioComment.setEditable(false);
-					    		txtUsuarioComment.setBounds(42, 172, 166, 20);
+					    		txtUsuarioComment.setBounds(41, 172, 166, 20);
 					    		panelComentsConsultar.add(txtUsuarioComment);
 					    		txtUsuarioComment.setColumns(10);
 					    		
@@ -475,31 +511,28 @@ public class Usuario extends JFrame implements Funciones {
 					    		btnVerInformacinDel.setEnabled(false);
 					    		btnVerInformacinDel.setBounds(248, 171, 213, 23);
 					    		panelComentsConsultar.add(btnVerInformacinDel);
-					    	
-					    		btnEliminar = new JButton("Eliminar");
-					    		btnEliminar.addActionListener(new ActionListener() {
-					    			public void actionPerformed(ActionEvent arg0) {
-					    			}
-					    		});
-					    		btnEliminar.setEnabled(false);
-					    		btnEliminar.setBounds(181, 205, 89, 23);
-					    		panelComentsConsultar.add(btnEliminar);
 					    		
-					    		 btnAnterior = new JButton("Anterior");
-					    		btnAnterior.setBounds(308, 391, 89, 23);
-					    		Busquedas.add(btnAnterior);
+					    		 btnAnterior = new JButton("");
+					    		 btnAnterior.setBackground(new Color(135, 206, 250));
+					    		 btnAnterior.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/back.png")));
+					    		 btnAnterior.setBounds(192, 198, 57, 23);
+					    		 panelComentsConsultar.add(btnAnterior);
 					    		
-					    		 btnSiguiente = new JButton("Siguiente");
-					    		btnSiguiente.setBounds(438, 391, 89, 23);
-					    		Busquedas.add(btnSiguiente);
+					    		 btnSiguiente = new JButton("");
+					    		 btnSiguiente.setBackground(new Color(135, 206, 250));
+					    		 btnSiguiente.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/next.png")));
+					    		 btnSiguiente.setBounds(248, 198, 57, 23);
+					    		 panelComentsConsultar.add(btnSiguiente);
 					    		
 					    		datobuscarConsultar = new JTextField();
-					    		datobuscarConsultar.setBounds(300, 102, 135, 20);
+					    		datobuscarConsultar.setBounds(437, 53, 135, 20);
 					    		Busquedas.add(datobuscarConsultar);
 					    		datobuscarConsultar.setColumns(10);
 					    		
-					    		btnBuscarConsultar = new JButton("Buscar");
-					    		btnBuscarConsultar.setBounds(490, 74, 117, 23);
+					    		btnBuscarConsultar = new JButton("");
+					    		btnBuscarConsultar.setBackground(new Color(135, 206, 250));
+					    		btnBuscarConsultar.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/buscar.png")));
+					    		btnBuscarConsultar.setBounds(579, 52, 57, 23);
 					    		Busquedas.add(btnBuscarConsultar);
 					    		
 					    		JPanel listaConsultar = new JPanel();
@@ -511,27 +544,44 @@ public class Usuario extends JFrame implements Funciones {
 					    		listaConsultar.add(listaconsultar);
 					    		
 					    		
-					    		
-					    		
-					    		
-					    		
-					    		
-					    	    btnVerComentarios = new JButton("Ver Comentarios");
+					    	   btnVerComentarios = new JButton("Ver Comentarios");
 					    		btnVerComentarios.setBounds(20, 357, 146, 23);
 					    		Busquedas.add(btnVerComentarios);
 					    		
-					    		btnVerInformacin = new JButton("Ver informaci\u00F3n");
-					    		btnVerInformacin.setBounds(30, 391, 134, 23);
+					    		JLabel lblFiltrarPor = new JLabel("Filtrar por:");
+					    		lblFiltrarPor.setBounds(77, 9, 96, 14);
+					    		Busquedas.add(lblFiltrarPor);
+					    		
+					    		btnusuarioNoRegistrado = new JButton("\u00BFNo encuentra a la persona?");
+					    		btnusuarioNoRegistrado.setBounds(94, 86, 247, 23);
+					    		Busquedas.add(btnusuarioNoRegistrado);
+					    		
+					    		 btnIrACalificar = new JButton("Ir a Calificar");
+					    		btnIrACalificar.setBounds(382, 84, 123, 23);
+					    		Busquedas.add(btnIrACalificar);
+					    		
+					    		btnVerInformacin = new JButton("Sobre la persona");
+					    		btnVerInformacin.setBounds(30, 385, 152, 23);
 					    		Busquedas.add(btnVerInformacin);
+					    		
+					    		btnEditar = new JButton("Editar");
+					    		btnEditar.setBounds(164, 86, 89, 23);
+					    		Busquedas.add(btnEditar);
+					    		
+					    		btnDescargarEvidencia_1 = new JButton("Descargar Evidencia");
+					    		btnDescargarEvidencia_1.setBounds(382, 398, 170, 23);
+					    		Busquedas.add(btnDescargarEvidencia_1);
 		
 				
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 				////Acá comienza el panel de calificar a alguna persona
 				
-				JPanel Calificar = new JPanel();
+				 Calificar = new JPanel();
 				Calificar.setBackground(new Color(135, 206, 250));
 				tabbedPane.addTab("Calificar", null, Calificar, null);
+				tabbedPane.setEnabledAt(2, false);
 				Calificar.setLayout(null);
+				
 				
 				JPanel panel = new JPanel();
 				panel.setBounds(155, 98, 370, 50);
@@ -625,10 +675,6 @@ public class Usuario extends JFrame implements Funciones {
 				lblCalifiqueSuExperiencia.setBounds(13, 98, 148, 30);
 				Calificar.add(lblCalifiqueSuExperiencia);
 				
-				cmbPersonaCalificar = new JComboBox();
-				cmbPersonaCalificar.setBounds(197, 53, 180, 23);
-				Calificar.add(cmbPersonaCalificar);
-				
 				JLabel lblUsuarioACalificar = new JLabel("Nombre de persona a calificar:");
 				lblUsuarioACalificar.setBounds(13, 53, 177, 23);
 				Calificar.add(lblUsuarioACalificar);
@@ -650,10 +696,6 @@ public class Usuario extends JFrame implements Funciones {
 				btnSubirEvidencia.setBounds(34, 318, 127, 23);
 				Calificar.add(btnSubirEvidencia);
 				
-				btnusuarioNoRegistrado = new JButton("\u00BFNo encuentra a la persona?");
-				btnusuarioNoRegistrado.setBounds(421, 53, 247, 23);
-				Calificar.add(btnusuarioNoRegistrado);
-				
 				lblNdevidencia = new JLabel("");
 				lblNdevidencia.setBounds(34, 350, 439, 14);
 				Calificar.add(lblNdevidencia);
@@ -672,17 +714,138 @@ public class Usuario extends JFrame implements Funciones {
 				lblnombre = new JLabel("");
 				lblnombre.setBounds(34, 376, 452, 14);
 				Calificar.add(lblnombre);
+				
+				 txtpersonacalificar = new JTextPane();
+				txtpersonacalificar.setBounds(182, 56, 217, 20);
+				Calificar.add(txtpersonacalificar);
+		
+		 Denuncias = new JPanel();
+		Denuncias.setBackground(new Color(135, 206, 250));
+		tabbedPane.addTab("Mis Calificaciones", null, Denuncias, null);
+		Denuncias.setLayout(null);
+		
+		JLabel lblPersonasJuridcas = new JLabel("Mis personas calificadas");
+		lblPersonasJuridcas.setBounds(29, 11, 145, 14);
+		Denuncias.add(lblPersonasJuridcas);
+		
+		JPanel panelmis = new JPanel();
+		panelmis.setBackground(new Color(135, 206, 250));
+		panelmis.setBounds(28, 62, 146, 220);
+		Denuncias.add(panelmis);
+		
+		 listamis = new JList();
+		panelmis.add(listamis);
+		
+		 txtmis = new JEditorPane();
+		 txtmis.setEditable(false);
+		txtmis.setBounds(207, 72, 255, 191);
+		Denuncias.add(txtmis);
+		
+		JLabel lblMiComentario = new JLabel("Mi comentario");
+		lblMiComentario.setBounds(279, 47, 136, 14);
+		Denuncias.add(lblMiComentario);
+		
+		JLabel lblMiCalificacin = new JLabel("Mi calificaci\u00F3n");
+		lblMiCalificacin.setBounds(53, 319, 127, 14);
+		Denuncias.add(lblMiCalificacin);
+		
+		
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setLayout(null);
+		panel_1.setBackground(new Color(135, 206, 250));
+		panel_1.setBounds(180, 303, 370, 50);
+		Denuncias.add(panel_1);
+		
+		lestrella1 = new JLabel("New label");
+		lestrella1.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella1.setBounds(10, 11, 27, 28);
+		panel_1.add(lestrella1);
+		
+		lestrella2 = new JLabel("New label");
+		lestrella2.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella2.setBounds(43, 15, 27, 21);
+		panel_1.add(lestrella2);
+		
+		lestrella3 = new JLabel("");
+		lestrella3.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella3.setBounds(73, 15, 35, 21);
+		panel_1.add(lestrella3);
+		
+		lestrella4 = new JLabel("");
+		lestrella4.setAutoscrolls(true);
+		lestrella4.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella4.setBounds(104, 11, 27, 28);
+		panel_1.add(lestrella4);
+		
+		lestrella5 = new JLabel("");
+		lestrella5.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella5.setBounds(141, 11, 35, 28);
+		panel_1.add(lestrella5);
+		
+		lestrella6 = new JLabel("");
+		lestrella6.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella6.setBounds(173, 11, 27, 28);
+		panel_1.add(lestrella6);
+		
+		lestrella7 = new JLabel("");
+		lestrella7.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella7.setBounds(210, 11, 27, 28);
+		panel_1.add(lestrella7);
+		
+		lestrella8 = new JLabel("");
+		lestrella8.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella8.setBounds(240, 11, 27, 28);
+		panel_1.add(lestrella8);
+		
+		lestrella9 = new JLabel("");
+		lestrella9.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella9.setBounds(277, 11, 27, 28);
+		panel_1.add(lestrella9);
+		
+		lestrella10 = new JLabel("");
+		lestrella10.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/nomarc.png")));
+		lestrella10.setBounds(320, 11, 27, 28);
+		panel_1.add(lestrella10);
+		
+		JButton btnDescargarEvidencia = new JButton("Descargar Evidencia");
+		btnDescargarEvidencia.setBounds(396, 364, 192, 23);
+		Denuncias.add(btnDescargarEvidencia);
+		
+		btnMiComentario = new JButton("Ver mi comentario");
+		btnMiComentario.setBounds(29, 281, 145, 23);
+		Denuncias.add(btnMiComentario);
+		
+		rdbtnFiscasmis = new JRadioButton("Fis\u00EDcas");
+		rdbtnFiscasmis.setBackground(new Color(135, 206, 250));
+		buttonGroup_1.add(rdbtnFiscasmis);
+		rdbtnFiscasmis.setBounds(6, 32, 109, 23);
+		Denuncias.add(rdbtnFiscasmis);
+		
+		 rdbtnJurdicamis = new JRadioButton("Jur\u00EDdica");
+		 rdbtnJurdicamis.setBackground(new Color(135, 206, 250));
+		 buttonGroup_1.add(rdbtnJurdicamis);
+		rdbtnJurdicamis.setBounds(126, 32, 109, 23);
+		Denuncias.add(rdbtnJurdicamis);
+		
+		 btnCambiarCalificacin = new JButton("Cambiar Calificaci\u00F3n");
+		btnCambiarCalificacin.setBounds(413, 7, 145, 23);
+		Denuncias.add(btnCambiarCalificacin);
+		
+		btnEliminarCalificacion = new JButton("Eliminar");
+		btnEliminarCalificacion.setBounds(576, 7, 89, 23);
+		Denuncias.add(btnEliminarCalificacion);
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		////Acá comienza el panel del registro de empresas
 		
-		JPanel Juridica = new JPanel();
-		Juridica.setBackground(new Color(173, 216, 230));
+	    Juridica = new JPanel();
+		Juridica.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Registro de Persona Jur\u00EDdica", null, Juridica, null);
-		tabbedPane.setEnabledAt(3, false);
+		tabbedPane.setEnabledAt(4, true);
 		//tabbedPane.setEnabledAt(8, false);
 		Juridica.setLayout(null);
 		
-		rdbtnSenasa = new JRadioButton("Senasa");
+		rdbtnSenasa = new JRadioButton("SENASA");
 		buttonGroup_3.add(rdbtnSenasa);
 		rdbtnSenasa.setBackground(new Color(135, 206, 250));
 		rdbtnSenasa.setBounds(25, 43, 91, 23);
@@ -761,7 +924,7 @@ public class Usuario extends JFrame implements Funciones {
 		txtpais.setColumns(10);
 							
 		cboxprovincia = new JComboBox();
-		cboxprovincia.setBounds(76, 234, 181, 20);
+		cboxprovincia.setBounds(66, 234, 181, 20);
 		Juridica.add(cboxprovincia);
 							
 		txtcanton = new JTextField();
@@ -787,16 +950,70 @@ public class Usuario extends JFrame implements Funciones {
 		lblLosCamposMarcados.setBounds(21, 350, 320, 14);
 		Juridica.add(lblLosCamposMarcados);
 							
-		btnRegistrarJuridica = new JButton("Registrar");
-		btnRegistrarJuridica.setBounds(494, 346, 89, 23);
+		btnRegistrarJuridica = new JButton("");
+		btnRegistrarJuridica.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/save.png")));
+		btnRegistrarJuridica.setBackground(new Color(135, 206, 250));
+		btnRegistrarJuridica.setBounds(288, 384, 53, 33);
 		Juridica.add(btnRegistrarJuridica);
+		
+		this.tabbedPane.remove(Juridica);
+	    
+	    paneladministrador = new JPanel();
+	    paneladministrador.setLayout(null);
+	    paneladministrador.setBackground(new Color(135, 206, 250));
+	    tabbedPane.addTab("Usuarios", null, paneladministrador, null);
+	    
+	    JLabel label = new JLabel("Usuarios Activos");
+	    label.setFont(new Font("Tahoma", Font.PLAIN, 14));
+	    label.setBounds(147, 11, 151, 14);
+	    paneladministrador.add(label);
+	    
+	    JLabel label_1 = new JLabel("Usuarios Bloqueados");
+	    label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+	    label_1.setBounds(389, 11, 178, 14);
+	    paneladministrador.add(label_1);
+	    
+	    JPanel panelactivos = new JPanel();
+	    panelactivos.setBounds(122, 57, 160, 356);
+	    paneladministrador.add(panelactivos);
+	    
+	    listactivos = new JList();
+	    panelactivos.add(listactivos);
+	    
+	    JPanel panelbloqueados = new JPanel();
+	    panelbloqueados.setBounds(376, 57, 160, 356);
+	    paneladministrador.add(panelbloqueados);
+	    
+	    listabloqueados = new JList();
+	    panelbloqueados.add(listabloqueados);
+	    
+		        btnBloquear = new JButton("Desbloquear");
+		        btnBloquear.setBounds(598, 57, 114, 23);
+		        paneladministrador.add(btnBloquear);
+		        
+		        btnDesbloquear = new JButton("Eliminar Usuario");
+		        btnDesbloquear.setBounds(577, 30, 150, 23);
+		        paneladministrador.add(btnDesbloquear);
+		        
+		        btnVerBloqueado = new JButton("Ver reportes de usuario bloqueado");
+		        btnVerBloqueado.setBounds(342, 424, 246, 23);
+		        paneladministrador.add(btnVerBloqueado);
+		        
+		        btnVerActivo = new JButton("Ver reportes de usuario activo");
+		        btnVerActivo.setBounds(84, 424, 214, 23);
+		        paneladministrador.add(btnVerActivo);
+		        
+		        btnVerUsuarios = new JButton("Ver informaci\u00F3n ");
+		        btnVerUsuarios.setBounds(585, 95, 127, 23);
+		        paneladministrador.add(btnVerUsuarios);
+		
 		
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		////Acá comienza el panel del registro de personas fisicas					
-		JPanel Fisica = new JPanel();
-		Fisica.setBackground(new Color(173, 216, 230));
+	    Fisica = new JPanel();
+		Fisica.setBackground(new Color(135, 206, 250));
 		tabbedPane.addTab("Registro de Persona Física", null, Fisica, null);
-		tabbedPane.setEnabledAt(4, false);
+	
 		//tabbedPane.setBackgroundAt(4, new Color(173, 216, 230));
 		Fisica.setLayout(null);
 		
@@ -829,7 +1046,7 @@ public class Usuario extends JFrame implements Funciones {
 		Fisica.add(lblCdula);
 		
 		txtnombre = new JTextField();
-		txtnombre.setEnabled(false);
+		txtnombre.setEditable(false);
 		txtnombre.setBounds(229, 67, 138, 20);
 		Fisica.add(txtnombre);
 		txtnombre.setColumns(10);
@@ -839,7 +1056,7 @@ public class Usuario extends JFrame implements Funciones {
 		Fisica.add(lblApellido);
 		
 		txtprimero = new JTextField();
-		txtprimero.setEnabled(false);
+		txtprimero.setEditable(false);
 		txtprimero.setBounds(390, 68, 138, 20);
 		Fisica.add(txtprimero);
 		txtprimero.setColumns(10);
@@ -849,7 +1066,7 @@ public class Usuario extends JFrame implements Funciones {
 		Fisica.add(lblSegundoApellido);
 		
 		txtSApellido = new JTextField();
-		txtSApellido.setEnabled(false);
+		txtSApellido.setEditable(false);
 		txtSApellido.setColumns(10);
 		txtSApellido.setBounds(538, 67, 138, 20);
 		Fisica.add(txtSApellido);
@@ -931,13 +1148,21 @@ public class Usuario extends JFrame implements Funciones {
 		txtcargo.setBounds(445, 334, 190, 20);
 		Fisica.add(txtcargo);
 		
-		btnRegistrar_1 = new JButton("Registrar");
-		btnRegistrar_1.setBounds(46, 346, 89, 23);
+		btnRegistrar_1 = new JButton("");
+		btnRegistrar_1.setBackground(new Color(135, 206, 250));
+		btnRegistrar_1.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/save.png")));
+		btnRegistrar_1.setBounds(281, 384, 65, 37);
 		Fisica.add(btnRegistrar_1);
 		
-		btnConsultar = new JButton("Consultar");
-		btnConsultar.setBounds(454, 32, 89, 23);
+		btnConsultar = new JButton("");
+		btnConsultar.setBackground(new Color(135, 206, 250));
+		btnConsultar.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/buscar.png")));
+		btnConsultar.setBounds(463, 32, 46, 23);
 		Fisica.add(btnConsultar);
+		
+		this.tabbedPane.remove(Fisica);
+		
+		
 	}
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 			
@@ -958,7 +1183,13 @@ public class Usuario extends JFrame implements Funciones {
 
 	public void IniciarUsuario(aplicacion.Usuario usuario,DefaultListModel abusos) {
 		//Carga los datos del usuario en la pantalla de usuario 
-		
+		this.btnIrACalificar.setVisible(true);
+		this.btnusuarioNoRegistrado.setVisible(true);
+		this.btnEditar.setVisible(false);
+		this.tabbedPane.remove(paneladministrador);
+		tabbedPane.addTab("Calificar", null, Calificar, null);
+		tabbedPane.addTab("Mis Calificaciones", null, Denuncias, null);
+		tabbedPane.setEnabledAt(2, false);
 		this.setVisible(true);
 		txtusuario.setText(usuario.getNombre()); //Carga el usuario
 		txtNick.setText(usuario.getNick());//Carga el nombre
@@ -982,49 +1213,51 @@ public class Usuario extends JFrame implements Funciones {
 	}
 
 	public void showPersona(DefaultListModel model,DefaultComboBoxModel tipo) {
-		tabbedPane.setEnabledAt(4,true);
+		tabbedPane.add(this.Fisica, 4);
 		tabbedPane.setSelectedIndex(4);
 		list.setModel(model);
 		this.cboxmes.setModel(tipo);
 	}
 	
 	public void showEmpresa(DefaultComboBoxModel tipo) {
-		tabbedPane.setEnabledAt(3,true);
+		tabbedPane.add(this.Juridica,4);
 		cboxprovincia.setModel(tipo);
-		tabbedPane.setSelectedIndex(3);
+		tabbedPane.setSelectedIndex(4);
 	}
 	
 	//Llena con los datos con los que se puede buscar
-	public void llenarPersona(DefaultComboBoxModel tipo){
+	public void llenarPersona(DefaultComboBoxModel tipo,DefaultListModel todo){
 		cmbTipoBusqueda.setModel(tipo);
+		this.listaconsultar.removeAll();
+		this.listaconsultar.setModel(todo);
 	}
 		
-	public void llenarJuridica(DefaultComboBoxModel tipo){
+	public void llenarJuridica(DefaultComboBoxModel tipo,DefaultListModel todo){
 		cmbTipoBusqueda.setModel(tipo);
+		this.listaconsultar.removeAll();
+		this.listaconsultar.setModel(todo);
 	}
 	
 	public void IniciarEmpresa(Empresa empresa) {
-		tabbedPane.setEnabledAt(3,false);
+		tabbedPane.remove(Juridica);
 		tabbedPane.setSelectedIndex(2);
+		tabbedPane.setEnabledAt(2, true);
 		this.empresa=empresa;
-		cmbPersonaCalificar.removeAll();
-		DefaultComboBoxModel n = new DefaultComboBoxModel();
-		n.addElement("-----------------------");
-		n.addElement(empresa.getNombre());
-		cmbPersonaCalificar.setModel(n);
+		this.txtpersonacalificar.setText(empresa.getNombre());
 		this.nuevo=true;
+		this.rdbtnJuridicaCalificar.setSelected(true);
+		this.rdbtnFisicaCalificar.setEnabled(false);
 	}
 
 	public void IniciarPersona(RegistroPersona persona) {
-		tabbedPane.setEnabledAt(4,false);
+		tabbedPane.remove(Fisica);
 		tabbedPane.setSelectedIndex(2);
+		tabbedPane.setEnabledAt(2, true);
 		this.persona=persona;
-		cmbPersonaCalificar.removeAll();
-		DefaultComboBoxModel n = new DefaultComboBoxModel();
-		n.addElement("-----------------------");
-		n.addElement(persona.getPersona().getNombre() + " "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido());
-		cmbPersonaCalificar.setModel(n);
+		this.txtpersonacalificar.setText(persona.getPersona().getNombre()+" "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido());
 		this.nuevo=true;
+		this.rdbtnJuridicaCalificar.setEnabled(false);
+		this.rdbtnFisicaCalificar.setSelected(true);
 	}
 
 	public void agregarlista(DefaultListModel nuevo) {
@@ -1034,12 +1267,11 @@ public class Usuario extends JFrame implements Funciones {
 	}
 
 	public void llenarDatosRegistro(DefaultListModel datos) {
+		listaconsultar.removeAll();
 		listaconsultar.setModel(datos);
 	}
 	
-	public void llenarcmbCalificar(DefaultComboBoxModel model) {
-		cmbPersonaCalificar.setModel(model);;
-	}
+
 	
 	public void showRegistro() {
 		// TODO Auto-generated method stub
@@ -1108,28 +1340,14 @@ public class Usuario extends JFrame implements Funciones {
 		this.txtComment.setText(n.getComentario());
 		this.txtUsuarioComment.setText(n.getUsuario().getNick());
 		this.btnVerInformacinDel.setEnabled(true);
-		if (n.getUsuario()==usuario){
-			this.btnEliminar.setEnabled(true);
-		}
-		else{
-			this.btnEliminar.setEnabled(false);
-		}
-		
+	
 	}
 
 	@Override
 	public void CuentaEliminada() {
 		this.dispose();
 		
-
 	}
-
-	@Override
-	public void EliminarNotas() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	@Override
 	public void llenardatos(aplicacion.Usuario u) {
@@ -1144,12 +1362,192 @@ public class Usuario extends JFrame implements Funciones {
 	}
 
 	@Override
-	public void IniciarUsuario(aplicacion.Usuario usuario) {
+	public void showusercalification(DefaultListModel propias) {
+		if (propias.isEmpty()){
+			propias.addElement("Sin calificaciones");
+			this.listamis.removeAll();
+			this.listamis.setModel(propias);
+			this.btnMiComentario.setEnabled(false);
+			this.btnEliminarCalificacion.setEnabled(false);
+			this.btnCambiarCalificacin.setEnabled(false);
+		}
+		else{
+		this.listamis.removeAll();
+		this.btnMiComentario.setEnabled(true);
+		this.btnEliminarCalificacion.setEnabled(true);
+		this.btnCambiarCalificacin.setEnabled(true);
+		this.listamis.setModel(propias);
+		}
+	}
+
+	@Override
+	public void mostrarsuscomentarios(Calificacion mandar) {
+		this.estrellasmiscalificaciones.add(this.lestrella1);
+		this.estrellasmiscalificaciones.add(this.lestrella2);
+		this.estrellasmiscalificaciones.add(this.lestrella3);
+		this.estrellasmiscalificaciones.add(this.lestrella4);
+		this.estrellasmiscalificaciones.add(this.lestrella5);
+		this.estrellasmiscalificaciones.add(this.lestrella6);
+		this.estrellasmiscalificaciones.add(this.lestrella7);
+		this.estrellasmiscalificaciones.add(this.lestrella8);
+		this.estrellasmiscalificaciones.add(this.lestrella9);
+		this.estrellasmiscalificaciones.add(this.lestrella10);
+		this.txtmis.setText(mandar.getComentario());
+		for (int i=0;i<mandar.getCalificacion();i++){
+			estrellasmiscalificaciones.get(i).setIcon(marcado);
+		}
+		
+		
+	}
+
+	@Override
+	public void asignarcalificar(String nombre) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void nuevacalificacion(String selectedValue, int tipo, boolean b) {
+		this.txtpersonacalificar.setText(selectedValue);
+		if (tipo==0){
+			this.rdbtnJuridicaCalificar.setSelected(true);
+			this.rdbtnFisicaCalificar.setEnabled(false);
+			this.tabbedPane.setSelectedIndex(2);
+		}
+		else{
+			this.rdbtnJuridicaCalificar.setEnabled(false);
+			this.rdbtnFisicaCalificar.setSelected(true);
+			this.tabbedPane.setSelectedIndex(2);
+		}
+		
+	}
 
+	@Override
+	public void reemplazarcalificacion(String selectedValue, int tipo,
+			Calificacion cal, boolean b) {
+		this.txtpersonacalificar.setText(selectedValue);
+		this.txtRegistroReview.setText(cal.getComentario());
+		this.lblNdevidencia.setText(cal.getEvidencia().getAbsolutePath());
+		for (int i=0;i<cal.getCalificacion();i++){
+			estrellas.get(i).setIcon(marcado);
+		}
+			
+		if (tipo==0){
+			this.rdbtnJuridicaCalificar.setSelected(true);
+			this.rdbtnFisicaCalificar.setEnabled(false);
+			this.tabbedPane.setSelectedIndex(2);
+		}
+		else{
+			this.rdbtnJuridicaCalificar.setEnabled(false);
+			this.rdbtnFisicaCalificar.setSelected(true);
+			this.tabbedPane.setSelectedIndex(2);
+			
+			
+		}
+		
+	}
+
+
+
+	@Override
+	public void modificarempresa(Empresa empresa) {
+		//Inicializa los campo con los datos de la empresa
+		this.txtcedulajuri.setText(empresa.getCedulaJuridica());
+		this.txtnombrejuri.setText(empresa.getNombre());
+		this.txtpais.setText(empresa.getDireccion().getPais());
+		this.txtbarrio.setText(empresa.getDireccion().getBarrio());
+		this.txtcanton.setText(empresa.getDireccion().getCanton());
+		this.txtdistrito.setText(empresa.getDireccion().getDistrito());
+	
+		
+		if (empresa.getCategoria().equals("SENASA")){
+			this.rdbtnSenasa.setSelected(true);
+		}
+		if (empresa.getCategoria().equals("PANI")){
+			this.rdbtnPani.setSelected(true);
+		}
+		if (empresa.getCategoria().equals("Restaurantes")){
+			this.rdbtnRestaurante.setSelected(true);
+		}
+		if (empresa.getCategoria().equals("Condominios")){
+			this.rdbtnCondominios.setSelected(true);
+		}
+		if (empresa.getCategoria().equals("Empresas")){
+			this.rdbtnEmpresas.setSelected(true);
+		}
+		
+		this.cboxprovincia.setVisible(false);
+		this.tabbedPane.addTab("Editar Jurídica", this.Juridica);
+		this.tabbedPane.remove(Fisica);
+		this.tabbedPane.setSelectedComponent(Juridica);
+		
+	}
+
+	@Override
+	public void modificarpersona(RegistroPersona persona , DefaultComboBoxModel mes , DefaultListModel categoria) {
+		this.txtcedula.setText(persona.getPersona().getNombre());
+		this.btnConsultar.setEnabled(false);
+		this.txtnombre.setText(persona.getPersona().getNombre());
+		this.txtprimero.setText(persona.getPersona().getPrimerApellido());
+		this.txtSApellido.setText(persona.getPersona().getSegundoApellido());
+		this.txtaño.setText(Integer.toString(persona.getPersona().getFechaNacimiento().getAño()));
+		this.txtdia.setText(Integer.toString(persona.getPersona().getFechaNacimiento().getDia()));
+		this.txtcargo.setText(persona.getPersona().getCargo());
+		this.txtinstitucion.setText(persona.getPersona().getInstitucion());
+		this.cboxmes.setModel(mes);
+		this.list.setModel(categoria);
+		this.tabbedPane.addTab("Editar Física", this.Fisica);
+		this.tabbedPane.remove(Juridica);
+		this.tabbedPane.setSelectedComponent(Fisica);
+	}
+
+	@Override
+	public void iniciaradministrador(DefaultListModel normal,
+			DefaultListModel bloqueados, DefaultListModel empresas,
+			DefaultListModel personas) {
+		tabbedPane.addTab("Usuarios", null, paneladministrador, null);
+		tabbedPane.remove(Calificar);
+		tabbedPane.remove(Denuncias);
+		tabbedPane.remove(PagUsuario);
+		this.listabloqueados.setModel(bloqueados);
+		this.listactivos.setModel(normal);
+		this.setVisible(true);
+		this.btnIrACalificar.setVisible(false);
+		this.btnusuarioNoRegistrado.setVisible(false);
+		this.btnEditar.setVisible(true);
+		
+		
+	}
+
+
+
+	@Override
+	public void actualizarlista(DefaultListModel actualizada,
+			DefaultListModel actualizar, int tipo) {
+		this.listactivos.removeAll();
+		this.listactivos.setModel(actualizar);
+	     this.listabloqueados.removeAll();
+		listabloqueados.setModel(actualizada);
+		
+	}
+
+	@Override
+	public void mostrarDatosUsuario(aplicacion.Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void contrato(String contrato) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void rechazar() {
+		// TODO Auto-generated method stub
+		
+	}
 	}
 	
 

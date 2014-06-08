@@ -5,14 +5,14 @@ import aplicacion.Usuario;
 
 public class Calificacion {
 	//Atributos
-	private int calificacion;
+	private double calificacion;
 	private Usuario usuario;
 	private String demandado;
 	private File evidencia;
 	private String comentario;
 	
 	
-	public int getCalificacion() {
+	public double getCalificacion() {
 		return calificacion;
 	}
 	public void setCalificacion(int calificacion) {
@@ -43,8 +43,7 @@ public class Calificacion {
 		this.comentario = comentario;
 	}
 	public Calificacion(int calificacion, Usuario usuario,
-			File evidencia, String comentario) {
-		
+		File evidencia, String comentario) {
 		this.calificacion = calificacion;
 		this.usuario = usuario;
 	    this.evidencia = evidencia;

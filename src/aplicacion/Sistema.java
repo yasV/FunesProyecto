@@ -2,14 +2,22 @@ package aplicacion;
 
 
 import java.awt.Image;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -32,23 +40,26 @@ import entidades.Empresa;
 import entidades.Factory;
 import entidades.Registro;
 import entidades.RegistroPersona;
+import grafico.Reportes;
 import grafico.VUsuario;
 import jxl.Cell;
 import jxl.CellType;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.write.DateFormats;
+import jxl.write.Label;
+import jxl.write.WritableCell;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
-public class Sistema {
+public class Sistema  {
 	//Atributos
 	private static Usuario usuario; //Variable para manejar el usuario con el que se esta trabajando
 	private static ArrayList<Usuario> listaUsuarios;
 	private static ArrayList<Usuario> bloqueados;
-	private static ArrayList<Empresa> empresas;
+	private static List<Empresa> empresas;
 	private static ArrayList <RegistroPersona> personas;
 	private static ArrayList <Integer>estrellas = new ArrayList();
-	private static ArrayList <String> ordenado= new ArrayList();		//para ordenar alfabéticamente
 	static int cantidadUsuarios = 0;
 	static int cantidadEmpresas=0;
 	static int cantidadPersonas=0;
@@ -64,9 +75,18 @@ public class Sistema {
 	private static ArrayList<Empresa> empresasbuscadas = new ArrayList<Empresa>();
 	private static ArrayList <RegistroPersona> personasbuscadas = new ArrayList<RegistroPersona>();
 	private ArrayList <Calificacion> calificacion = new ArrayList<Calificacion>();
-	int contador = 0;
+	private int contador = 0;
+	String descargar = null;
+	private Object jTextArea;
 	
+	public Usuario getUsuario(){
+		return usuario;
+	}
 	public static void iniciar_sistema(){
+	
+		for (int i=0;i<10;i++){
+    		estrellas.add(i,0);
+    	}
 		//Función que inicializa las lista de usuario, personas físicas, personas jurídicas y usuarios bloqueados
 			//*Inicializa de variables*//
 		vistas.removeAll(vistas);
@@ -92,13 +112,14 @@ public class Sistema {
             sheet = workbook.getSheet(0);
             cell = sheet.getCell(1,0); //Columna Fila
             if (cell.getType()==CellType.NUMBER){
-            
+            	
             	cantidadUsuarios = Integer.parseInt(cell.getContents());}
             int fila=2;
             for (int contador=0;contador<cantidadUsuarios;contador++ ){
+           	 	
             	boolean estado=false;
             	cell =sheet.getCell(3,fila); 
-            	if (cell.getContents()=="true"){
+            	if (cell.getContents().equals("VERDADERO")){
             		estado = true;
             	}
             	String permitido = sheet.getCell(4,fila).getContents();
@@ -109,6 +130,7 @@ public class Sistema {
             	System.out.println("Este es el nick"+nick);
             	String contraseña = sheet.getCell(2,fila).getContents();
             	Usuario nuevo = new Usuario (nick,contraseña,nombre,estado);
+            	
             	if (permitido.equals("Bloqueado")){
             		bloqueados.add(nuevo);
             	}
@@ -117,177 +139,238 @@ public class Sistema {
             	}
             	fila ++;
             }
+            /*
+             * Se obtienen los reportes de abusos que se han dado en contra de este usuario
+             */
+           sheet = workbook.getSheet(3);
+            fila = 1;
+            cell = sheet.getCell(0, 1); 
+            int id = Integer.parseInt(cell.getContents());
+            int con = 0; //Valor para manejar el while
             
+            while (!cell.getContents().isEmpty()){
+            	Usuario x = buscarUsuarioNormal(sheet.getCell(1,fila).getContents());
+            	if (x==null){
+            		x = buscarUsuarioBloqueado(sheet.getCell(1,fila).getContents());;
+            	}
+                 if (id==con){
+            		listaUsuarios.get(con).setListaReportes((new Abuso(x,new Date(),sheet.getCell(2,fila).getContents())));
+            		fila ++; 
+            		cell = sheet.getCell(0, fila); 
+                    if (!cell.getContents().isEmpty()){ 
+            		id = Integer.parseInt(cell.getContents());
+                    }
+            	}
+                 else{
+                	 con ++;
+                 }
+            }
+            
+            
+
             //* Lista de empresas
             sheet = workbook.getSheet(1);
             cell = sheet.getCell(1,0); //Columna Fila
             if (cell.getType()==CellType.NUMBER){
             	cantidadEmpresas = Integer.parseInt(cell.getContents());}
             fila=3;
-            for (int i=0; i<cantidadEmpresas;i++){
-            String pais = sheet.getCell(3,fila).getContents();
-            String provincia = sheet.getCell(4,fila).getContents();		
-            String canton = sheet.getCell(5,fila).getContents();
-            String distrito = sheet.getCell(6,fila).getContents();
-            String barrio = sheet.getCell(7,fila).getContents();
+            con = -1;
+            cell = sheet.getCell(0, fila); 
+            id = Integer.parseInt(cell.getContents());
+            while (con<cantidadEmpresas-1){
+          
+           if (id!=con){
             
+            String pais = sheet.getCell(4,fila).getContents();
+            String provincia = sheet.getCell(5,fila).getContents();		
+            String canton = sheet.getCell(6,fila).getContents();
+            String distrito = sheet.getCell(7,fila).getContents();
+            String barrio = sheet.getCell(8,fila).getContents();
             Direccion dir_nueva= new Direccion(pais,provincia,canton,distrito);
             dir_nueva.setBarrio(barrio);
-            
-            int calificacion = Integer.parseInt(sheet.getCell(8,fila).getContents()); 
-            String comentario = sheet.getCell(9,fila).getContents();
-            File archivo = new File(sheet.getCell(10,fila).getContents());
-            Usuario u = listaUsuarios.get(1);
-            
-            Calificacion cal_nueva = new Calificacion (calificacion,u,archivo,comentario);
-            
             String categoria = sheet.getCell(2,fila).getContents();
-            String nombre = sheet.getCell(0,fila).getContents();
-            String cedula = sheet.getCell(1,fila).getContents();
-            
-            Empresa nueva = new Empresa (categoria,nombre,dir_nueva);
-            nueva.setCalificacion(cal_nueva);
-            empresas.add(nueva);
-          
+            String nombre = sheet.getCell(1,fila).getContents();
+            String cedula = sheet.getCell(2,fila).getContents();
+            empresas.add(new Empresa (categoria,nombre,dir_nueva));
+            con ++;
+            cell = sheet.getCell(0, fila); 
+            id = Integer.parseInt(cell.getContents());
             fila ++;
+           
+           }
+           else{
+        	   cell = sheet.getCell(0, fila); 
+               id = Integer.parseInt(cell.getContents());
+               fila ++;
+        	  
+        	   
+           }
+        }
+            /*
+             * Se obtienen las calificaciones que hay obtenido las empresas
+             */
+            fila = 3;
+            cell = sheet.getCell(0, fila); 
+            id = Integer.parseInt(cell.getContents());
+            con = 0; //Valor para manejar el while
+            
+            while (con-1<cantidadEmpresas){
+            	
+            	Usuario x = buscarUsuarioNormal(sheet.getCell(11,fila).getContents());
+            	if (x==null){
+            		x = buscarUsuarioBloqueado(sheet.getCell(11,fila).getContents());;
+            	}
+            	if (id==con){
+            		int puntaje = Integer.parseInt(sheet.getCell(9, fila).getContents());
+            		File nuevo = new File(sheet.getCell(11,fila).getContents());
+            		String comentario = sheet.getCell(10,fila).getContents();
+            		empresas.get(con).setCalificacion(new Calificacion(puntaje,x,nuevo,comentario));
+            		fila ++;
+            	
+            			cell = sheet.getCell(0, fila); 
+            			if (cell.getContents()!="-1"){
+            			id = Integer.parseInt(cell.getContents());
+            			}
+            			else{
+            				con ++;
+            			}
+            	}
+            	
+            	else{
+            	
+            		con ++;
+            	}
             }
             
-            //Datos de las personas físicas//
+            
+         Collections.sort(empresas);
+           
            
             sheet = workbook.getSheet(2);
             cell = sheet.getCell(1,0); //Columna Fila
             if (cell.getType()==CellType.NUMBER){
             	cantidadPersonas = Integer.parseInt(cell.getContents());}
-            fila=3;
-            for (int i=0; i<cantidadPersonas;i++){
-            int Mes = Integer.parseInt(sheet.getCell(6,fila).getContents());
-            int Dia = Integer.parseInt(sheet.getCell(7,fila).getContents());		
-            int Año = Integer.parseInt(sheet.getCell(8,fila).getContents());
+            fila = 3;
+            cell = sheet.getCell(0, fila); 
+            id = Integer.parseInt(cell.getContents());
+            con = -1; //Valor para manejar el while
             
+            while (con<cantidadPersonas-1){
+            if (con!=id){
+            int Mes = Integer.parseInt(sheet.getCell(8,fila).getContents());
+            int Dia = Integer.parseInt(sheet.getCell(9,fila).getContents());		
+            int Año = Integer.parseInt(sheet.getCell(7,fila).getContents());
             Fecha fecha = new Fecha(Mes,Dia,Año);
-          
-            
-            int calificacion = Integer.parseInt(sheet.getCell(11,fila).getContents()); 
-            String comentario = sheet.getCell(12,fila).getContents();
-            File archivo = new File(sheet.getCell(14,fila).getContents());
-            Usuario u = listaUsuarios.get(0);
-            
-            Calificacion cal_nueva = new Calificacion (calificacion,u,archivo,comentario);
-            
-            String categoria = sheet.getCell(0,fila).getContents();
-            String nombre = sheet.getCell(2,fila).getContents();
-            String cedula = sheet.getCell(1,fila).getContents();
-            String Papellido = sheet.getCell(3,fila).getContents();
-            String Sapellido = sheet.getCell(4,fila).getContents();
-            String género = sheet.getCell(5,fila).getContents();
-            String lugar = sheet.getCell(9,fila).getContents();
-            String puesto = sheet.getCell(10,fila).getContents();
+            String categoria = sheet.getCell(1,fila).getContents();
+            String nombre = sheet.getCell(3,fila).getContents();
+            String cedula = sheet.getCell(2,fila).getContents();
+            String Papellido = sheet.getCell(4,fila).getContents();
+            String Sapellido = sheet.getCell(5,fila).getContents();
+            String género = sheet.getCell(6,fila).getContents();
+            String lugar = sheet.getCell(10,fila).getContents();
+            String puesto = sheet.getCell(11,fila).getContents();
             Persona persona = new Persona (cedula,nombre,Papellido,Sapellido,género,fecha,lugar,puesto); 
             RegistroPersona nueva = new RegistroPersona(categoria,persona);
-            nueva.setCalificacion(cal_nueva);
-            
+            con ++;
+            cell = sheet.getCell(0, fila); 
+            id = Integer.parseInt(cell.getContents());
             fila ++;
             personas.add(nueva);
            }
+            else{
+            	fila ++;
+            	cell = sheet.getCell(0, fila); 
+                id = Integer.parseInt(cell.getContents());
+               
+            }
+            }
+            fila = 3;
+            cell = sheet.getCell(0, fila); 
+            id = Integer.parseInt(cell.getContents());
+            con = 0; //Valor para manejar el while
+            
+            while (con-1<cantidadUsuarios){
+            	
+            	Usuario x = buscarUsuarioNormal(sheet.getCell(14,fila).getContents());
+            	if (x==null){
+            		x = buscarUsuarioBloqueado(sheet.getCell(14,fila).getContents());;
+            	}
+            	if (id==con){
+            		int puntaje = Integer.parseInt(sheet.getCell(12, fila).getContents());
+            		File nuevo = new File(sheet.getCell(15,fila).getContents());
+            		String comentario = sheet.getCell(13,fila).getContents();
+            		personas.get(con).setCalificacion(new Calificacion(puntaje,x,nuevo,comentario));
+            		fila ++;
+            	
+            			cell = sheet.getCell(0, fila); 
+            			if (cell.getContents()!="-1"){
+            			id = Integer.parseInt(cell.getContents());
+            			}
+            			else{
+            				con ++;
+            			}
+            	}
+            	
+            	else{
+            	
+            		con ++;
+            	}
+            }
+
             workbook.close();
         }
+        
+        
 
+       
+        
         catch(Exception e){
-            System.out.println("readExcel ->"+e); 
+           
+        	System.out.println("readExcel ->"+e.getMessage()); 
         }
+        Collections.sort(personas);
+        for (Empresa x:empresas){
+        	x.calcularpromedio();
+        }
+        for (RegistroPersona x : personas){
+        	x.calcularpromedio();
+        }
+       
 	}
-	public void finalizar (){
-	        String cellData = new String();
 
-	        try{
-
-	            Workbook target_workbook = Workbook.getWorkbook(new File("Datos.xls"));
-	            WritableWorkbook workbook = Workbook.createWorkbook(new File("Datos.xls"), target_workbook);
-	            target_workbook.close();
-	            WritableSheet sheet = workbook.getSheet(0);
-	            jxl.write.Number number = new jxl.write.Number(1,0,cantidadUsuarios);
-	            sheet.addCell(number);
-	            int i=2;
-	            for (Usuario u : listaUsuarios){
-	            	System.out.println(u.getNick());
-	            	jxl.write.Label escribir = new jxl.write.Label(0, i, u.getNick());
-	            	sheet.addCell(escribir);
-	            	escribir =new jxl.write.Label(1, i, u.getNombre());
-	            	sheet.addCell(escribir);
-	            	escribir =new jxl.write.Label(2, i, u.getPassword());
-	            	sheet.addCell(escribir);
-	            	escribir =new jxl.write.Label(4, i, "Normal");
-	            	sheet.addCell(escribir);
-	            	jxl.write.Boolean privado = new jxl.write.Boolean(3, i, u.isPrivado());
-	            	sheet.addCell(privado);
-	            	i++;
-	            }
-	            i=2;
-	            for (Usuario u : bloqueados){
-	            	System.out.println(u.getNick());
-	            	jxl.write.Label escribir = new jxl.write.Label(0, i, u.getNick());
-	            	sheet.addCell(escribir);
-	            	escribir =new jxl.write.Label(1, i, u.getNombre());
-	            	sheet.addCell(escribir);
-	            	escribir =new jxl.write.Label(2, i, u.getPassword());
-	            	sheet.addCell(escribir);
-	            	escribir =new jxl.write.Label(4, i, "Bloqueado");
-	            	sheet.addCell(escribir);
-	            	jxl.write.Boolean privado = new jxl.write.Boolean(3, i, u.isPrivado());
-	            	sheet.addCell(privado);
-	            	i++;
-	            }
-	            workbook.write();
-	            workbook.close();
-
-	        }
-
-	        catch(Exception e){
-	            System.out.println("writeExcel ->"+e);
-	        }
-
-	    }
-
-	
-
-    public Sistema() {
+	public Sistema() {
 		this(null);
 	}
-    
     public Sistema(Funciones vista) {
 		 if (vistas != null) {
 	            vistas.add(vista);
 	     }
 	}
-    
-	public void addContactView(Funciones view) {
+    public void addContactView(Funciones view) {
         if (!vistas.contains(view)) {
             vistas.add(view);
         }
         System.out.println("ESte es el tamaño de las listas"+vistas.size());
     }
-    
-    //remueve un nuevo view
     private void removeContactView(Funciones view) {
-        vistas.remove(view);
+    	 //remueve un nuevo view
+    	vistas.remove(view);
     }
     
  //--------------------------Funciones para actualizar las vistas------------------------------------
-    public void showUsuario (){
+    public void showUsuario (DefaultListModel abusos){
     	Iterator notifyViews = vistas.iterator();
     	while (notifyViews.hasNext()) {
-    		((Funciones) notifyViews.next()).IniciarUsuario(usuario);
+    		((Funciones) notifyViews.next()).IniciarUsuario(usuario,abusos);
     	}	
     }
-    
     public void showRegistro(){
     	Iterator notifyViews = vistas.iterator();
 	   	 while (notifyViews.hasNext()) {
 	   		 ((Funciones) notifyViews.next()).showRegistro();
 	    }
 	}
-    
-	public void showEmpresa(){
+    public void showEmpresa(){
 	 	Iterator notifyViews = vistas.iterator();
 	   	//Carga el modelo del combox para mostrar los datos de la provincia
 	 	llenarprovincias();
@@ -295,7 +378,6 @@ public class Sistema {
 	   		 ((Funciones) notifyViews.next()).showEmpresa(model);
 	   	}
 	}
-	
 	public void showPersona(){
 	 	//Carga el modelo del combox y la lista para mostrar en la pantalla de la persona
 		listaCategoria();
@@ -305,39 +387,29 @@ public class Sistema {
 	   		 ((Funciones) notifyViews.next()).showPersona(lista,model);
 	   	}
 	}
-	
 	public void showCalifiEmpresa(Empresa empresa){
 	 	Iterator notifyViews = vistas.iterator();
 	   	 while (notifyViews.hasNext()) {
 	   		 ((Funciones) notifyViews.next()).IniciarEmpresa(empresa);
 	   	}
 	}
-	
 	public void showCalifiPersona(RegistroPersona persona){
 	 	Iterator notifyViews = vistas.iterator();
 	   	 while (notifyViews.hasNext()) {
 	   		 ((Funciones) notifyViews.next()).IniciarPersona(persona);
 	   	}
 	}
-	
 	public void Refreshlistregistro(String nueva){
-		/*Cremos un ArrayList cate para que contenga todas las categorías que existen hasta el momento para la persona fisíca
-		 * esto con el fin de poder buscar más facilmente si la cateforía que se quiere agregar ya existe*/
-		ArrayList<String> cate= new ArrayList();
-		for(RegistroPersona cat: personas){
-			cate.add(cat.getCategorias());
-		}
-		if(!cate.contains(nueva)){
-			lista.addElement(nueva);
-			Iterator notifyViews = vistas.iterator();
-		   	 while (notifyViews.hasNext()) {
-		   		 ((Funciones) notifyViews.next()).agregarlista(lista);
-		   	}
-		}
-		else{
-			JOptionPane.showMessageDialog(null, "La categoría ingresada ya existe", "Problemas de Registro", JOptionPane.ERROR_MESSAGE);
-		}
-	 	
+		
+	 	if (this.buscarcategoria(nueva,1,false)){
+	 		JOptionPane.showMessageDialog(null, "La categoría ya éxiste","Error", JOptionPane.ERROR_MESSAGE);
+	 	}
+	 	else{
+		lista.addElement(nueva);
+		Iterator notifyViews = vistas.iterator();
+	   	 while (notifyViews.hasNext()) {
+	   		 ((Funciones) notifyViews.next()).agregarlista(lista);
+	   	}}
 	}
 	private void llenarcampos(String genero, String nombre, String primero,
 			String segundo) {
@@ -352,33 +424,88 @@ public class Sistema {
 //----------------------------------------------Funciones para la lógica-------------------------------------   
    
     //*******************************Login*****************************************
-    public void iniciarSesion(String nick,String password){
-    	for (int i=0;i<10;i++){
-    		estrellas.add(i,0);
-    	}
+    
+	
+	
+	public void iniciarSesion(String nick,String password){
+		 
+    
     	
     	///variable para controlar 
+    	if (nick.equals("admin")&& password.equals("admin")){
+    		startadmin(); //Inicia el administrador
+    	}
+    	else{
+    		for (Usuario u : bloqueados){
+    		if (u.getNick().equals(u.getNick())){
+    			this.eliminarBloqueo(u,0);
+    			break;
+    		}
+    	}
+    	
+    	
     	boolean control=false;
     	for (Usuario u :listaUsuarios ){
     	//Recorre toda la lista comparando que nombre y contraseña sean exactamente iguales. Si encuentra concidencia. Muestra un mensaje de error
     		if (u.getNick().equals(nick)&&u.getPassword().equals(password)){
+    			DefaultListModel abuso = new DefaultListModel();
     			usuario = u;
-    			showUsuario();
+    			for (Abuso a:u.getListaReportes()){
+    				abuso.addElement(a.getUsuario().getNick());
+    			}
+    			showUsuario(abuso);
     			control=true; //Cambia el valor de control
     			break;//Rompe el ciclo
     		}
     	}
     	if (!control){ //Si control no cambia, quiere decir que hay un error, asi que mostrara el mensaje
+    		usuario = this.buscarUsuarioBloqueado(nick);
+    		
+    		if (usuario!=null){
+    			
+    			JOptionPane.showMessageDialog(null, "Su usuario ha sido bloqueado.Dentro de "+usuario.getTiempobloqueo()+" minutos su cuenta será habilitada", "Bloqueo", JOptionPane.ERROR_MESSAGE);
+    		}
+    		else{
+    			
+    		
     		JOptionPane.showMessageDialog(null, "No se encuentra en el sistema o algún dato esta erróneo", "Problemas de Registro", JOptionPane.ERROR_MESSAGE);
-    	}
+    	}}}
      }
     
-    public void Registrarse (String nombre,String nick,String contraseña,String privacidad){
+    private void startadmin() {
+		DefaultListModel bloqueado= new DefaultListModel();
+		DefaultListModel normales = new DefaultListModel();
+		DefaultListModel empresasl = new DefaultListModel();
+		DefaultListModel personasl = new DefaultListModel();
+		
+		for (Usuario bloqueados : this.bloqueados){
+			bloqueado.addElement(bloqueados.getNick());
+		}
+		
+		for (Usuario normal : this.listaUsuarios){
+			normales.addElement(normal.getNick());
+		}
+		for (Empresa empresa : empresas ){
+			empresasl.addElement(empresa.getNombre());
+		}
+		
+		for (RegistroPersona persona : personas){
+			personasl.addElement(persona.getPersona().getNombre()+" "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido());
+		}
+		
+		Iterator notifyViews = vistas.iterator();
+        while (notifyViews.hasNext()) {
+                ((Funciones) notifyViews.next()).iniciaradministrador(normales, bloqueado, empresasl, personasl);
+        }
+		
+	}
+	public void Registrarse (String nombre,String nick,String contraseña,String privacidad){
     	if (nombre.isEmpty()||nick.isEmpty()||contraseña.isEmpty()||privacidad.isEmpty()){
     		JOptionPane.showMessageDialog(null, "Por favor, asegúrese que no quedé ningún campo vacío", "Campos vacíos", JOptionPane.ERROR_MESSAGE);
     	}
     	else{
     		boolean control = false;
+    		DefaultListModel abuso = new DefaultListModel();
     		for (Usuario u:listaUsuarios){
     			if (u.getNick().equals(nick)){
     				JOptionPane.showMessageDialog(null, "El nick no se encuentra disponible", "Campos vacíos", JOptionPane.ERROR_MESSAGE);
@@ -392,7 +519,8 @@ public class Sistema {
     			usuario =new Usuario(nick,contraseña,nombre,estado);
     			listaUsuarios.add(usuario);
     			JOptionPane.showMessageDialog(null, "Usuario creado con éxito", "Campos vacíos", JOptionPane.ERROR_MESSAGE);
-    			showUsuario();
+    			this.incluirusuarionuevo();
+    			showUsuario(abuso);
     		}
     		}
     	}
@@ -426,6 +554,7 @@ public class Sistema {
     					JOptionPane.showMessageDialog(null, "La cédula juridíca ya existe", "Problemas de Registro", JOptionPane.ERROR_MESSAGE);
     				}
     				return nueva;
+    				
     			}
     		}
     	}
@@ -448,9 +577,12 @@ public class Sistema {
     
     //Crear persona
     public Registro registrarpersona(Persona persona,String categoria){
+    	
     	registro = this.comparaRegistro(persona.getNombre(), 1, categoria);
     	if (registro==null){
+    		this.nuevo=true;
     		return  new RegistroPersona(persona,categoria);
+    		
     	}
     	else{
     		JOptionPane.showMessageDialog(null, "Puede ser que la persona ya exista", "Problemas de Registro", JOptionPane.ERROR_MESSAGE);
@@ -511,6 +643,7 @@ public class Sistema {
     }
     
     public Persona crearpersona(String nombre,String papellido,String sapellido,String genero,String cedula,String lugar,String cargo, Fecha fecha){
+    	
     	return new Persona (cedula,nombre,papellido,sapellido,genero,fecha,lugar,cargo);
     }
     
@@ -577,17 +710,11 @@ public class Sistema {
     	model.addElement("San José");
     }
     
-
     public void listaCategoria(){
-    	//Este método ordena alfabéticamente la lista de categorías y la ingresa a la lista en el interfaz
-    	ordenado.removeAll(ordenado);
     	for (RegistroPersona u : personas){
-    		ordenado.add(u.getCategorias());
+    		lista.addElement(u.getCategorias());
     	}
-    	Collections.sort(ordenado);
-    	for(String ord: ordenado){
-    		lista.addElement(ord);
-    	}
+    	
     }
     
     public Registro comparaRegistro(String nombre,int lista,String categoria){
@@ -619,16 +746,21 @@ public class Sistema {
         * Realiza un recorrido por la lista, obtiene el campo categoría de cada objeto. Devuelve true si la encuentra y termina el ciclo
        	* Si no esta, devuelve false
          * */
-
+    
+    	System.out.println(personas.size());
+    	System.out.println(lista);
     	if (lista==1){
     		personasbuscadas.clear();
-    		for (RegistroPersona u : personas){
-        		if (u.getCategorias().equalsIgnoreCase(categoria)){
+    		
+    		for (int i=0;i<personas.size();i++){
+        		RegistroPersona u = personas.get(i);
+    			if (u.getCategorias().equalsIgnoreCase(categoria)){
         			if (multitud){
         				personasbuscadas.add(u);
         			}
         			else{
-        			return true;
+        			System.out.println("Lo encontré");
+        				return true;
         			}
             	}
             }
@@ -655,71 +787,95 @@ public class Sistema {
     
 //____________________________________________________________________________________________________________
   //----------------------------------------------Funciones página de Consultar------------------------------------- 
-  //Rellena el comboBox con las maneras en las que se puede Buscar
-    public void busquedaPersona(){
+  //Rellena el comboBox con las maneras en las que se puede Buscar, y muestra todas las personas
+    public void busquedaPersona(int i){
+    	//El i sirve como indicador para saber si se debe de llenar con la lista original o con la de buscados
+    	//Para esto declaramos una variable llamada lista
+    	
+    	if (i==1){
+    	
+    		for (RegistroPersona e : personas){
+    			personasbuscadas.add(e);
+    		}
+    	}
+
+    
+    	DefaultListModel todo=new DefaultListModel();
+    	
+    	    
+    	for (RegistroPersona u: personas){
+    		todo.addElement(u.getPersona().getNombre()+" "+u.getPersona().getPrimerApellido()+" "+u.getPersona().getSegundoApellido());
+    	}
     	DefaultComboBoxModel tipo= modelo("Física");
+    	
     	Iterator notifyViews = vistas.iterator();
         while (notifyViews.hasNext()) {
-                ((Funciones) notifyViews.next()).llenarPersona(tipo);
+                ((Funciones) notifyViews.next()).llenarPersona(tipo,todo);
         }
-       
+
+        
     }
     
-    public void busquedaJuridica(){
+    
+    public void busquedaJuridica(int i){
+    	//El i sirve como indicador para saber si se debe de llenar con la lista original o con la de buscados
+    	//Para esto declaramos una variable llamada lista
+  
+    	if (i==0){
+    		for (Empresa e : empresas){
+    			empresasbuscadas.add(e);
+    		}
+    	}
+    	DefaultListModel todo = new DefaultListModel();
+    	for (Empresa empresa :empresas){
+    		todo.addElement(empresa.getNombre());
+    	}
     	DefaultComboBoxModel tipo= modelo("Jurídica");
+    	
     	Iterator notifyViews = vistas.iterator();
     	while (notifyViews.hasNext()) {
-            ((Funciones) notifyViews.next()).llenarJuridica(tipo);
+            ((Funciones) notifyViews.next()).llenarJuridica(tipo,todo);
         }
-    }
     
+    	
+    }
     //Este método se encargara de llenar el comboBox dependiendo del tipo de Busqueda a realizar
     private DefaultComboBoxModel modelo(String tipo){
     	DefaultComboBoxModel tipoBusq= new DefaultComboBoxModel();
-    	tipoBusq.addElement("--");
+    	tipoBusq.addElement("-");
     	if (tipo.equals("Física")){
-    		tipoBusq.addElement("Categoría");
-    		tipoBusq.addElement("Cédula");
     		tipoBusq.addElement("Nombre");
+    		tipoBusq.addElement("Cédula");
     		tipoBusq.addElement("Primer Apellido");
     		tipoBusq.addElement("Segundo Apellido");
-    		
+    		tipoBusq.addElement("Categoría");
     	}
     	else{
-    		tipoBusq.addElement("Categoría");
+    		tipoBusq.addElement("Nombre");
         	tipoBusq.addElement("Cédula Jurídica");
-        	tipoBusq.addElement("Nombre");
+        	tipoBusq.addElement("Categoría");
+    		
     	}
     	return tipoBusq;
+
     }
     
     ///Llena el comboBox de la pantalla de calificar dependiendo de la opción seleccionada
     public void busquedaCalificar(int opcion){
-    	/*Se limpia la lista ordenado para así agregarle los valores a ordenar*/
-    	ordenado.removeAll(ordenado);
-    	model.removeAllElements();
-    	model.addElement("--");
+    	String nombre= " ";
     	if(opcion==0){
     		for(Empresa u: empresas){
-    			ordenado.add(u.getNombre());
-    		}
-    		Collections.sort(ordenado);
-    		for(String ord: ordenado){
-    			model.addElement(ord);
+    			nombre= u.getNombre();
     		}
     	}
     	else{
     		for(RegistroPersona u:personas){
-    			ordenado.add(u.getPersona().getNombre()+u.getPersona().getPrimerApellido()+u.getPersona().getSegundoApellido());
-    		}
-    		Collections.sort(ordenado);
-    		for(String ord: ordenado){
-    			model.addElement(ord);
+    			nombre= (u.getPersona().getNombre()+u.getPersona().getPrimerApellido()+u.getPersona().getSegundoApellido());
     		}
     	}
     	Iterator notifyViews = vistas.iterator();
         while (notifyViews.hasNext()) {
-                ((Funciones) notifyViews.next()).llenarcmbCalificar(model);
+                ((Funciones) notifyViews.next()).asignarcalificar(nombre);
         }
     	
     }
@@ -745,55 +901,88 @@ public class Sistema {
     //Guarda la calificación
     public void guardarCalificacion(Registro agregar,int tipo,String demandado,String review,String evidencia,String demandante,String nombre){
     	//Si es una persona física
-    	if ( demandado.isEmpty()||review.isEmpty()||evidencia.isEmpty()||demandante.isEmpty()||nombre.isEmpty()){
-    		JOptionPane.showMessageDialog(null, "No puede haber ningún campo vácio y debe de subir algún documento para realizar la calificación", "Formulario incompleto", JOptionPane.ERROR_MESSAGE);
+    	 //Contador en caso de que la persona ya haya calificado a esa persona
+    	Calificacion prueba = null; //prueba es una calificación para asegurarse de que solo se comenté una vez por persona
+   
+    	if ( review.isEmpty()||evidencia.isEmpty()){
+    		//Si esta vacío va a regresar un mensaje de error
+    		JOptionPane.showMessageDialog(null, "No puede haber ningún campo vacío y debe de subir algún documento para realizar la calificación", "Formulario incompleto", JOptionPane.ERROR_MESSAGE);
     	}
     	else{
-    	int calificacion=estrellas.indexOf(1)+1;
-    	File evidenc=new File(evidencia);
-    	Calificacion cal_nueva = new Calificacion (calificacion,usuario,evidenc,review);
+    		//Obtiene la calificación
+    		int calificacion=estrellas.indexOf(1)+1;
+    		//Crea el documento de evidencia
+    		String almacenar = "/"+nombre;
+    		File evidenc=new File(almacenar);
+    		//Crea la nueva calificación
+    		Calificacion cal_nueva = new Calificacion (calificacion,usuario,evidenc,review);
     	
     
     	if(tipo==1){
-    				//pasamos la evidencia de String a un File
+    	
     		if (nuevo){
-    			personas.add((RegistroPersona) agregar);
+    			//Si es nueva. Le asigna el registro a persona, le asigna la calificación, calcula el promedio, sube el archivo
+    			//agrega la persona, mensaje de éxito y por último vuelve a poner el valor de nuevo como false.
+    			RegistroPersona nueva = (RegistroPersona) agregar;
+    			nueva.setCalificacion(cal_nueva);
+    			nueva.calcularpromedio();
+    		    Ftp.uploadFileByFTP(evidencia, nombre);
+    			personas.add(nueva);
+    		    JOptionPane.showMessageDialog(null, "Su comentario ha sido guardado de forma exitosa", "Operación realizada con éxito", JOptionPane.INFORMATION_MESSAGE);
     			nuevo = false;
     		}
-    				for(RegistroPersona u:personas){	//Buscamos el demandado para asignarle la calificación
-    	    			if((u.getPersona().getNombre()+u.getPersona().getPrimerApellido()+u.getPersona().getSegundoApellido()).equals(demandado)){
-    	    				u.setCalificacion(cal_nueva);
-    	    	            u.calcularpromedio();
-    	    	            System.out.print(calificacion);
-    	    	            Ftp.uploadFileByFTP(evidencia, nombre);
-    	    	        
+    		else{
+    			//Busca la persona en la lista, si la encuentra va a buscar en su lista de comentarios si se encuentra el usuario actual
+        		RegistroPersona buscar = this.buscarPersona(demandado);
+        		prueba = this.buscarcomentario(buscar.getCalificacion());
+    			if (prueba != null){ //Si prueba es null, 
+    	    		 buscar.getCalificacion().set(contador,cal_nueva); //Reemplaza los valores por los nuevos 
+    	    		
+    	    		   }
+    	    	else{
+    	    			buscar.setCalificacion(cal_nueva);//Agrega el valor
+    	    			
+    	    				}
+    			Ftp.uploadFileByFTP(evidencia, nombre);
+    			buscar.calcularpromedio();//Calcula el promedio
+    			  JOptionPane.showMessageDialog(null, "Su comentario ha sido guardado de forma exitosa", "Operación realizada con éxito", JOptionPane.INFORMATION_MESSAGE);
     	    	        }
-    	    		}
+    	    		
     			}
-    	
+    		
     	else{
     			//pasamos la evidencia de String a un File
+    	
     		if (nuevo){
     		Empresa n = (Empresa) agregar;
-    		System.out.println(n.getNombre());
-    		empresas.add((Empresa) agregar);
-    		nuevo = false;
+    		n.setCalificacion(cal_nueva);
+			n.calcularpromedio();
+		    Ftp.uploadFileByFTP(evidencia, nombre);
+			empresas.add(n);
+		    JOptionPane.showMessageDialog(null, "Su comentario ha sido guardado de forma exitosa", "Operación realizada con éxito", JOptionPane.INFORMATION_MESSAGE);
+			nuevo = false;
     		
     		}
-    		for(Empresa u:empresas){	//Buscamos el demandado para asignarle la calificación
-    	    	System.out.println(u.getNombre());	
-    			if(u.getNombre().equals(demandado)){
-    	    				u.setCalificacion(cal_nueva);
-    	    	            u.calcularpromedio();
-    	    	            System.out.println(u.getNombre());
-    	    	            System.out.print(calificacion);
-    	    	            Ftp.uploadFileByFTP(evidencia, nombre);
+    		else{
+    			Empresa buscar = this.buscarEmpresa(demandado);
+        		prueba = this.buscarcomentario(buscar.getCalificacion());
+       			if (prueba!=null){
+    	    				buscar.getCalificacion().set(contador, cal_nueva);
+    	    				
+    	    				
     	    			}
+    	    			else{
+    					    buscar.setCalificacion(cal_nueva);}
+    	    	            buscar.calcularpromedio();
+    	    	          
+    	    	            Ftp.uploadFileByFTP(evidencia, nombre);
+    	    	            JOptionPane.showMessageDialog(null, "Su comentario ha sido guardado de forma exitosa", "Operación realizada con éxito", JOptionPane.INFORMATION_MESSAGE);
     	    		}
     		
-    			}
     	}
     	}
+    	}
+    	
    
     
     	
@@ -813,6 +1002,7 @@ public class Sistema {
     	   	}
     	}
     	else{
+    		
     		estrellas.set(indice, 0);
     		while (notifyViews.hasNext()) {
     			((Funciones) notifyViews.next()).actualizarestrella(indice, false);
@@ -847,6 +1037,7 @@ public class Sistema {
     	 * Si no esta, devuelve nulo
     	 * */
     	if (lista == 0){
+    		
     		empresasbuscadas.clear();
     		for (Empresa u : empresas){
     			if (u.getNombre().equalsIgnoreCase(nombre)){
@@ -854,6 +1045,7 @@ public class Sistema {
     				empresasbuscadas.add(u);
     			}
     			else{
+    				
         				return u;
         			}
     			}
@@ -876,6 +1068,8 @@ public class Sistema {
     			}
     			
     		}
+    	
+    		//mostrarInfo(1);
     	}
     	
     	return null;
@@ -956,29 +1150,26 @@ public class Sistema {
     	}
     	return null;
     }
-    
     //Función que llena una lista con los datos de los filtros.
+    
     public void llenarresultados(int busqueda){
-    	/*La lista encontrada se ordenará antes de ser mostrada*/
-    	ordenado.removeAll(ordenado);
-   	 	Iterator notifyViews = vistas.iterator();
+    
+   	 Iterator notifyViews = vistas.iterator();
     	lista.removeAllElements();
     	if (busqueda == 0){
     		if (empresasbuscadas.isEmpty()){
 				JOptionPane.showMessageDialog(null, "No se han encontrado los datos","Resultado de búsqueda", JOptionPane.ERROR_MESSAGE);
 			}
     		else{
-    			for (Empresa u : empresasbuscadas){
-    				ordenado.add(u.getNombre());
-    			}
-    			Collections.sort(ordenado);
-    			for(String ord: ordenado){
-    				lista.addElement(ord);
-    			}
-    			while (notifyViews.hasNext()) {
-    				((Funciones) notifyViews.next()).mostrarresultados(lista);
-    			}
+    			
+    		for (Empresa u : empresasbuscadas){
+    			lista.addElement(u.getNombre());
+    			
     		}
+    		while (notifyViews.hasNext()) {
+                ((Funciones) notifyViews.next()).mostrarresultados(lista);
+        }
+    	}
     	}
     	else{
     		
@@ -987,15 +1178,14 @@ public class Sistema {
     		}
     		else{
     			for (RegistroPersona u:personasbuscadas){
-    				ordenado.add(u.getPersona().getNombre()+" "+u.getPersona().getPrimerApellido()+" "+u.getPersona().getSegundoApellido());
+    				lista.addElement(u.getPersona().getNombre()+" "+u.getPersona().getPrimerApellido()+" "+u.getPersona().getSegundoApellido());
+    			
     			}
-    			Collections.sort(ordenado);
-    			for(String ord: ordenado){
-    				lista.addElement(ord);
-    			}
-    			while (notifyViews.hasNext()) {
-    				((Funciones) notifyViews.next()).mostrarresultados(lista);
-    		    }
+    		
+    		        while (notifyViews.hasNext()) {
+    		                ((Funciones) notifyViews.next()).mostrarresultados(lista);
+    		        }
+    			
     		}
     	}
     }
@@ -1007,9 +1197,10 @@ public class Sistema {
     	try{
     		Iterator notifyViews = vistas.iterator(); 
     		if (tipo==1){
-    			Empresa pers= empresasbuscadas.get(actual);
     			while (notifyViews.hasNext()) {
-	                ((Funciones) notifyViews.next()).actualizarInformacionEmpresa((Empresa) empresasbuscadas.get(actual));
+    				Empresa x =  empresasbuscadas.get(actual);
+    				x.calcularpromedio();
+	                ((Funciones) notifyViews.next()).actualizarInformacionEmpresa((x));
     			}
     		}
     		else{
@@ -1029,12 +1220,14 @@ public class Sistema {
 		try{
 			if (tipo ==0){
 				calificacion = empresasbuscadas.get(dato).getCalificacion();
+				descargar = calificacion.get(0).getEvidencia().getName();
 				while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(0),usuario);
 				}
 			}
 			else{
 				calificacion = personasbuscadas.get(dato).getCalificacion();
+				descargar = calificacion.get(0).getEvidencia().getName();
 				while (notifyViews.hasNext()) {
 	                ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(0),usuario);
 				}
@@ -1048,11 +1241,11 @@ public class Sistema {
 	public void mostrarcomentarios(int operacion){
 		Iterator notifyViews = vistas.iterator(); 
 		//Operación sirve para decidir cual comentario se va a mostrar
-		System.out.println(contador);
-		System.out.println(calificacion.size());
+
 		if (operacion ==0){
 			if (contador>0){
 				contador --;
+				
 			}
 			
 		}
@@ -1062,24 +1255,97 @@ public class Sistema {
 			}
 			
 		}
+		
 		if (contador < 0 || contador >= calificacion.size()){
 			JOptionPane.showMessageDialog(null, "No hay comentarios","Límite encontrado", JOptionPane.ERROR_MESSAGE);
 		}
-
+		
+		
+		
 		else{
+			
+			descargar = calificacion.get(contador).getEvidencia().getName();
 			while (notifyViews.hasNext()) {
-			}   ((Funciones) notifyViews.next()).Icomentarios(calificacion.get(contador), usuario);
-        }
+			System.out.println("Aqui");
+			((Funciones) notifyViews.next()).Icomentarios(calificacion.get(contador), usuario);
+        }}
 	}
-	private Usuario buscarBloqueados (String nick){
-		//Función que busca un usuario bloqueado
-		for (Usuario bloqueado:bloqueados){
-			if (bloqueado.getNick().equals(nick)){
-				return bloqueado;
+
+	public void EliminarCuenta() {
+		JDialog.setDefaultLookAndFeelDecorated(true);
+	 	 int response = JOptionPane.showConfirmDialog(null, "¿Desea eliminar su cuenta?", "ELIMINAR CUENTA",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+	 	 if (response == JOptionPane.NO_OPTION) {
+	 	
+	 	 } 
+	 	 else if (response == JOptionPane.YES_OPTION) {
+	 		 listaUsuarios.remove(usuario);
+	 		 cantidadUsuarios --;
+	 		 this.finalizar();
+	 		 eliminarnotas();
+	 		 eliminarabusos();//*
+	 		 
+	 		 CuentaEliminar();
+	 		 
+	 	 }
+	 	
+	 	  else if (response == JOptionPane.CLOSED_OPTION) {
+	 	
+	 	 }
+	}
+	
+
+	private void eliminarnotas() {
+	//Recorrer las listas y se encuentra el usuario en la calificación, lo elimina
+		for (Empresa e : empresas){
+			for (Calificacion cal : e.getCalificacion()){
+				if (cal.getUsuario()==usuario){
+					e.getCalificacion().remove(cal);
+					e.calcularpromedio();
+					break;
+				}
 			}
 		}
-		return null;
+		
+		for (RegistroPersona p : personas){
+			for (Calificacion cal:p.getCalificacion()){
+				if (cal.getUsuario()==usuario){
+					p.getCalificacion().remove(cal);
+					p.calcularpromedio();
+					break;
+				}
+			}
+		}
+		
 	}
+	public void CuentaEliminar(){
+		Iterator notifyViews = vistas.iterator(); 
+		while (notifyViews.hasNext()) {
+		
+			((Funciones) notifyViews.next()).CuentaEliminada();
+        
+		
+	}
+	
+	}
+	public void verInfo (String nick){
+		
+		Iterator notifyViews = vistas.iterator(); 
+		Usuario u = this.buscarUsuarioNormal(nick);
+		
+		while (notifyViews.hasNext()) {
+						((Funciones) notifyViews.next()).llenardatos(u);;
+			        }
+				}
+			
+			
+			
+		
+		
+		
+	
+	
+	//___________________*new______________________________
+
 	private int abuso(Usuario denunciar){
 		//Revisa en la lista de abusos si el usuario ya realizo antes una denuncia en contra de este usuario.
 		//Regresa un entero con la posicón del arraydonde esta la demanda
@@ -1101,7 +1367,7 @@ public class Sistema {
 			JOptionPane.showMessageDialog(null, "Debe reportar algo","Campo vacío", JOptionPane.ERROR_MESSAGE);
 		}
 		else{
-		if (buscarBloqueados(nick)==null){
+		if (this.buscarUsuarioBloqueado(nick)==null){
 			
 			Usuario bloquear=null ;
 			//Obtiene la fecha actual del sistema. Para saber que día se realizo el abuso.
@@ -1182,40 +1448,9 @@ public class Sistema {
 	
 }
 	
-	
 	private void eliminarabusos() {
-			//Recorre la lista de usuarios y manda a buscar si a realizado un abuso de ser así lo elimina
-		
-			
-			for (Usuario u : listaUsuarios){
-				int indice = abuso(u);
-				if (indice!=-1){
-					u.getListaReportes().remove(indice);
-				}
-			}
-
-
-		}
-
-	public void EliminarCuenta() {
-		JDialog.setDefaultLookAndFeelDecorated(true);
-	 	 int response = JOptionPane.showConfirmDialog(null, "¿Desea eliminar su cuenta?", "ELIMINAR CUENTA",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-	 	 if (response == JOptionPane.NO_OPTION) {
-	 	
-	 	 } 
-	 	 else if (response == JOptionPane.YES_OPTION) {
-	 		 listaUsuarios.remove(usuario);
-	 		 cantidadUsuarios --;
-	 		// this.finalizar();
-	 		 eliminarnotas();
-	 		 CuentaEliminar();
-	 	 }
-	 	
-	 	  else if (response == JOptionPane.CLOSED_OPTION) {
-	 	
-	 	 }
+		//Recorre la lista de usuarios y manda a buscar si a realizado un abuso de ser así lo elimina
 	
-
 		
 		for (Usuario u : listaUsuarios){
 			int indice = abuso(u);
@@ -1227,6 +1462,10 @@ public class Sistema {
 
 	}
 	public void mostrarabusos(String reportero) {
+		/*
+		 * Recorre la lista de abusos del usuario hasta que encuentra el que selecciono. Hecho esto llamara a mostrar abuso pasandole el valor de la fecha y el
+		 * motivo
+		 */
 		for (Abuso actuales : usuario.getListaReportes()){
 			if (actuales.getUsuario().getNick().equals(reportero)){
 				Iterator notifyViews = vistas.iterator(); 
@@ -1235,100 +1474,759 @@ public class Sistema {
 	    			}
 			
 		}
-		
+		}
 	}
+		
+public void save(){
+	//Muestro un dialogo sin pasarle parent con el boton de abrir
+	if (this.descargar!=null){
+		
 	
-}
+	JFileChooser explorador = new JFileChooser();
+	  explorador.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			//Le cambiamos el titulo
+	explorador.setDialogTitle("Guardar Evidencia");
 
-	private void eliminarnotas() {
-	//Recorrer las listas y se encuentra el usuario en la calificación, lo elimina
-		for (Empresa e : empresas){
-			for (Calificacion cal : e.getCalificacion()){
-				if (cal.getUsuario()==usuario){
-					e.getCalificacion().remove(cal);
-				}
-			}
-		}
-		
-		for (RegistroPersona p : personas){
-			for (Calificacion cal:p.getCalificacion()){
-				
-				if (cal.getUsuario()==usuario){
-					p.getCalificacion().remove(cal);
-				}
-			}
-		}
-		
+	int seleccion = explorador.showDialog(null, "Guardar");
+	  
+	//analizamos la respuesta
+		switch(seleccion) {
+		case JFileChooser.APPROVE_OPTION:
+			//Podemos crear un File con lo seleccionado
+			File archivo = explorador.getSelectedFile();
+
+			//y guardar una ruta
+			String ruta = archivo.getAbsolutePath() + "\\" + descargar;
+			Ftp.downloadFileByFTP(ruta, descargar);
+			break;
+
+		case JFileChooser.CANCEL_OPTION:
+	 //dio click en cancelar o cerro la ventana
+			break;
+
+		case JFileChooser.ERROR_OPTION:
+	 //llega aqui si sucede un error
+			break;
 	}
-	
-	public void CuentaEliminar(){
-		Iterator notifyViews = vistas.iterator(); 
-		while (notifyViews.hasNext()) {
-			((Funciones) notifyViews.next()).CuentaEliminada();
-		}
 	}
+	else{
+		
+		JOptionPane.showMessageDialog(null, "No hay evidencia","Error", JOptionPane.ERROR_MESSAGE);
+	}
+		    }
 	
-	public void verInfo (String nick){
-		System.out.println("Aqui estoy. Este es el nick"+" "+ nick);
-		Iterator notifyViews = vistas.iterator(); 
-		for (Usuario u : listaUsuarios){ //Entra en la lista de usuarios normales
-			
-				if (u.getNick().equals(nick)){ //Primero busca en la lista de los que no están bloqueados
-					while (notifyViews.hasNext()) {
-						((Funciones) notifyViews.next()).llenardatos(u);;
-			        }
+		
+
+	public void mostrarcalificacion(int i) {
+		/*Función que busca en la lista de empresas o personas según corresponda al usuario actual.
+		 * Cuando lo encuentra lo agrega un modelo de lista para actualizar los datos.
+		 * i=0;empresa i=1;persona 
+		 */
+		DefaultListModel propias = new DefaultListModel ();//Variable para almacenar el nombre de las empresas o personas
+		if (i==0){
+			for (Empresa u : empresas){
+				for (auxiliares.Calificacion cal : u.getCalificacion()){
+					if (cal.getUsuario()==usuario){
+						propias.addElement(u.getNombre());
+					}
 				}
-			
-			
 			}
-		}
-	
-	/*Esta función lo que hace es buscar un comentario que se quiera eliminar pero antes de eso busca el tipo de persona
-	 * con el que se va a trabajar para asi mandar todos los comentarios que posea*/
-	public void BuscarNotas(String persona,int tipo,String coment){
-		if(tipo==1){
-		for(RegistroPersona u: personas){
-			if((u.getPersona().getNombre()+" "+u.getPersona().getPrimerApellido()+" "+u.getPersona().getSegundoApellido()).equals(persona)){
-					System.out.print(persona+"\n");
-					int loc= EliminarNotaElegida(u.getCalificacion(),coment);
-					if(loc==-1){
-						JOptionPane.showMessageDialog(null, "No hay más comentarios","Error", JOptionPane.ERROR_MESSAGE);
-					}
-					else{
-						u.getCalificacion().remove(loc);
-					}
-			}
-		}
-				
 		}
 		else{
-			for(Empresa u: empresas){
-				if((u.getNombre().equals(persona))){
-						System.out.print(persona+"\n");
-						int loc= EliminarNotaElegida(u.getCalificacion(),coment);
-						if(loc==-1){
-							JOptionPane.showMessageDialog(null, "No hay más comentarios","Error", JOptionPane.ERROR_MESSAGE);
-						}
-						else{
-							u.getCalificacion().remove(loc);
-						}
+			for (RegistroPersona u:personas){
+				for (auxiliares.Calificacion cal:u.getCalificacion()){
+					if (cal.getUsuario()==usuario){
+						propias.addElement(u.getPersona().getNombre()+" "+u.getPersona().getPrimerApellido()+" "+u.getPersona().getSegundoApellido());
+					}
 				}
+			}
+		}
+		Iterator notifyViews = vistas.iterator(); 
+		while (notifyViews.hasNext()) {
+               ((Funciones) notifyViews.next()).showusercalification(propias);
+			}
+	}
+	public void mostrarcomentariosusuario(int i, String nombre) {
+		Calificacion mandar=null;
+		if (i==-1 || nombre.isEmpty()){
+			JOptionPane.showMessageDialog(null, "Debe de seleccionar un tipo de persona y una persona de la lista","Campo en blanco", JOptionPane.ERROR_MESSAGE);
+		}
+		if (i==0){
+			for (Empresa empresa : empresas){
+				if (empresa.getNombre().equals(nombre)){
+					mandar = buscarcomentario(empresa.getCalificacion());	
+				}
+			}
+		}
+		else{
+			for (RegistroPersona persona:personas){
+				String comparar = persona.getPersona().getNombre() +" "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido();
+				if (comparar.equals(nombre)){
+					mandar=buscarcomentario(persona.getCalificacion());
+				}
+			}
+		}
+		Iterator notifyViews = vistas.iterator(); 
+		while (notifyViews.hasNext()) {
+               ((Funciones) notifyViews.next()).mostrarsuscomentarios(mandar);
+			}
+		
+	}
+	private Calificacion buscarcomentario(ArrayList<Calificacion> calificacion) {
+		//Busca una calificación.
+		for (Calificacion x : calificacion){
+			if (x.getUsuario()==usuario){
+				return x;
+			}
+		}
+		return null;
+	}
+	public void eliminarCalificacion(String selectedValue,int tipo) {
+		//ELiminar notas asociadas a un usuario
+		if (tipo==0){
+			//Si el tipo es 0:Busca en la lista de las empresas. Busca el comentario y el que regresa lo elimina
+			for (Empresa empresa : empresas){
+				if (empresa.getNombre().equals(selectedValue)){
+					Calificacion eliminar = buscarcomentario(empresa.getCalificacion());
+					empresa.getCalificacion().remove(calificacion);
+					empresa.calcularpromedio();
+					JOptionPane.showMessageDialog(null, "Calificación eliminada con éxito","Éxito", JOptionPane.INFORMATION_MESSAGE);
+					break;
+				}
+			}
+		}
+		else{
+			//Si el tipo no es 0:Busca en la lista de las empresas.Busca el comentario y el que regresa lo elimina
+			for (RegistroPersona persona :personas){
+				String comparar = persona.getPersona().getNombre()+" "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido();
+				if (comparar.equals(selectedValue)){
+					Calificacion eliminar = buscarcomentario(persona.getCalificacion());
+					persona.getCalificacion().remove(eliminar);
+					persona.calcularpromedio();
+					JOptionPane.showMessageDialog(null, "Calificación eliminada con éxito","Éxito", JOptionPane.INFORMATION_MESSAGE);
+					break;
+				}
+			}
+		}
+	
+	
+	
+
+}
+	public void calificar(String selectedValue, int tipo) {
+		//Llama a a función buscar calificación para asegurarse del que el usuario no haya comentado.
+		//Si ya lo hizo, mostrara la pantalla de calificación con los datos anteriores.
+		//Si no ha calificado la pantalla se mostrara con los datos normales
+		Iterator notifyViews = vistas.iterator(); 
+		if (tipo==-1 || selectedValue==null){
+			JOptionPane.showMessageDialog(null, "Debe de seleccionar un elemento de la lista","Campo vacío", JOptionPane.ERROR_MESSAGE);
+			
+		}
+		else{
+			Calificacion cal = null;
+			if (tipo==0){
+				for (Empresa empresa : empresas){
+					if (empresa.getNombre().equals(selectedValue)){
+						cal = this.buscarcomentario(empresa.getCalificacion());
+					}
+				}
+				
+			}
+			if (tipo==1){
+				for (RegistroPersona persona:personas){
+					String comparar = persona.getPersona().getNombre()+" "+persona.getPersona().getPrimerApellido()+" "+persona.getPersona().getSegundoApellido();
+					if (comparar.equals(selectedValue)){
+						cal= this.buscarcomentario(persona.getCalificacion());
+					}
+				}
+				
+			}
+			if (cal==null){
+				
+				while (notifyViews.hasNext()) {
+		               ((Funciones) notifyViews.next()).nuevacalificacion (selectedValue,tipo,false);
+					}
+		}
+			else{
+				while (notifyViews.hasNext()) {
+		               ((Funciones) notifyViews.next()).reemplazarcalificacion (selectedValue,tipo,cal,true);
+					}
 			}
 			
 		}
+		
+	}
+	public void mostrarestadisticas(int i, String valor) {
+		// TODO Auto-generated method stub
+		grafico.Calificacion cal = new grafico.Calificacion();
+		
+		if (i==0){
+			for (Empresa x : empresas){
+				if (x.getNombre().equals(valor)){
+					cal.barras(x.getCalificacion());
+					cal.frame.setVisible(true);
+			}}
+		}
+		if (i==1){
+			for (RegistroPersona x : personas){
+				if (x.getPersona().getCedula().equals(valor)){
+					
+					cal.barras(x.getCalificacion());
+					cal.frame.setVisible(true);
+				}
+			}
+		}
+		
+	}
+	public void bloqueo(String selectedValue,int borrar) {
+		/*
+		 * Busca en la lista de bloqueados el usuario,lo selecciona y lo pasa de lista. Lleva un contador para no tener problemas
+		 * al eliminarlo de la lista
+		 * Entero borrar para saber en cual lista debe de buscar
+		 * 0 de activo a bloqueado
+		 * 1 elimina el usuario bloqueado
+		 */
+		int indice =0;
+		int tipo = 0;
+		DefaultListModel bloqueado = new DefaultListModel ();
+		DefaultListModel activos = new DefaultListModel ();
+		
+	if (borrar == 0){
+		for (Usuario x:bloqueados){
+			if (x.getNick().equals(selectedValue)){
+				this.listaUsuarios.add(x);
+				break;
+			}
+			indice ++;
+		}
+		this.bloqueados.remove(indice);
+		
+		}
+	else{
+		for (Usuario x:bloqueados){
+			if (x.getNick().equals(selectedValue)){
+				break;
+			}
+			indice ++;
+		}
+		this.bloqueados.remove(indice);
+		
+	}
+		
+	for (Usuario usuario : bloqueados){
+		bloqueado.addElement(usuario.getNick());
 	}
 	
-	public int EliminarNotaElegida(ArrayList<Calificacion> calif,String coment){
-		for(Calificacion cal: calif){	//obtenemos calificación
-			if(cal.getComentario().equals(coment)&&cal.getUsuario().equals(usuario)){
-				System.out.print(calif.indexOf(cal)+"\n");
-				System.out.print(cal.getDemandado()+"\n");
-				return calif.indexOf(cal);
-				}	
+	for (Usuario usuario : listaUsuarios){
+		activos.addElement(usuario.getNick());
+	}
+	
+		Iterator notifyViews = vistas.iterator();
+        while (notifyViews.hasNext()) {
+                ((Funciones) notifyViews.next()).actualizarlista (bloqueado,activos,tipo);
+        }
+		
+	}
+	public void mostraradministrador(String selectedValue, int i) {
+		//Si el entero i es igual a 0 va a mostrar la parte juridíca y si es 1 la parte física
+		//Lo que hace es buscar la empresa y despúes de hacerlo la manda a la pantalla de Información para que sean
+		//Reemplazados los datos.
+		
+	}
+	public void abusos(String selectedValue, int i) {
+		/*
+		 *  Si el entero es 0 va a mostrar los abusos del usuario seleccionado en activo
+		 *  Si el entero es 1 va a mostrar los abusos del usuario seleccionado en bloqueado
+		 *  Si el valor en nulo. Mostrará mensaje de error.
+		 * 
+		 */
+		if (selectedValue==null){
+			JOptionPane.showMessageDialog(null, "Seleccione un usuario de la lista", "Error", JOptionPane.ERROR_MESSAGE);
+			
 		}
-		return -1;
+		else{
+			if (i==0){
+				Usuario u = this.buscarUsuarioNormal(selectedValue);
+				if (u.getListaReportes()==null){
+					  JOptionPane.showMessageDialog(null, "El usuario no tiene reportes en su contra", "Sin valor", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+				Reportes ver = new Reportes();
+				ver.mostrarreportes(u.getListaReportes());
+				}
+			}
+			if (i==1){
+				Usuario u = this.buscarUsuarioBloqueado(selectedValue);
+				if (u.getListaReportes()==null){
+					  JOptionPane.showMessageDialog(null, "El usuario no tiene reportes en su contra", "Sin valor", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else{
+				Reportes ver = new Reportes();
+				ver.mostrarreportes(u.getListaReportes());
+				}
+			}
+		}
+		
+	}
+	public static Usuario buscarUsuarioNormal(String nombre){
+		for (Usuario u: listaUsuarios){
+			if (u.getNick().equalsIgnoreCase(nombre)){
+				return u;
+			}
+		}
+		return null;
+	}
+	public static Usuario buscarUsuarioBloqueado(String nombre){
+		for (Usuario u: bloqueados){
+			if (u.getNick().equalsIgnoreCase(nombre)){
+				return u;
+			}
+		}
+		return null;
+	}
+	
+	public Empresa buscarEmpresa(String nombre){
+		contador = 0;
+		for (Empresa empresa : empresas ){
+			if (empresa.getNombre().equalsIgnoreCase(nombre)){
+				return empresa;
+			}
+			contador ++;
+				
+		}
+		return null;
+	}
+	
+	public RegistroPersona buscarPersona(String nombre){
+		contador =0;
+		for (RegistroPersona persona : personas){
+			Persona x= persona.getPersona();
+			if (nombre.equalsIgnoreCase(x.getNombre()+" "+x.getPrimerApellido() + " "+x.getSegundoApellido())){
+				return persona;
+			}
+			contador ++;
+		}
+		return null;
+	}
+	public void editar(int i,String  nombre) {
+		Iterator notifyViews = vistas.iterator();
+			
+		//Si es 0 llama a modificarempresa. Si es 1 llama a modificar persona.
+		if (i==0){
+			while (notifyViews.hasNext()) {
+				llenarprovincias();
+				
+				((Funciones) notifyViews.next()).modificarempresa(this.buscarEmpresa(nombre));
+	    	}
+		}
+		if (i==1){
+			llenarmes();
+			this.listaCategoria();
+			
+			while (notifyViews.hasNext()) {
+	    		((Funciones) notifyViews.next()).modificarpersona(this.buscarPersona(nombre),model,lista);
+	    	}
+		}
+		
+	}
+	public void modificardatosempresa(String nombre,String categoria,String pais,String barrio,String canton,String distrito,
+			String provincia,String cedula ){
+		/*
+		 * Recibe como entrada todos los valores que posee el registro y si el valor no es vacío los reemplaza
+		 */
+		if (!nombre.isEmpty()){
+		empresas.get(contador).setNombre(nombre);
+	}
+		if (!categoria.isEmpty()){
+			empresas.get(contador).setCategoria(categoria);
+		}
+		if (!pais.isEmpty()){
+			empresas.get(contador).getDireccion().setPais(pais);
+		}
+		if (!canton.isEmpty()){
+			empresas.get(contador).getDireccion().setCanton(canton);
+		}
+		if (!distrito.isEmpty()){
+			empresas.get(contador).getDireccion().setDistrito(distrito);
+		}
+		if (provincia!=null){
+			empresas.get(contador).getDireccion().setProvincia(provincia);
+		}
+		if (!barrio.isEmpty()){
+			empresas.get(contador).getDireccion().setBarrio(barrio);
+		}
+		  JOptionPane.showMessageDialog(null, "Modificaciones realizadas con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	}
+	public void modificardatospersona(String categoria,String institucion,String cargo,String dia,String mespalabra,String año ){
+		if (categoria!=null){
+			personas.get(contador).setCategorias(categoria);
+		}
+		if (!institucion.isEmpty()){	
+		personas.get(contador).getPersona().setInstitucion(institucion);
+			
+		}
+		if (!cargo.isEmpty()){
+			personas.get(contador).getPersona().setCargo(cargo);
+		}
+		   try{   
+    		   if (mespalabra.isEmpty()){
+			   int mes =0;
+    		   if (mespalabra.equals("Enero")){
+    			   mes =1;
+    		   }
+    		   if (mespalabra.equals("Febrero")){
+    			   mes=2;
+    		   }
+    		   if (mespalabra.equals("Marzo")){
+    			   mes=3;
+    		   }
+    		   if (mespalabra.equals("Abril")){
+    			   mes=4;
+    		   }
+    		   if(mespalabra.equals("Mayo")){
+    			   mes=5;
+    		   }
+    		   if (mespalabra.equals("Junio")){
+    			   mes=6;
+    		   }
+    		   if (mespalabra.equals("Julio")){
+    			   mes=7;
+    		   }
+    		   if (mespalabra.equals("Agosto")){
+    			   mes=8;
+    		   }
+    		   if(mespalabra.equals("Septiembre")){
+    			   mes=9;
+    		   }
+    		   if (mespalabra.equals("Octubre")){
+    			   mes=10;
+    		   }
+    		   if(mespalabra.equals("Noviembre")){
+    			   mes=11;
+    		   }
+    		   if(mespalabra.equals("Diciembre")){
+    			   mes=12;
+    		   }
+    		   personas.get(contador).getPersona().getFechaNacimiento().setMes(mes);
+    		   }
+    		   if (!dia.isEmpty()){
+    		   personas.get(contador).getPersona().getFechaNacimiento().setDia(Integer.parseInt(dia));}
+    		   if (!año.isEmpty()){
+    			   personas.get(contador).getPersona().getFechaNacimiento().setAño(Integer.parseInt(año));
+    		   }
+    		  
+    	   }
+    	   catch (Exception e){
+    		   JOptionPane.showMessageDialog(null, "Ingrese un número válido", "Problemas de Registro", JOptionPane.ERROR_MESSAGE);
+    	   }
+		
+		   JOptionPane.showMessageDialog(null, "Modificaciones realizadas con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+	}
+	public void mostrarUsuario(String bloqueado, String normal) {
+		if (bloqueado==null && normal==null){
+			 JOptionPane.showMessageDialog(null, "Seleccione un valor de lista", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		else{
+			Iterator notifyViews = vistas.iterator();
+	    	
+			if (bloqueado==null){
+				while (notifyViews.hasNext()) {
+		    		((Funciones) notifyViews.next()).mostrarDatosUsuario(this.buscarUsuarioNormal(normal));
+		    	}
+			}
+		
+			if (normal==null){
+				while (notifyViews.hasNext()) {
+		    		((Funciones) notifyViews.next()).mostrarDatosUsuario(this.buscarUsuarioBloqueado(bloqueado));
+		    	}
+			}
+		
+		
+	}
+	}
+	public static void incluirusuarionuevo(){
+
+		String cellData = new String();
+
+    try{
+
+        Workbook target_workbook = Workbook.getWorkbook(new File("Datos.xls"));
+
+        WritableWorkbook workbook = Workbook.createWorkbook(new File("Datos.xls"), target_workbook);
+        target_workbook.close();
+        WritableSheet sheet = workbook.getSheet(0);
+        jxl.write.Label escribir ;
+        jxl.write.Number cantidad;
+        
+        int fila=2;
+        int i=1;
+        int usuario = 0;
+       
+        
+        cantidad = new jxl.write.Number(1,0,listaUsuarios.size()+bloqueados.size());
+        sheet.addCell(cantidad);
+        
+        for (Usuario u : listaUsuarios){
+        	escribir = new jxl.write.Label(0,fila,u.getNick());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(1,fila,u.getNombre());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(2,fila,u.getPassword());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(4,fila,"Normal");
+        	sheet.addCell(escribir);
+        	if (u.isPrivado()){
+        	escribir = new jxl.write.Label(3,fila,"VERDADERO");}
+        	else{
+        		escribir = new jxl.write.Label(3,fila,"FALSO");}
+        	sheet.addCell(escribir);
+        	fila ++;
+        }
+        for (Usuario u : bloqueados){
+        	escribir = new jxl.write.Label(0,fila,u.getNick());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(1,fila,u.getNombre());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(2,fila,u.getPassword());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(4,fila,"Bloqueado");
+        	sheet.addCell(escribir);
+        	if (u.isPrivado()){
+        	escribir = new jxl.write.Label(3,fila,"VERDADERO");}
+        	else{
+        		escribir = new jxl.write.Label(3,fila,"FALSO");}
+        	sheet.addCell(escribir);
+        	fila ++;
+        }
+        
+        
+        workbook.write();
+
+
+
+        workbook.close();
+        }
+
+    catch(Exception e)
+
+    {
+
+        System.out.println("writeExcel ->"+e);
+
+    }
+    
+	}
+	public static void finalizar (){
+		
+	
+
+		String cellData = new String();
+
+    try{
+
+        Workbook target_workbook = Workbook.getWorkbook(new File("Datos.xls"));
+
+        WritableWorkbook workbook = Workbook.createWorkbook(new File("Datos.xls"), target_workbook);
+        target_workbook.close();
+        WritableSheet sheet = workbook.getSheet(3);
+        jxl.write.Label escribir ;
+        jxl.write.Number cantidad;
+        
+    
+        int i=1;
+        int usuario = 0;
+       
+        
+        cantidad = new jxl.write.Number(1,0,listaUsuarios.size()+bloqueados.size());
+        sheet.addCell(cantidad);
+        
+        for (Usuario u : listaUsuarios){
+        	
+        	
+        	for (Abuso abuso : u.getListaReportes()){
+        		escribir = new jxl.write.Label(0, i,Integer.toString(usuario));
+        		sheet.addCell(escribir);
+        		escribir = new jxl.write.Label(1, i,abuso.getUsuario().getNick());
+        		sheet.addCell(escribir);
+        		escribir = new jxl.write.Label(2, i, abuso.getMotivo());
+        		sheet.addCell(escribir);
+        		i++;
+        	}
+        	usuario ++;
+        }
+        
+       for (Usuario u :bloqueados){
+    		for (Abuso abuso : u.getListaReportes()){
+        		escribir = new jxl.write.Label(0, i,Integer.toString(usuario));
+        		sheet.addCell(escribir);
+        		escribir = new jxl.write.Label(1, i,abuso.getUsuario().getNick());
+        		sheet.addCell(escribir);
+        		escribir = new jxl.write.Label(2, i, abuso.getMotivo());
+        		sheet.addCell(escribir);
+        		i++;
+        	}
+        	usuario ++;
+        } 
+       
+        	
+        sheet = workbook.getSheet(1);
+        i=3;
+        int idempresa = 0;
+        cantidad = new jxl.write.Number(1,0,empresas.size());
+        sheet.addCell(cantidad);
+        
+        for (Empresa empresa : empresas){
+        
+        	for (Calificacion cal : empresa.getCalificacion()){
+        	escribir = new jxl.write.Label(0, i,Integer.toString(idempresa));
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(1, i,empresa.getNombre());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(2, i,empresa.getCedulaJuridica());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(3, i,empresa.getCategoria());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(4, i,empresa.getDireccion().getPais());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(5, i,empresa.getDireccion().getProvincia());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(6, i,empresa.getDireccion().getCanton());
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(7, i,empresa.getDireccion().getDistrito());
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(8, i,empresa.getDireccion().getBarrio());
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(9, i,Double.toString(cal.getCalificacion()));
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(10, i,cal.getComentario());
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(11, i,cal.getUsuario().getNick());
+            sheet.addCell(escribir);
+            i ++ ;
+                	
+        }
+        	idempresa ++;
+        	
+        }
+        
+        sheet = workbook.getSheet(2);
+        i=3;
+        int idpersona = 0;
+        for (RegistroPersona persona : personas){
+        	Persona x = persona.getPersona();
+        	
+        	for (Calificacion cal : persona.getCalificacion()){
+        	escribir = new jxl.write.Label(0, i,Integer.toString(idpersona));
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(1, i,persona.getCategorias());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(2, i,x.getNombre());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(3, i,x.getPrimerApellido());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(4, i,x.getSegundoApellido());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(5, i,x.getGenero());
+        	sheet.addCell(escribir);
+        	escribir = new jxl.write.Label(6, i,Integer.toString(x.getFechaNacimiento().getAño()));
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(7, i,Integer.toString(x.getFechaNacimiento().getMes()));
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(8, i,Integer.toString(x.getFechaNacimiento().getDia()));
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(9, i,(x.getInstitucion()));
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(10, i,x.getCargo());
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(11, i,Double.toString(cal.getCalificacion()));
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(12, i,cal.getComentario());
+            sheet.addCell(escribir);
+            escribir = new jxl.write.Label(13, i,cal.getUsuario().getNick());
+            sheet.addCell(escribir);
+            i ++ ;
+                	
+        }
+        	idpersona ++;
+        	
+        }
+        
+
+
+      
+
+    
+        workbook.write();
+
+
+
+        workbook.close();
+        }
+
+    catch(Exception e)
+
+    {
+
+        System.out.println("writeExcel ->"+e);
+
+    }
+	
+	}
+
+	public void mostrarContrato() {
+		   File archivo = null;
+		      FileReader fr = null;
+		      BufferedReader br = null;
+		 String mostrar=" ";
+		      try {
+		         // Apertura del fichero y creacion de BufferedReader para poder
+		         // hacer una lectura comoda (disponer del metodo readLine()).
+		         archivo = new File ("Contrato.txt");
+		         fr = new FileReader (archivo);
+		         br = new BufferedReader(fr);
+		 
+		         // Lectura del fichero
+		         String linea;
+		         while((linea=br.readLine())!=null){
+		            mostrar = mostrar + linea + "\n";
+		      }
+		      }
+		      catch(Exception e){
+		         e.printStackTrace();
+		      }finally{
+		         // En el finally cerramos el fichero, para asegurarnos
+		         // que se cierra tanto si todo va bien como si salta 
+		         // una excepcion.
+		         try{                    
+		            if( null != fr ){   
+		               fr.close();     
+		            }                  
+		         }catch (Exception e2){ 
+		            e2.printStackTrace();
+		         }
+		   Iterator notifyViews = vistas.iterator();
+			
+				while (notifyViews.hasNext()) {
+		    		((Funciones) notifyViews.next()).contrato(mostrar);
+		    	
+	}
+		
+	}
+	}
+	public void rechazar() {
+		   Iterator notifyViews = vistas.iterator();
+			
+					while (notifyViews.hasNext()) {
+			    		((Funciones) notifyViews.next()).rechazar();
+			    	
+		}
+		
 	}
 }
+	
+
+
+
     		
     	
     	

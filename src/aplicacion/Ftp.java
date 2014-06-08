@@ -105,11 +105,11 @@ return false;
 
 */
 
-public static boolean downloadFileByFTP(String server, String user, String pass, String localPath, String remotePath) {
+public static boolean downloadFileByFTP( String localPath, String remotePath) {
 
 try {
-
-URL url = new URL("ftp://" + user + ":" + pass + "@" + server + remotePath + ";type=i");
+	
+URL url = new URL("ftp://" + "a6285146" + ":" + "proyecto3" + "@" + "funeselmemorioso.comeze.com" + "/"+remotePath + ";type=i");
 
 URLConnection urlc = url.openConnection();
 

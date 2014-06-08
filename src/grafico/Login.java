@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.ScrollPaneConstants;
 
 import java.awt.Color;
 
@@ -42,6 +43,10 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.Date;
 
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
 public class Login implements Funciones  {
 	
 	private Controlador controlador;
@@ -62,6 +67,14 @@ public class Login implements Funciones  {
 	private JTabbedPane tabbedPane ;
 	public JRadioButton rdbtnDatosPblicos;
 	public JRadioButton rdbtnDatosPrivados;
+	private JPanel Contrato;
+
+	public JEditorPane txtcontrato;
+
+	public JButton btnAcepto;
+
+	public JButton btnRechazo;
+	private JPanel panel;
 
 	
 	public Login(Sistema model,Controlador usar) {
@@ -86,7 +99,9 @@ public class Login implements Funciones  {
 	 * Initialize the contents of the frame.
 	 */
 	private void addEvents() {
-        this.btnIniciarSesin.addActionListener(controlador);
+        this.btnAcepto.addActionListener(controlador);
+        this.btnRechazo.addActionListener(controlador);
+		this.btnIniciarSesin.addActionListener(controlador);
         this.btnRegistroUsuario.addActionListener(controlador);
         this.btnRegistrarse.addActionListener(controlador);
     }
@@ -227,7 +242,40 @@ public class Login implements Funciones  {
 	    txtSegundoApellido = new JTextField();
 	    txtSegundoApellido.setBounds(223, 137, 175, 20);
 	    PanelRegistrarse.add(txtSegundoApellido);
-	    txtSegundoApellido.setColumns(10);;
+	    txtSegundoApellido.setColumns(10);
+	    
+	    Contrato = new JPanel();
+	    Contrato.setBackground(new Color(135, 206, 250));
+	    tabbedPane.addTab("Contrato", null, Contrato, null);;
+	    tabbedPane.remove(Contrato);
+	    Contrato.setLayout(null);
+	    
+	    JLabel lblContratoDeUso = new JLabel("Contrato de uso");
+	    lblContratoDeUso.setBounds(293, 11, 119, 26);
+	    Contrato.add(lblContratoDeUso);
+	    
+	     btnAcepto = new JButton("Acepto");
+	    btnAcepto.setBounds(140, 367, 89, 23);
+	    Contrato.add(btnAcepto);
+	    
+	     btnRechazo = new JButton("Rechazo");
+	    btnRechazo.setBounds(433, 367, 89, 23);
+	    Contrato.add(btnRechazo);
+	    
+	    panel = new JPanel();
+	    panel.setAutoscrolls(true);
+	    panel.setBounds(10, 36, 678, 328);
+	    Contrato.add(panel);
+	    panel.setLayout(null);
+	    
+	 
+	    
+	    txtcontrato = new JEditorPane();
+	    txtcontrato.setBounds(10, 5, 658, 312);
+	    panel.add(txtcontrato);
+	   
+	    
+	
 	}
 	
 
@@ -254,6 +302,7 @@ public class Login implements Funciones  {
 	public void showRegistro() {
 		tabbedPane.setEnabledAt(1, true);
 		tabbedPane.remove(0);
+		tabbedPane.remove(Contrato);
 	}
 	
 	public void showEmpresa(DefaultComboBoxModel tipo) {
@@ -335,9 +384,7 @@ public class Login implements Funciones  {
 		
 	}
 
-	@Override
-
-	public void llenardatos(aplicacion.Usuario u) {
+public void llenardatos(aplicacion.Usuario u) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -347,17 +394,106 @@ public class Login implements Funciones  {
 		// TODO Auto-generated method stub
 		
 	}
-
-
 	public void CuentaEliminada() {
 		this.frmBienvenidoAFunes.setVisible(true);
 		
 	}
 
-	@Override
-	public void EliminarNotas() {
-
+	public void IniciarUsuario(aplicacion.Usuario usuario,
+			DefaultListModel abusos) {
+		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public void showusercalification(DefaultListModel propias) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mostrarsuscomentarios(Calificacion mandar) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void asignarcalificar(String nombre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void nuevacalificacion(String selectedValue, int tipo, boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reemplazarcalificacion(String selectedValue, int tipo,
+			Calificacion cal, boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void llenarPersona(DefaultComboBoxModel tipo, DefaultListModel todo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void llenarJuridica(DefaultComboBoxModel tipo, DefaultListModel todo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void modificarempresa(Empresa empresa) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void iniciaradministrador(DefaultListModel normal,
+			DefaultListModel bloqueados, DefaultListModel empresas,
+			DefaultListModel personas) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+
+	@Override
+	public void actualizarlista(DefaultListModel actualizada,
+			DefaultListModel actualizar, int tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modificarpersona(RegistroPersona persona,
+			DefaultComboBoxModel mes, DefaultListModel categoria) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mostrarDatosUsuario(aplicacion.Usuario u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void contrato(String contrato) {
+		this.txtcontrato.setText(contrato);
+		this.tabbedPane.add("Contrato", this.Contrato);
+		this.tabbedPane.setSelectedComponent(Contrato);
+		
+	}
+	public void rechazar (){
+		System.exit(0);
+	}
 }

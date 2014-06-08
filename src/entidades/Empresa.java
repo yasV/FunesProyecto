@@ -6,7 +6,7 @@ public class  Empresa extends Registro {
 	String nombre;
 	String cedulaJuridica;
 	Direccion direccion;
-	static float promedio;
+	static double promedio;
 	
 	public String getCategoria() {
 		return categoria;
@@ -32,10 +32,10 @@ public class  Empresa extends Registro {
 	public void setDireccion(Direccion direccion) {
 		this.direccion = direccion;
 	}
-	public static float getPromedio() {
+	public static double getPromedio() {
 		return promedio;
 	}
-	public void setPromedio(float promedio) {
+	public void setPromedio(double promedio) {
 		this.promedio = promedio;
 	}
 	
@@ -45,7 +45,7 @@ public class  Empresa extends Registro {
 	}
 		
 	public void calcularpromedio(){
-		int valor=0;
+		double valor=0;
 		int cantidad = Calificaciones.size();
 		for (Calificacion promedio: Calificaciones){
 			valor= valor + promedio.getCalificacion();
@@ -64,8 +64,11 @@ public class  Empresa extends Registro {
 		
 		this.direccion = direccion;
 	}
-	
 
-	
+
+	public int compareTo(Object com) {
+		Empresa a = (Empresa)com;
+		return nombre.compareTo(a.getNombre());
+	}
 	
 }

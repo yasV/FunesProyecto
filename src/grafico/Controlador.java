@@ -2,7 +2,6 @@ package grafico;
 
 import aplicacion.Funciones;
 import aplicacion.Sistema;
-import auxiliares.Calificacion;
 import auxiliares.Direccion;
 import auxiliares.Fecha;
 import auxiliares.Persona;
@@ -20,38 +19,39 @@ import entidades.Registro;
 import entidades.RegistroPersona;
 
 public class Controlador implements ActionListener {
+	//Se declaran las vistas a controlar
 	private Sistema modelo;
 	private Funciones view;
 	private Usuario view_Usuario;
-	private Administrador view_Administrador;
+
 	private Login view_Login;
 	private Informacion view_Informacion;
-	private Calificacion view_Calificacion;
 	private VUsuario view_VUsuario;
+
 	
 	
+	//Se declara el controlador
 	public Controlador(Sistema p){
 	modelo = p;
 	}
 	
+	//Se le asigna al controlador las vistas
 	public void C_Usuario(Usuario u){
 		view_Usuario = u;
 	}
 	public void C_Login(Login u){
 		view_Login = u;
 	}
-	public void C_Administrador(Administrador u){
-		view_Administrador = u;
-	}
+	
 	public void C_Informacion(Informacion u){
-		view_Informacion = u;
-	}
-	public void C_Calificacion(Calificacion u){
-		view_Calificacion = u;
-	}
+		view_Informacion = u;}
+	//*
 	public void C_VUsuario (VUsuario u){
 		view_VUsuario=u;
 	}
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		 Object source = evt.getSource();
@@ -64,8 +64,9 @@ public class Controlador implements ActionListener {
 
 		 }
 		 if (source == view_Login.getbtnRegistroUsuario()){
-			 modelo.showRegistro();
+			 modelo.mostrarContrato();
 		 }
+		 
 		 
 		 //+++++++++++++++++++++++++Registro+++++++++++++++++++++++++++
 		 if(source== view_Login.getbtnRegistrarse()){
@@ -85,19 +86,24 @@ public class Controlador implements ActionListener {
 		 if (source == view_Usuario.btnEliminarCuenta){
 			 modelo.EliminarCuenta ();
 		 }
+		 if (source==view_Usuario.btnMsInformacin){
+			String reportero = (String) view_Usuario.listaabusos.getSelectedValue();
+			 modelo.mostrarabusos(reportero);
+			 
+		 }
 		 
 		 //+++++++++++++Calificar++++++++++++++++++++++++++++++++++++++++++++++++++
 		 if (source == view_Usuario.getBtnA()){
 			 modelo.Refreshlistregistro(view_Usuario.txtmás.getText());
 		}
 		 
-		 if (source == view_Usuario.getBtnusuarioNoRegistrado()){
-			 if (view_Usuario.rdbtnFisicaCalificar.isSelected()){
+		 if (source == view_Usuario.btnusuarioNoRegistrado){
+			 if (view_Usuario.rdbtnFsicaConsultar.isSelected()){
 				 modelo.registro("Persona");
 				 modelo.showPersona();
 				 
 			 }
-			 if (view_Usuario.rdbtnJuridicaCalificar.isSelected()){
+		 if (view_Usuario.rdbtnJurdicasConsultar.isSelected()){
 				 modelo.registro("Empresa");
 				 modelo.showEmpresa();
 			 }
@@ -105,6 +111,7 @@ public class Controlador implements ActionListener {
 			 
 		 if (source == view_Usuario.btnRegistrarJuridica){
 			 //Selecciona la categoría según lo que el usuario haya escogido
+			
 			 boolean seguir=true; //Informar en caso de error 
 			 String categoria = " ";
 			 if (view_Usuario.rdbtnSenasa.isSelected()){
@@ -126,6 +133,13 @@ public class Controlador implements ActionListener {
 			 if (view_Usuario.rdbtnRestaurante.isSelected()){
 				 categoria="Restaurantes";
 			 }
+			 if (modelo.getUsuario()==null){
+				modelo.modificardatosempresa(view_Usuario.txtnombrejuri.getText(), categoria, view_Usuario.txtpais.getText(),
+				view_Usuario.txtbarrio.getText(), view_Usuario.txtcanton.getText(), view_Usuario.txtdistrito.getText(), 
+				(String)view_Usuario.cboxprovincia.getSelectedItem(), view_Usuario.txtcedulajuri.getText());
+				
+			}
+			 else{
 				
 			//Crea una provincia según la opción seleccionada en el combobox
 			 //Crear una variable direccion con todos los datos
@@ -139,13 +153,18 @@ public class Controlador implements ActionListener {
 				 }
 			 }
 		 }
-		 
+		 }
 		 //Registra una persona fisica
 		 if (source==view_Usuario.btnConsultar){
 			modelo.buscarenregistro(view_Usuario.txtcedula.getText());
 		 }
 		 
 		 if (source==view_Usuario.getBtnRegistrar_1()){
+			 if (modelo.getUsuario()==null){
+				 modelo.modificardatospersona((String)view_Usuario.list.getSelectedValue(),view_Usuario.txtinstitucion.getText(),view_Usuario.txtcargo.getText(), view_Usuario.txtdia.getText(),
+						 (String)view_Usuario.cboxmes.getSelectedItem(),view_Usuario.txtaño.getText());
+			 }
+			 else{
 			 String mes = (String) view_Usuario.cboxmes.getSelectedItem();
 			 Fecha nueva = modelo.crearfecha(view_Usuario.txtdia.getText(),mes, view_Usuario.txtaño.getText());
 			 if (nueva!=null){
@@ -163,39 +182,41 @@ public class Controlador implements ActionListener {
 					String categoria = (String)view_Usuario.list.getSelectedValue();
 					modelo.registro = modelo.registrarpersona(p, categoria);
 					if (modelo.registro!=null){
+						
 						modelo.showCalifiPersona((RegistroPersona)modelo.registro);
 					}
 				}
 			 }
+			 
+		 }
 		 }
 		 
 
 		//+++++++++++++Consultar++++++++++++++++++++++++++++++++++++++++++++++++++
 			 if (source==view_Usuario.rdbtnFsicaConsultar){
-			       modelo.busquedaPersona();
+			       modelo.busquedaPersona(1);
 			  }
 			     
 			 if (source==view_Usuario.rdbtnJurdicasConsultar){
-				 modelo.busquedaJuridica();
+				 modelo.busquedaJuridica(0);
 			  }
-			 
-			 //Se agregó la función al boton de eliminar para que elimine las notas
-			 if(source==view_Usuario.btnEliminar){
-				 int tipo=1;
-				 if(view_Usuario.rdbtnJurdicasConsultar.isSelected()){
+			 if (source == view_Usuario.btnIrACalificar){
+				 int tipo=-1;
+				 if (view_Usuario.rdbtnFsicaConsultar.isSelected()){
+					 tipo=1;
+				 }
+				 if (view_Usuario.rdbtnJurdicasConsultar.isSelected()){
 					 tipo=0;
 				 }
-				 String persona=(String)view_Usuario.listaconsultar.getSelectedValue();
-				 String coment= view_Usuario.txtComment.getText();
-				 String usuario=view_Usuario.txtUsuarioComment.getText();
-				 
-				 modelo.BuscarNotas(persona,tipo,coment);
-				// modelo.EliminarNotaElegida(coment,usuario,tipo);
+				 modelo.calificar((String)view_Usuario.listaconsultar.getSelectedValue(),tipo);
 			 }
 			 
+			 
 			 ///Busca el usuario a consultar
+			 
 			 if (source == view_Usuario.btnVerInformacin){
 				 int dato =  view_Usuario.listaconsultar.getSelectedIndex();
+			
 				 if (view_Usuario.rdbtnFsicaConsultar.isSelected()){
 					modelo.mostrarinformacion(0, dato); 
 				 }
@@ -223,7 +244,6 @@ public class Controlador implements ActionListener {
 			 if (source == view_Usuario.btnVerInformacinDel){
 				 modelo.verInfo(view_Usuario.txtUsuarioComment.getText());
 			 }
-			 
 			 if(source == view_Usuario.getBtnBuscarConsultar()){
 				 String tipo=(String)view_Usuario.getCmbTipoBusqueda().getSelectedItem();
 				 String tipAbuscar= view_Usuario.datobuscarConsultar.getText();
@@ -277,6 +297,9 @@ public class Controlador implements ActionListener {
 			//+++++++++++++Calificar ++++++++++++++++++++++++++++++++++++++++++++++++++
 			 
 			 //Rellena el comboBox 
+			 if (source == view_Usuario.btnDescargarEvidencia_1){
+				 modelo.save();
+			 }
 			 if (source==view_Usuario.rdbtnFisicaCalificar){
 			       modelo.busquedaCalificar(1);
 			  }
@@ -338,7 +361,7 @@ public class Controlador implements ActionListener {
 					 mandar = view_Usuario.empresa;
 				 } 
 				 String demandante= view_Login.txtusuario.getText();
-				 String demandado=(String)view_Usuario.getCmbPersonaCalificar().getSelectedItem();
+				 String demandado=(String)view_Usuario.txtpersonacalificar.getText();
 				 
 				 String review= view_Usuario.txtRegistroReview.getText();
 				 String evidencia= view_Usuario.lblNdevidencia.getText();
@@ -351,14 +374,100 @@ public class Controlador implements ActionListener {
 			 if (source == view_VUsuario.btnreportar){
 				modelo.llenarreporte(view_VUsuario.editorPane.getText(),view_VUsuario.lblnick.getText()); 
 			 }
-	}
-
-	public void C_Calificacion(calificar calificar) {
-		// TODO Auto-generated method stub
+			 //----------------------------------Mis calificaciones--------------------------------------
+			 if (source == view_Usuario.rdbtnFiscasmis){
+				 modelo.mostrarcalificacion(1);
+			 }
+			 if (source == view_Usuario.rdbtnJurdicamis){
+				 modelo.mostrarcalificacion(0);
+			 }
+			 if (source==view_Usuario.btnMiComentario){
+				 String nombre = (String) view_Usuario.listamis.getSelectedValue();
+				 if (view_Usuario.rdbtnFiscasmis.isSelected()){
+					 modelo.mostrarcomentariosusuario(1,nombre);
+				 }
+				 if(view_Usuario.rdbtnJurdicamis.isSelected()){
+					 modelo.mostrarcomentariosusuario(0,nombre); 
+				 }
+			 }
+			if (source == view_Usuario.btnEliminarCalificacion){
+				String nombre = (String)view_Usuario.listamis.getSelectedValue(); 
+				if (view_Usuario.rdbtnFiscasmis.isSelected()){
+					
+					 modelo.eliminarCalificacion(nombre,1);
+					 modelo.mostrarcalificacion(1);
+				 }
+				 if(view_Usuario.rdbtnJurdicamis.isSelected()){
+					 modelo.eliminarCalificacion(nombre,0);
+					 modelo.mostrarcalificacion(0);
+				 }
+				
+				
+			}
+			if (source == view_Usuario.btnCambiarCalificacin){
+				int tipo=-1;
+				if (view_Usuario.rdbtnJurdicamis.isSelected()){
+					tipo=0;
+				}
+				if (view_Usuario.rdbtnFiscasmis.isSelected()){
+					tipo=1;
+				}
+				modelo.calificar((String)view_Usuario.listamis.getSelectedValue(), tipo);
+			}
+			//---------------------Pantalla de información----------------------------------------
+			if (source==this.view_Informacion.btnVerEstadisticasJ){
+				System.out.println("hola");
+				modelo.mostrarestadisticas(0,view_Informacion.txtnombrejuri.getText());
+			}
+			if (source==this.view_Informacion.F){
+				System.out.println("Hi");
+				modelo.mostrarestadisticas(1,view_Informacion.txtcedula.getText());
+			}
+			
+		//--------------------------Administrador-----------------------------------------
+			if (source == this.view_Usuario.btnBloquear){
+				modelo.bloqueo ((String)view_Usuario.listactivos.getSelectedValue(),0);
+			}
+			if (source == this.view_Usuario.btnDesbloquear){
+				modelo.bloqueo((String)view_Usuario.listabloqueados.getSelectedValue(),1);
+			}
+	
+			if (source == this.view_Usuario.btnVerActivo){
+				modelo.abusos((String)view_Usuario.listactivos.getSelectedValue(),0);
+			}
+			if (source==this.view_Usuario.btnVerBloqueado){
+				modelo.abusos((String)view_Usuario.listabloqueados.getSelectedValue(),1);
+			}
+			if (source== this.view_Usuario.btnEditar){
+				int tipo = -1;
+				String nombre= (String)view_Usuario.listaconsultar.getSelectedValue();
+				if (view_Usuario.rdbtnFsicaConsultar.isSelected()){
+					tipo =1;
+					
+				}
+				if (view_Usuario.rdbtnJurdicasConsultar.isSelected()){
+					tipo=0;
+				}
+				modelo.editar(tipo,nombre);
+			}
+		if (source == this.view_Usuario.btnVerUsuarios){
+			modelo.mostrarUsuario((String)view_Usuario.listabloqueados.getSelectedValue(),
+					(String)view_Usuario.listactivos.getSelectedValue());
+		}
+		//----------------------------El contrato---------------------------------------------------------------
+		if (source == this.view_Login.btnAcepto){
+			modelo.showRegistro();
+		}
+		if (source == this.view_Login.btnRechazo){
+			modelo.rechazar();
+		}
+		
 		
 	}
+	}
 
-}
+
+
 
 
 

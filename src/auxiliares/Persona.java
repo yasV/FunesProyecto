@@ -10,7 +10,7 @@ public class Persona {
 	private int edad;
 	private String institucion;
 	private String cargo;
-	private float promedio;
+	private double promedio;
 	
 	
 
@@ -68,11 +68,11 @@ public class Persona {
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
-	public float getPromedio() {
+	public double getPromedio() {
 		return promedio;
 	}
-	public void setPromedio(float promedio) {
-		this.promedio = promedio;
+	public void setPromedio(double d) {
+		this.promedio = d;
 	}
 	
 	

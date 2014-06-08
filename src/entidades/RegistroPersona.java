@@ -52,13 +52,39 @@ public class RegistroPersona extends Registro {
 	}
 		
 	public void calcularpromedio(){
-		int valor=0;
+		double valor=0;
 		int cantidad = Calificaciones.size();
 		for (Calificacion promedio: Calificaciones){
 			valor= valor + promedio.getCalificacion();
 		}
-	 Persona.setPromedio( valor/cantidad);
+		
+		double x = (valor/cantidad);
+	 Persona.setPromedio(x);
 	}
-	
+
+
+	@Override
+	public int compareTo(Object o) {
+		RegistroPersona a = (RegistroPersona)o;
+		if (this.Persona.getPrimerApellido().compareTo(a.getPersona().getSegundoApellido())==0){
+			if (this.Persona.getSegundoApellido().compareTo(a.getPersona().getSegundoApellido())==0){
+				if (this.Persona.getNombre().compareTo(a.getPersona().getNombre())==0){
+					return this.getPersona().getCedula().compareTo(a.getPersona().getCedula());
+				}
+				else{
+					return this.Persona.getNombre().compareTo(a.getPersona().getNombre());
+				}
+			}
+			else{
+				return this.Persona.getSegundoApellido().compareTo(a.getPersona().getSegundoApellido());
+				}
+			}
+		else{
+			return this.Persona.getPrimerApellido().compareTo(a.getPersona().getPrimerApellido());
+		}
+		
+	}
+
+
 
 }

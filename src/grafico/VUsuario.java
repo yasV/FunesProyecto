@@ -2,7 +2,6 @@ package grafico;
 
 import java.awt.EventQueue;
 
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -57,7 +56,7 @@ public class VUsuario  implements Funciones{
 		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(135, 206, 250));
-		frame.setBounds(100, 100, 522, 368);
+		frame.setBounds(100, 100, 522, 392);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -112,7 +111,7 @@ public class VUsuario  implements Funciones{
 			lblnick.setText(u.getNick());
 			lblnombre.setText(u.getNombre());
 		}
-		
+		frame.setBounds(100, 100, 522, 368);
 			
 		
 	}
@@ -149,17 +148,7 @@ public class VUsuario  implements Funciones{
 		
 	}
 
-	@Override
-	public void llenarPersona(DefaultComboBoxModel tipo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void llenarJuridica(DefaultComboBoxModel tipo) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void agregarlista(DefaultListModel nuevo) {
@@ -173,11 +162,6 @@ public class VUsuario  implements Funciones{
 		
 	}
 
-	@Override
-	public void llenarcmbCalificar(DefaultComboBoxModel model) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void mostrarVentanaEvidencia(String nombre, String pathArchivo) {
@@ -223,23 +207,107 @@ public class VUsuario  implements Funciones{
 	}
 
 	@Override
+	public void CuentaEliminada() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void IniciarUsuario(Usuario usuario, DefaultListModel abusos) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
 	public void mostrarabusos(Date fechaDenuncia, String motivo) {
 		// TODO Auto-generated method stub
 		
 
 }
 	@Override
-	public void IniciarUsuario(Usuario usuario) {
+	public void showusercalification(DefaultListModel propias) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void CuentaEliminada() {
+	public void mostrarsuscomentarios(Calificacion mandar) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void EliminarNotas() {
+	public void asignarcalificar(String nombre) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void nuevacalificacion(String selectedValue, int tipo, boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void reemplazarcalificacion(String selectedValue, int tipo,
+			Calificacion cal, boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void llenarPersona(DefaultComboBoxModel tipo, DefaultListModel todo) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void llenarJuridica(DefaultComboBoxModel tipo, DefaultListModel todo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modificarempresa(Empresa empresa) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	@Override
+	public void iniciaradministrador(DefaultListModel normal,
+			DefaultListModel bloqueados, DefaultListModel empresas,
+			DefaultListModel personas) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void actualizarlista(DefaultListModel actualizada,
+			DefaultListModel actualizar, int tipo) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void modificarpersona(RegistroPersona persona,
+			DefaultComboBoxModel mes, DefaultListModel categoria) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mostrarDatosUsuario(Usuario u) {
+		frame.setVisible(true);
+		
+		if (!u.isPrivado()){
+			txtprivacidad.setText("Los datos de este usuario son privados");
+		}
+		else{
+			txtprivacidad.setText("Los datos de este usuario son públicos");
+		}
+		lblnick.setText(u.getNick());
+		lblnombre.setText(u.getNombre());
+		frame.setBounds(100, 100, 522, 176);
+		
+	}
+	@Override
+	public void contrato(String contrato) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void rechazar() {
 		// TODO Auto-generated method stub
 		
 	}}
