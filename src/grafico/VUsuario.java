@@ -66,6 +66,7 @@ public class VUsuario  implements Funciones{
 		frame.getContentPane().add(lblPrivacidad);
 		
 	    txtprivacidad = new JTextPane();
+	    txtprivacidad.setEditable(false);
 		txtprivacidad.setBounds(86, 11, 338, 20);
 		frame.getContentPane().add(txtprivacidad);
 		

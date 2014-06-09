@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.JTextField;
+import java.awt.Color;
 
 public class Calificacion  {
 	private ArrayList <Integer> prueba = new ArrayList <Integer>();
@@ -57,6 +58,7 @@ public class Calificacion  {
 	private void initialize() {
 	
 		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(135, 206, 250));
 		frame.setBounds(100, 100, 465, 331);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);

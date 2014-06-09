@@ -188,10 +188,11 @@ public class Sistema  {
             String barrio = sheet.getCell(8,fila).getContents();
             Direccion dir_nueva= new Direccion(pais,provincia,canton,distrito);
             dir_nueva.setBarrio(barrio);
-            String categoria = sheet.getCell(2,fila).getContents();
+            String categoria = sheet.getCell(3,fila).getContents();
             String nombre = sheet.getCell(1,fila).getContents();
             String cedula = sheet.getCell(2,fila).getContents();
             empresas.add(new Empresa (categoria,nombre,dir_nueva));
+            
             con ++;
             cell = sheet.getCell(0, fila); 
             id = Integer.parseInt(cell.getContents());
@@ -260,7 +261,7 @@ public class Sistema  {
             int Mes = Integer.parseInt(sheet.getCell(8,fila).getContents());
             int Dia = Integer.parseInt(sheet.getCell(9,fila).getContents());		
             int Año = Integer.parseInt(sheet.getCell(7,fila).getContents());
-            Fecha fecha = new Fecha(Mes,Dia,Año);
+            Fecha fecha = new Fecha(Año,Dia,Mes);
             String categoria = sheet.getCell(1,fila).getContents();
             String nombre = sheet.getCell(3,fila).getContents();
             String cedula = sheet.getCell(2,fila).getContents();
@@ -769,7 +770,7 @@ public class Sistema  {
     	if (lista==0){
     		empresasbuscadas.clear();
     		for (Empresa e : empresas){
-    			if (e.getCategoria().equals(categoria)){
+    			if (e.getCategoria().equalsIgnoreCase(categoria)){
     				if (multitud){
     					empresasbuscadas.add(e);
     				}
@@ -1126,7 +1127,7 @@ public class Sistema  {
     		for (RegistroPersona u : personas){
     			System.out.println(u.getPersona().getPrimerApellido());
     			String comparar = u.getPersona().getPrimerApellido();
-    			if (comparar.equals(apellido)){
+    			if (comparar.equalsIgnoreCase(apellido)){
     				
     				if (multitud){
     					personasbuscadas.add(u);

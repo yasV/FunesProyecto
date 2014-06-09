@@ -468,12 +468,12 @@ public class Usuario extends JFrame implements Funciones {
 				
 					    rdbtnFsicaConsultar = new JRadioButton("Persona F\u00EDsica");
 					    rdbtnFsicaConsultar.setBackground(new Color(135, 206, 250));
-					    rdbtnFsicaConsultar.setBounds(191, 5, 112, 23);
+					    rdbtnFsicaConsultar.setBounds(215, 5, 112, 23);
 					    Busquedas.add(rdbtnFsicaConsultar);
 					    
 					    		rdbtnJurdicasConsultar = new JRadioButton("Persona Jur\u00EDdica");
 					    		rdbtnJurdicasConsultar.setBackground(new Color(135, 206, 250));
-					    		rdbtnJurdicasConsultar.setBounds(305, 5, 127, 23);
+					    		rdbtnJurdicasConsultar.setBounds(347, 5, 127, 23);
 					    		Busquedas.add(rdbtnJurdicasConsultar);
 					    		cmbTipoBusqueda.setBounds(137, 52, 134, 23);
 					    		Busquedas.add(cmbTipoBusqueda);
@@ -515,13 +515,13 @@ public class Usuario extends JFrame implements Funciones {
 					    		 btnAnterior = new JButton("");
 					    		 btnAnterior.setBackground(new Color(135, 206, 250));
 					    		 btnAnterior.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/back.png")));
-					    		 btnAnterior.setBounds(192, 198, 57, 23);
+					    		 btnAnterior.setBounds(170, 209, 57, 23);
 					    		 panelComentsConsultar.add(btnAnterior);
 					    		
 					    		 btnSiguiente = new JButton("");
 					    		 btnSiguiente.setBackground(new Color(135, 206, 250));
 					    		 btnSiguiente.setIcon(new ImageIcon(Usuario.class.getResource("/Imagenes/next.png")));
-					    		 btnSiguiente.setBounds(248, 198, 57, 23);
+					    		 btnSiguiente.setBounds(237, 209, 57, 23);
 					    		 panelComentsConsultar.add(btnSiguiente);
 					    		
 					    		datobuscarConsultar = new JTextField();
@@ -545,31 +545,31 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		
 					    	   btnVerComentarios = new JButton("Ver Comentarios");
-					    		btnVerComentarios.setBounds(20, 357, 146, 23);
+					    		btnVerComentarios.setBounds(34, 363, 146, 23);
 					    		Busquedas.add(btnVerComentarios);
 					    		
 					    		JLabel lblFiltrarPor = new JLabel("Filtrar por:");
-					    		lblFiltrarPor.setBounds(77, 9, 96, 14);
+					    		lblFiltrarPor.setBounds(113, 9, 89, 14);
 					    		Busquedas.add(lblFiltrarPor);
 					    		
 					    		btnusuarioNoRegistrado = new JButton("\u00BFNo encuentra a la persona?");
-					    		btnusuarioNoRegistrado.setBounds(94, 86, 247, 23);
+					    		btnusuarioNoRegistrado.setBounds(121, 100, 247, 23);
 					    		Busquedas.add(btnusuarioNoRegistrado);
 					    		
 					    		 btnIrACalificar = new JButton("Ir a Calificar");
-					    		btnIrACalificar.setBounds(382, 84, 123, 23);
+					    		btnIrACalificar.setBounds(402, 100, 123, 23);
 					    		Busquedas.add(btnIrACalificar);
 					    		
 					    		btnVerInformacin = new JButton("Sobre la persona");
-					    		btnVerInformacin.setBounds(30, 385, 152, 23);
+					    		btnVerInformacin.setBounds(28, 397, 152, 23);
 					    		Busquedas.add(btnVerInformacin);
 					    		
 					    		btnEditar = new JButton("Editar");
-					    		btnEditar.setBounds(164, 86, 89, 23);
+					    		btnEditar.setBounds(164, 100, 89, 23);
 					    		Busquedas.add(btnEditar);
 					    		
 					    		btnDescargarEvidencia_1 = new JButton("Descargar Evidencia");
-					    		btnDescargarEvidencia_1.setBounds(382, 398, 170, 23);
+					    		btnDescargarEvidencia_1.setBounds(347, 409, 170, 23);
 					    		Busquedas.add(btnDescargarEvidencia_1);
 		
 				
@@ -716,7 +716,8 @@ public class Usuario extends JFrame implements Funciones {
 				Calificar.add(lblnombre);
 				
 				 txtpersonacalificar = new JTextPane();
-				txtpersonacalificar.setBounds(182, 56, 217, 20);
+				 txtpersonacalificar.setEditable(false);
+				txtpersonacalificar.setBounds(212, 53, 313, 20);
 				Calificar.add(txtpersonacalificar);
 		
 		 Denuncias = new JPanel();
@@ -725,12 +726,12 @@ public class Usuario extends JFrame implements Funciones {
 		Denuncias.setLayout(null);
 		
 		JLabel lblPersonasJuridcas = new JLabel("Mis personas calificadas");
-		lblPersonasJuridcas.setBounds(29, 11, 145, 14);
+		lblPersonasJuridcas.setBounds(35, 37, 145, 14);
 		Denuncias.add(lblPersonasJuridcas);
 		
 		JPanel panelmis = new JPanel();
 		panelmis.setBackground(new Color(135, 206, 250));
-		panelmis.setBounds(28, 62, 146, 220);
+		panelmis.setBounds(34, 103, 146, 220);
 		Denuncias.add(panelmis);
 		
 		 listamis = new JList();
@@ -738,15 +739,15 @@ public class Usuario extends JFrame implements Funciones {
 		
 		 txtmis = new JEditorPane();
 		 txtmis.setEditable(false);
-		txtmis.setBounds(207, 72, 255, 191);
+		txtmis.setBounds(245, 94, 255, 191);
 		Denuncias.add(txtmis);
 		
 		JLabel lblMiComentario = new JLabel("Mi comentario");
-		lblMiComentario.setBounds(279, 47, 136, 14);
+		lblMiComentario.setBounds(250, 66, 136, 14);
 		Denuncias.add(lblMiComentario);
 		
 		JLabel lblMiCalificacin = new JLabel("Mi calificaci\u00F3n");
-		lblMiCalificacin.setBounds(53, 319, 127, 14);
+		lblMiCalificacin.setBounds(245, 341, 127, 14);
 		Denuncias.add(lblMiCalificacin);
 		
 		
@@ -754,7 +755,7 @@ public class Usuario extends JFrame implements Funciones {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(135, 206, 250));
-		panel_1.setBounds(180, 303, 370, 50);
+		panel_1.setBounds(245, 366, 370, 50);
 		Denuncias.add(panel_1);
 		
 		lestrella1 = new JLabel("New label");
@@ -809,31 +810,31 @@ public class Usuario extends JFrame implements Funciones {
 		panel_1.add(lestrella10);
 		
 		JButton btnDescargarEvidencia = new JButton("Descargar Evidencia");
-		btnDescargarEvidencia.setBounds(396, 364, 192, 23);
+		btnDescargarEvidencia.setBounds(535, 170, 192, 23);
 		Denuncias.add(btnDescargarEvidencia);
 		
 		btnMiComentario = new JButton("Ver mi comentario");
-		btnMiComentario.setBounds(29, 281, 145, 23);
+		btnMiComentario.setBounds(35, 334, 145, 23);
 		Denuncias.add(btnMiComentario);
 		
 		rdbtnFiscasmis = new JRadioButton("Fis\u00EDcas");
 		rdbtnFiscasmis.setBackground(new Color(135, 206, 250));
 		buttonGroup_1.add(rdbtnFiscasmis);
-		rdbtnFiscasmis.setBounds(6, 32, 109, 23);
+		rdbtnFiscasmis.setBounds(35, 72, 74, 23);
 		Denuncias.add(rdbtnFiscasmis);
 		
 		 rdbtnJurdicamis = new JRadioButton("Jur\u00EDdica");
 		 rdbtnJurdicamis.setBackground(new Color(135, 206, 250));
 		 buttonGroup_1.add(rdbtnJurdicamis);
-		rdbtnJurdicamis.setBounds(126, 32, 109, 23);
+		rdbtnJurdicamis.setBounds(111, 72, 109, 23);
 		Denuncias.add(rdbtnJurdicamis);
 		
 		 btnCambiarCalificacin = new JButton("Cambiar Calificaci\u00F3n");
-		btnCambiarCalificacin.setBounds(413, 7, 145, 23);
+		btnCambiarCalificacin.setBounds(535, 102, 192, 23);
 		Denuncias.add(btnCambiarCalificacin);
 		
 		btnEliminarCalificacion = new JButton("Eliminar");
-		btnEliminarCalificacion.setBounds(576, 7, 89, 23);
+		btnEliminarCalificacion.setBounds(535, 136, 192, 23);
 		Denuncias.add(btnEliminarCalificacion);
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		////Acá comienza el panel del registro de empresas
@@ -924,7 +925,7 @@ public class Usuario extends JFrame implements Funciones {
 		txtpais.setColumns(10);
 							
 		cboxprovincia = new JComboBox();
-		cboxprovincia.setBounds(66, 234, 181, 20);
+		cboxprovincia.setBounds(76, 234, 181, 20);
 		Juridica.add(cboxprovincia);
 							
 		txtcanton = new JTextField();

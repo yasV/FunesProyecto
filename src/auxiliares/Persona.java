@@ -76,8 +76,7 @@ public class Persona {
 	}
 	
 	
-	public Persona(String cedula, String nombre, String primerApellido,
-			String segundoApellido, String genero, Fecha fechaNacimiento,
+	public Persona(String cedula, String nombre, String primerApellido,String segundoApellido, String genero, Fecha fechaNacimiento,
 			String institucion, String cargo) {
 	
 		this.cedula = cedula;
