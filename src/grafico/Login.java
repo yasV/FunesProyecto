@@ -46,6 +46,7 @@ import java.util.Date;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JFormattedTextField;
 
 public class Login implements Funciones  {
 	
@@ -271,7 +272,8 @@ public class Login implements Funciones  {
 	 
 	    
 	    txtcontrato = new JEditorPane();
-	    txtcontrato.setBounds(10, 5, 658, 312);
+	    txtcontrato.setEditable(false);
+	    txtcontrato.setBounds(10, 11, 658, 306);
 	    panel.add(txtcontrato);
 	   
 	    

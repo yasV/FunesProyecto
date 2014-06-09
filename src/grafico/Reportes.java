@@ -43,6 +43,7 @@ public class Reportes {
 		frame.getContentPane().add(lblReportes);
 		
 		editorPane = new JEditorPane();
+		editorPane.setEditable(false);
 		editorPane.setBackground(new Color(240, 230, 140));
 		editorPane.setBounds(10, 28, 414, 222);
 		frame.getContentPane().add(editorPane);
@@ -51,8 +52,8 @@ public class Reportes {
 	}
 	public void mostrarreportes(ArrayList <auxiliares.Abuso> abuso){
 		for (Abuso a : abuso){
-			this.editorPane.setText(editorPane.getText()+ "\n" + "Motivo: " +a.getMotivo() + "Usuario que lo realiza: "+a.getUsuario().getNick()+ 
-					"Fecha en la que se realiza el reporte:"+ a.getFechaDenuncia());
+			this.editorPane.setText(editorPane.getText()+ "\n" + "Motivo: " +a.getMotivo() +"\n" + "Usuario que lo realiza: "+a.getUsuario().getNick()+ 
+					"\n" +"Fecha en la que se realiza el reporte:"+ a.getFechaDenuncia());
 		}
 	}
 }

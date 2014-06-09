@@ -392,7 +392,7 @@ public class Usuario extends JFrame implements Funciones {
 		PagUsuario.add(scrollPane);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(429, 286, 232, 83);
+		panel_3.setBounds(429, 295, 241, 112);
 		PagUsuario.add(panel_3);
 		panel_3.setLayout(new CardLayout(0, 0));
 		

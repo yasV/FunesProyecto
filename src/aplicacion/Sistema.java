@@ -1478,44 +1478,45 @@ public class Sistema  {
 		}
 	}
 		
-public void save(){
-	//Muestro un dialogo sin pasarle parent con el boton de abrir
-	if (this.descargar!=null){
-		
 	
-	JFileChooser explorador = new JFileChooser();
-	  explorador.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			//Le cambiamos el titulo
-	explorador.setDialogTitle("Guardar Evidencia");
-
-	int seleccion = explorador.showDialog(null, "Guardar");
-	  
-	//analizamos la respuesta
-		switch(seleccion) {
-		case JFileChooser.APPROVE_OPTION:
-			//Podemos crear un File con lo seleccionado
-			File archivo = explorador.getSelectedFile();
-
-			//y guardar una ruta
-			String ruta = archivo.getAbsolutePath() + "\\" + descargar;
-			Ftp.downloadFileByFTP(ruta, descargar);
-			break;
-
-		case JFileChooser.CANCEL_OPTION:
-	 //dio click en cancelar o cerro la ventana
-			break;
-
-		case JFileChooser.ERROR_OPTION:
-	 //llega aqui si sucede un error
-			break;
-	}
-	}
-	else{
+	public void save(){
+		//Muestro un dialogo sin pasarle parent con el boton de abrir
+		if (this.descargar!=null){
+			
 		
-		JOptionPane.showMessageDialog(null, "No hay evidencia","Error", JOptionPane.ERROR_MESSAGE);
-	}
-		    }
-	
+		JFileChooser explorador = new JFileChooser();
+		  explorador.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				//Le cambiamos el titulo
+		explorador.setDialogTitle("Guardar Evidencia");
+
+		int seleccion = explorador.showDialog(null, "Guardar");
+		  
+		//analizamos la respuesta
+			switch(seleccion) {
+			case JFileChooser.APPROVE_OPTION:
+				//Podemos crear un File con lo seleccionado
+				File archivo = explorador.getSelectedFile();
+
+				//y guardar una ruta
+				String ruta = archivo.getAbsolutePath() + "\\" + descargar;
+				Ftp.downloadFileByFTP(ruta, descargar);
+				break;
+
+			case JFileChooser.CANCEL_OPTION:
+		 //dio click en cancelar o cerro la ventana
+				break;
+
+			case JFileChooser.ERROR_OPTION:
+		 //llega aqui si sucede un error
+				break;
+		}
+		}
+		else{
+			
+			JOptionPane.showMessageDialog(null, "No hay evidencia","Error", JOptionPane.ERROR_MESSAGE);
+		}
+			    }
+
 		
 
 	public void mostrarcalificacion(int i) {
