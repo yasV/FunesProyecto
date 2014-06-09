@@ -545,7 +545,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		
 					    		
 					    	   btnVerComentarios = new JButton("Ver Comentarios");
-					    		btnVerComentarios.setBounds(34, 363, 146, 23);
+					    		btnVerComentarios.setBounds(28, 363, 152, 23);
 					    		Busquedas.add(btnVerComentarios);
 					    		
 					    		JLabel lblFiltrarPor = new JLabel("Filtrar por:");
@@ -553,7 +553,7 @@ public class Usuario extends JFrame implements Funciones {
 					    		Busquedas.add(lblFiltrarPor);
 					    		
 					    		btnusuarioNoRegistrado = new JButton("\u00BFNo encuentra a la persona?");
-					    		btnusuarioNoRegistrado.setBounds(121, 100, 247, 23);
+					    		btnusuarioNoRegistrado.setBounds(113, 100, 247, 23);
 					    		Busquedas.add(btnusuarioNoRegistrado);
 					    		
 					    		 btnIrACalificar = new JButton("Ir a Calificar");
@@ -564,13 +564,13 @@ public class Usuario extends JFrame implements Funciones {
 					    		btnVerInformacin.setBounds(28, 397, 152, 23);
 					    		Busquedas.add(btnVerInformacin);
 					    		
-					    		btnEditar = new JButton("Editar");
-					    		btnEditar.setBounds(164, 100, 89, 23);
-					    		Busquedas.add(btnEditar);
-					    		
 					    		btnDescargarEvidencia_1 = new JButton("Descargar Evidencia");
 					    		btnDescargarEvidencia_1.setBounds(347, 409, 170, 23);
 					    		Busquedas.add(btnDescargarEvidencia_1);
+					    		
+					    		btnEditar = new JButton("Editar");
+					    		btnEditar.setBounds(28, 431, 152, 23);
+					    		Busquedas.add(btnEditar);
 		
 				
 		//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -966,46 +966,46 @@ public class Usuario extends JFrame implements Funciones {
 	    
 	    JLabel label = new JLabel("Usuarios Activos");
 	    label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-	    label.setBounds(147, 11, 151, 14);
+	    label.setBounds(120, 32, 151, 14);
 	    paneladministrador.add(label);
 	    
 	    JLabel label_1 = new JLabel("Usuarios Bloqueados");
 	    label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-	    label_1.setBounds(389, 11, 178, 14);
+	    label_1.setBounds(373, 32, 178, 14);
 	    paneladministrador.add(label_1);
 	    
 	    JPanel panelactivos = new JPanel();
-	    panelactivos.setBounds(122, 57, 160, 356);
+	    panelactivos.setBounds(97, 57, 160, 356);
 	    paneladministrador.add(panelactivos);
 	    
 	    listactivos = new JList();
 	    panelactivos.add(listactivos);
 	    
 	    JPanel panelbloqueados = new JPanel();
-	    panelbloqueados.setBounds(376, 57, 160, 356);
+	    panelbloqueados.setBounds(362, 57, 160, 356);
 	    paneladministrador.add(panelbloqueados);
 	    
 	    listabloqueados = new JList();
 	    panelbloqueados.add(listabloqueados);
 	    
 		        btnBloquear = new JButton("Desbloquear");
-		        btnBloquear.setBounds(598, 57, 114, 23);
+		        btnBloquear.setBounds(557, 242, 170, 23);
 		        paneladministrador.add(btnBloquear);
 		        
 		        btnDesbloquear = new JButton("Eliminar Usuario");
-		        btnDesbloquear.setBounds(577, 30, 150, 23);
+		        btnDesbloquear.setBounds(557, 208, 170, 23);
 		        paneladministrador.add(btnDesbloquear);
 		        
 		        btnVerBloqueado = new JButton("Ver reportes de usuario bloqueado");
-		        btnVerBloqueado.setBounds(342, 424, 246, 23);
+		        btnVerBloqueado.setBounds(325, 424, 246, 23);
 		        paneladministrador.add(btnVerBloqueado);
 		        
 		        btnVerActivo = new JButton("Ver reportes de usuario activo");
-		        btnVerActivo.setBounds(84, 424, 214, 23);
+		        btnVerActivo.setBounds(68, 424, 214, 23);
 		        paneladministrador.add(btnVerActivo);
 		        
 		        btnVerUsuarios = new JButton("Ver informaci\u00F3n ");
-		        btnVerUsuarios.setBounds(585, 95, 127, 23);
+		        btnVerUsuarios.setBounds(557, 276, 170, 23);
 		        paneladministrador.add(btnVerUsuarios);
 		
 		
